@@ -1,0 +1,9 @@
+.search ul#selectedName {
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
+    padding: 0 100px 0 20px;
+}
+form#searchForm button#searchButton {
+    margin: 10px 0px !important;
+}
