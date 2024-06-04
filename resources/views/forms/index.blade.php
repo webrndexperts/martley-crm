@@ -1,0 +1,1 @@
+<a href="{{ route('forms.create') }}">Create</a>
