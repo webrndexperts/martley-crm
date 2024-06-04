@@ -14,7 +14,7 @@
 
                 <!-- <i class="fa fa-bars"></i> -->
 
-                <img src="public/new/img/image_2024_02_02T10_20_15_934Z.png">
+                <img src="{{ url('public/new/img/image_2024_02_02T10_20_15_934Z.png') }}">
 
             </a>
 
@@ -28,39 +28,42 @@
 
         </div>
 
-        <div class="profile">
+        @if(auth()->check())
+            <div class="profile">
+                <ul class="nav navbar-nav navbar-right">
 
-            <ul class="nav navbar-nav navbar-right">
+                    <li class="">
 
-                <li class="">
+                        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        
+                                {{auth()->user()->name}}
+                        
+                            <span class=" fa fa-angle-down"></span> 
+                            <img src="{{ url('public/admin/images/user.jpg') }}" alt="">
+                        </a>
 
-                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        {{auth()->user()->name}}
-                        <span class=" fa fa-angle-down"></span> 
-                        <img src="https://martelly.ca/lms/public/admin/images/user.jpg" alt="">
-                    </a>
+                        <ul class="dropdown-menu dropdown-usermenu pull-right">
 
-                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                            <li><a href="/becoming-institute-crm/account"> Profile</a></li>
 
-                        <li><a href="/becoming-institute-crm/account"> Profile</a></li>
-
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" style="background: none; border: none; cursor: pointer;">
-                                    <i class="fa fa-sign-out pull-right"></i> Log Out
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-                <li class="">
-                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-envelope-o" style="font-size:16px"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                        <i class="fa fa-sign-out pull-right"></i> Log Out
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-envelope-o" style="font-size:16px"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        @endif
     </nav>
 </div>
 </div>
