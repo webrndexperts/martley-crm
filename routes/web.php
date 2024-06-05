@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClinicianController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\CRMAssessmentController;
+use App\Http\Controllers\FormController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +19,7 @@ use App\Http\Controllers\CRMAssessmentController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -56,3 +58,5 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
 });
+
+Route::resource('forms', FormController::class);

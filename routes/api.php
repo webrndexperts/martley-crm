@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/fields/fetch', [FormController::class, 'fetchFields'])->name('fetch.fields');
+
+Route::prefix('forms')->group(function () {
+    Route::post('/table-values', [FormController::class, 'generateTable'])->name('forms.datatable');
 });

@@ -22,7 +22,9 @@
                     </div>
 
                     <li class="">
-                        <a href="#"><img src="{{ url('public/new/img/teachers.svg') }}"> Forms </a>
+                        <a href="{{route('forms.index')}}">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i> Forms
+                        </a>
                     </li>
 
                     <li class="">
