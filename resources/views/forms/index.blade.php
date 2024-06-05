@@ -40,10 +40,27 @@
 @push('scripts')
     <script type="text/javascript">
         function generateDataTable() {
-
         	var _url = "{{ route('forms.datatable') }}";
 
-        	alert(_url)
+        	jQuery('#forms-table').DataTable({
+				"lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "All"] ],
+				processing: true,
+				serverSide: true,
+				processing: true,
+				order: [[ 0, "DESC" ]],
+				ajax: {
+					'url': _url,
+					'type': 'post',
+					"dataType": "json"
+				},
+				columns: [
+					{data: 'name', width: "15%"},
+				],
+				"language":{
+					"processing": '<div class="loader-image"></div>',
+				},
+				"dom": '<"top table-search-flds d-flex align-items-center justify-content-between"fl>rt<"bottom table-paginater"ip><"clear">'
+			});
 
 
         }

@@ -22,7 +22,11 @@ class FormController extends Controller
         $data = array();
 
         foreach ($listing as $key => $row) {
-            # code...
+            $data[$key]['id'] = $row->id;
+            $data[$key]['name'] = ($row->name)?ucwords($row->name):"";
+            $data[$key]['report'] = ($row->report)?$row->report:"";
+            $data[$key]['created_at'] = $row->created_at;
+            $data[$key]['profile'] = $row->profile;
         }
 
         return $data;
@@ -168,11 +172,49 @@ class FormController extends Controller
     }
 
     public function generateTable(Request $request) {
+        $columns = array(
+            0 => 'id',
+            1 => 'name',
+            2 => 'user_id',
+            3 => 'created_at'
+        );
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
         $forms = Form::Query();
+
+        if(!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+
+            $forms = $forms->where(function($q) use($search) {
+                $q->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('name', 'LIKE', "%{$search}%")
+                    ->orWhere('user_id', 'LIKE', "%{$search}%")
+                    ->orWhere('created_at', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $counts = $forms->count();
+        $forms = $forms->orderBy($order, $dir);
+        if($limit >= 0) {
+            $forms = $forms->offset($start)->limit($limit)->get();
+        }
 
         $forms = $forms->with([ 'user', 'forms' ])->get();
 
         $values = $this->generateTableValues($forms);
+        $json_data = array(
+            "input" => $request->all(),
+            "draw" => intval($request->input('draw')),  
+            "recordsTotal" => intval($counts),  
+            "recordsFiltered" => intval($counts), 
+            "data" => $values   
+        );
+
+        return json_encode($json_data);  
     }
 
     // API function to get empty fields data.
