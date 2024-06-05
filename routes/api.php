@@ -20,3 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/fields/fetch', [FormController::class, 'fetchFields'])->name('fetch.fields');
+
+Route::prefix('forms')->group(function () {
+    Route::post('/table-values', [FormController::class, 'generateTable'])->name('forms.datatable');
+});

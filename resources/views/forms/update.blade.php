@@ -1,7 +1,8 @@
 @extends('layouts.app')
-@section('title', "Add New Form")
+@section('title', "Update Form")
 
 @section('content')
+
     <section class="form-section">
         @if(session('success'))
             <div class="alert alert-success">
@@ -15,12 +16,13 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('forms.store') }}">
+        <form method="POST" action="{{ route('forms.update', base64_encode($form->id)) }}">
             @csrf
+            @method('PUT')
 
             <div class="row">
                 <div class="col-md-10 form-group">
-                    <input type="text" class="form-field" placeholder="Name" name="name" required />
+                    <input type="text" class="form-field" placeholder="Name" name="name" value="{{ $form->name }}" required />
                 </div>
                 <div class="col-md-2">
                     <span class="add-new-field" role="button">
@@ -30,24 +32,26 @@
             </div>
 
             <div class="row append-rows" id="fieldsContainer">
-                @include('forms.includes.fields')
+                @include('forms.includes.update-fields')
             </div>
 
             <div class="col-md-12 form-group">
-                <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-field" required />
+                <input type="text" name="button" value="{{ $form->submit }}" placeholder="Button Text" class="form-field" required />
             </div>
-
+            <input type="hidden" name="removed" id="removed-input" />
 
             <div class="col-md-12 form-group">
-                <button type="submit">Create</button>
+                <button type="submit">Update</button>
             </div>
         </form>
     </section>
+
 @endsection
 
 @push('scripts')
     <script type="text/javascript">
-        var index = 1;
+        var count = "{{ count($form->fields) }}";
+        var index = (count > 0) ? count : 1;
 
         function showFields(div, value) {
             for (var i = 0; i < div.children.length; i++) {
@@ -74,10 +78,17 @@
         }
 
         jQuery(document).on('click', '.remove-field', function(e) {
-            var _parent = e.target.closest('.main-fields-div');
+            var _parent = this.closest('.main-fields-div');
             if(_parent) {
                 _parent.remove();
             }
+
+            if(this.dataset && this.dataset.removed) {
+                var inp = document.getElementById('removed-input');
+                inp.value = (inp.value) ? `${inp.value},${this.dataset.removed}` : this.dataset.removed;
+            }
+
+
         })
 
         jQuery(document).on('click', '.add-new-field', function(e) {
@@ -130,7 +141,7 @@
         })
 
         jQuery(document).on('click', '.remove-mcq', function(e) {
-            var _parent = e.target.closest('.mcq-field');
+            var _parent = this.closest('.mcq-field');
             if(_parent) {
                 _parent.remove();
             }

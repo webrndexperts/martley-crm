@@ -23,8 +23,8 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::resource('forms', FormController::class);
+Route::get('/aa', [HomeController::class, 'index'])->name('assessment-list');
+Route::get('/bb', [HomeController::class, 'index'])->name('list-clinician');
+Route::get('/cc', [HomeController::class, 'index'])->name('list-patient');
 
-Route::prefix('forms')->group(function () {
-    Route::post('/table-values', [FormController::class, 'generateTable'])->name('forms.datatable');
-});
+Route::resource('forms', FormController::class);
