@@ -1,4 +1,5 @@
 <div class="top_nav">
+
     <div class="nav_menu">
         <nav class="navbar navbar-default">
             <div class="nav toggle">
@@ -40,6 +41,7 @@
                             </a>
                         </li>
                     @endif
+
                 </ul>
             </div>
         </nav>
