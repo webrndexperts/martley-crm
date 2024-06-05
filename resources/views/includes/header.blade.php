@@ -1,31 +1,14 @@
 <div class="top_nav">
-
-
-
 <div class="nav_menu">
-
     <nav class="navbar navbar-default">
-
-
-
         <div class="nav toggle">
-
             <a id="menu_toggle">
-
-                <!-- <i class="fa fa-bars"></i> -->
-
                 <img src="{{ url('public/new/img/image_2024_02_02T10_20_15_934Z.png') }}">
-
             </a>
-
         </div>
 
-
-
         <div class="nav title">
-
-            <h2>The Becoming Institute</h2>
-
+            <h2>{{ config('app.name', 'The becoming institute') }}</h2>
         </div>
 
         @if(auth()->check())
@@ -33,15 +16,11 @@
                 <ul class="nav navbar-nav navbar-right">
 
                     <li class="">
-
                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        
                                 {{auth()->user()->name}}
-                        
                             <span class=" fa fa-angle-down"></span> 
                             <img src="{{ url('public/admin/images/user.jpg') }}" alt="">
                         </a>
-
                         <ul class="dropdown-menu dropdown-usermenu pull-right">
 
                             <li><a href="/becoming-institute-crm/account"> Profile</a></li>
