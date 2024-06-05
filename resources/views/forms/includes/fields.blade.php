@@ -3,6 +3,7 @@
         <select name="form[0][type]" class="form-field select-field-type">
             <option value="">-- Select Field Type --</option>
             <option value="input">Input</option>
+            <option value="password">Password</option>
             <option value="textarea">Textarea</option>
             <option value="file">File</option>
             <option value="number">Number</option>
@@ -20,6 +21,7 @@
         <textarea disabled class="form-field textarea hide" placeholder="Textarea"></textarea>
         <input type="file" disabled class="form-field file hide" />
         <input type="text" disabled class="form-field input hide" placeholder="Input" />
+        <input type="text" disabled class="form-field password hide" placeholder="Password" />
         <input type="number" disabled class="form-field number hide" placeholder="Number" />
         <input type="tel" disabled class="form-field tel hide" placeholder="Telephone" />
         <input type="email" disabled class="form-field email hide" placeholder="Email" />

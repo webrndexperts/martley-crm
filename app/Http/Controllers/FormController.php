@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use View, Auth;
+use View, Auth, Session;
 use App\Models\Form;
 use App\Models\FormAnswer;
 use App\Models\FormField;
+use App\Services\UploadService;
 
 class FormController extends Controller
 {
-    protected function __constructor() {}
+    protected $uploadService;
+
+    public function __construct() {
+        $this->uploadService = new UploadService();
+    }
 
     /**
      * Function to generate form Values.
@@ -22,11 +27,15 @@ class FormController extends Controller
         $data = array();
 
         foreach ($listing as $key => $row) {
+            $_r = new \stdClass();
+            // $_r->style = ($row->trashed()) ? "background-color: #f5c1c1;" : "";
+
+            $data[$key]['DT_RowAttr'] = $_r;
             $data[$key]['id'] = $row->id;
-            $data[$key]['name'] = ($row->name)?ucwords($row->name):"";
-            $data[$key]['report'] = ($row->report)?$row->report:"";
+            $data[$key]['name'] = ($row->name) ? ucwords($row->name) : "";
+            $data[$key]['user'] = ($row->user && $row->user->id) ? $row->user->name : "";
             $data[$key]['created_at'] = $row->created_at;
-            $data[$key]['profile'] = $row->profile;
+            $data[$key]['actions'] = view('appends.actions.forms', [ "row" => $row ])->render();
         }
 
         return $data;
@@ -91,7 +100,8 @@ class FormController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
+        return view('forms.view', $data);
     }
 
     /**
@@ -99,7 +109,7 @@ class FormController extends Controller
      */
     public function edit(string $id)
     {
-        $data['form'] = Form::where('id', 1)->with('fields')->first();
+        $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
 
         return view('forms.update', $data);
     }
@@ -162,11 +172,12 @@ class FormController extends Controller
      */
     public function destroy(string $id)
     {
-        Form::where('id', $id)->delete();
-        $ids = FormField::where('form_id', $id)->pluck('id')->toArray();
+        $_id = base64_decode($id);
+        Form::where('id', $_id)->delete();
+        $ids = FormField::where('form_id', $_id)->pluck('id')->toArray();
         
         FormField::whereIn('id', $ids)->delete();
-        FormAnswer::where('form_id', $id)->whereIn('form_field_id', $ids)->delete();
+        FormAnswer::where('form_id', $_id)->whereIn('form_field_id', $ids)->delete();
 
         return redirect()->back()->with('success', 'Form Deleted Successfully.');
     }
@@ -200,26 +211,54 @@ class FormController extends Controller
         $counts = $forms->count();
         $forms = $forms->orderBy($order, $dir);
         if($limit >= 0) {
-            $forms = $forms->offset($start)->limit($limit)->get();
+            $forms = $forms->offset($start)->limit($limit);
         }
 
-        $forms = $forms->with([ 'user', 'forms' ])->get();
+        $forms = $forms->with([ 'user', 'fields' ])->get();
 
         $values = $this->generateTableValues($forms);
         $json_data = array(
             "input" => $request->all(),
-            "draw" => intval($request->input('draw')),  
-            "recordsTotal" => intval($counts),  
-            "recordsFiltered" => intval($counts), 
-            "data" => $values   
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($counts),
+            "recordsFiltered" => intval($counts),
+            "data" => $values
         );
 
-        return json_encode($json_data);  
+        return json_encode($json_data);
     }
 
     // API function to get empty fields data.
     public function fetchFields() {
         $html = View::make('forms.includes.fields')->render();
         return response()->json(['html' => $html]);
+    }
+
+    /**
+     * Function to submit all the form values from users end.
+     */
+    public function submitAnswers(Request $request) {
+        if($request->answers && count($request->answers) > 0) {
+            foreach($request->answers as $key => $value) {
+                $_values = array();
+
+                if($value['type'] == 'file') {
+                    $file = $this->uploadService->upload($value['answer'], '/forms/answers');
+                    $_values['answer'] = url($file);
+                } else {
+                    $_values['answer'] = $value['answer'];
+                }
+
+                FormAnswer::updateOrCreate([
+                    'user_id' => Auth::user()->id,
+                    'form_id' => $request->form_id,
+                    'form_field_id' => $value['id']
+                ], $_values);
+            }
+
+            return redirect('forms')->with('success', 'Thanks, your forms details are submitted.');
+        }
+
+        return redirect()->back()->with('error', 'Please fill values to complete submission');
     }
 }

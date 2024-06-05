@@ -5,6 +5,7 @@
                 <select name="form[{{ $k }}][type]" class="form-field select-field-type">
                     <option value="">-- Select Field Type --</option>
                     <option @if($field->type == 'input') selected @endif value="input">Input</option>
+                    <option @if($field->type == 'password') selected @endif value="password">Password</option>
                     <option @if($field->type == 'textarea') selected @endif value="textarea">Textarea</option>
                     <option @if($field->type == 'file') selected @endif value="file">File</option>
                     <option @if($field->type == 'number') selected @endif value="number">Number</option>
@@ -25,6 +26,7 @@
                 <textarea disabled class="form-field textarea {{ ($field->type == 'textarea') ? '' : 'hide' }}" placeholder="Textarea"></textarea>
                 <input type="file" disabled class="form-field file {{ ($field->type == 'file') ? '' : 'hide' }}" />
                 <input type="text" disabled class="form-field input {{ ($field->type == 'input') ? '' : 'hide' }}" placeholder="Input" />
+                <input type="text" disabled class="form-field password {{ ($field->type == 'password') ? '' : 'hide' }}" placeholder="Password" />
                 <input type="number" disabled class="form-field number {{ ($field->type == 'number') ? '' : 'hide' }}" placeholder="Number" />
                 <input type="tel" disabled class="form-field tel {{ ($field->type == 'tel') ? '' : 'hide' }}" placeholder="Telephone" />
                 <input type="email" disabled class="form-field email {{ ($field->type == 'email') ? '' : 'hide' }}" placeholder="Email" />

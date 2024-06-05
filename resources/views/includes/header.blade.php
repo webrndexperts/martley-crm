@@ -4,7 +4,7 @@
         <nav class="navbar navbar-default">
             <div class="nav toggle">
                 <a id="menu_toggle">
-                    <img src="public/new/img/image_2024_02_02T10_20_15_934Z.png">
+                    <img src="{{ url('public/new/img/small-ico.png') }}">
                 </a>
             </div>
 
@@ -19,11 +19,11 @@
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 {{auth()->user()->name}}
                                 <span class=" fa fa-angle-down"></span> 
-                                <img src="https://martelly.ca/lms/public/admin/images/user.jpg" alt="">
+                                <img src="{{ url('public/admin/images/user.jpg') }}" alt="">
                             </a>
 
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="/becoming-institute-crm/account"> Profile</a></li>
+                                <li><a href="{{ url('becoming-institute-crm/account') }}"> Profile</a></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf

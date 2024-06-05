@@ -16,7 +16,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('forms.update', base64_encode($form->id)) }}">
+        <form method="POST" action="{{ route('forms.update', base64_encode($form->id)) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 

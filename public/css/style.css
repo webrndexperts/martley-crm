@@ -1,0 +1,17 @@
+.custom-list-dropdown .dropdown-toggle img {
+    max-width: 25px;
+}
+.custom-list-dropdown .c-icon:not(.c-icon-c-s):not(.c-icon-custom-size) {
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+}
+.custom-list-dropdown .c-icon {
+    display: inline-block;
+    color: inherit;
+    text-align: center;
+    fill: currentColor;
+}
+.custom-list-dropdown a {
+    font-size: 2rem;
+}

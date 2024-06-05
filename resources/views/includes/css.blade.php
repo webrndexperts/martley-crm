@@ -1,4 +1,4 @@
-<link rel="shortcut icon" type="image/png" href="public/favicon.ico" />
+<link rel="shortcut icon" type="image/png" href="{{ url('public/favicon.ico') }}" />
 <link href="{{ url('public/admin/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ url('public/admin/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
 <link href="{{ url('public/admin/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">

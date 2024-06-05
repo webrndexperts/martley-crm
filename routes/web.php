@@ -25,12 +25,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-        // Admin Routes For Clinician
-        Route::group(['middleware' => 'admin'], function() {
-
+    // Admin Routes For Clinician
+    Route::group(['middleware' => 'admin'], function() {
         Route::get('/list/clinician', [ClinicianController::class, 'index'])->name('list-clinician');
         Route::get('/create/clinician', [ClinicianController::class, 'create'])->name('create-clinician');
         Route::post('/save/clinician', [ClinicianController::class, 'save'])->name('save-clinician');
@@ -57,6 +55,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('assessments/questions/{id}', [CRMAssessmentController::class, 'destroyQuestion'])->name('destroy-questions');
     });
 
-});
+    /**********************************************************************
+     *                      Form routes
+     *********************************************************************/
+    Route::resource('forms', FormController::class);
 
-Route::resource('forms', FormController::class);
+    Route::get('/fields/fetch', [FormController::class, 'fetchFields'])->name('fetch.fields');
+
+    Route::prefix('forms')->group(function () {
+        Route::post('/table-values', [FormController::class, 'generateTable'])->name('forms.datatable');
+        Route::post('/submit', [FormController::class, 'submitAnswers'])->name('forms.submit');
+    });
+});

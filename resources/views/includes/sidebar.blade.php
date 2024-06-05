@@ -70,19 +70,3 @@
         <!-- /menu footer buttons -->
     </div>
 </div>
-
-@push('scripts')
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var parentLink = document.querySelector('.parent_link');
-        var childMenu = parentLink.nextElementSibling;
-
-        parentLink.addEventListener('click', function(e) {
-            e.preventDefault(); 
-            childMenu.classList.toggle('show');
-        });
-    });
-</script>
-
-@endpush
