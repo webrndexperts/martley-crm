@@ -12,49 +12,139 @@
         <br/>
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
             <div class="menu_section">
-                <ul class="nav side-menu">
-                    <li class="active">
-                        <a href="/becoming-institute-crm/"><img src="{{ url('public/new/img/dashboard.svg') }}">Dashboard</a>
-                    </li>
+                @if(Auth::user()->user_type == 2)
 
-                    <div class="sub_section_menu">
-                        <h2 class="nav">Forms and Assessmnet</h2>
-                    </div>
+                    <ul class="nav side-menu">
+                        <li class="active">
+                            <a href="/becoming-institute-crm/"><img src="{{ url('public/new/img/dashboard.svg') }}">Dashboard</a>
+                        </li>
 
-                    <li class="">
-                        <a href="{{route('forms.index')}}">
-                            <i class="fa fa-file-text-o" aria-hidden="true"></i> Forms
-                        </a>
-                    </li>
+                        <div class="sub_section_menu">
+                            <h2 class="nav">Forms and Assessmnet</h2>
+                        </div>
 
-                    <li class="">
-                        <a href="{{route('assessment-list')}}"><img src="{{ url('public/new/img/sessions.svg') }}"> Assessments</a>
-                    </li>
+                        <li class="">
+                            <a href="{{route('forms.index')}}">
+                                <i class="fa fa-file-text-o" aria-hidden="true"></i> Forms
+                            </a>
+                        </li>
 
-                    <div class="sub_section_menu">
-                        <h2 class="nav">Users</h2>
-                    </div>
+                        <li class="">
+                            <a href="{{route('assessment-list')}}"><img src="{{ url('public/new/img/sessions.svg') }}"> Assessments</a>
+                        </li>
 
-                    <li class="">
-                        <a href="{{route('list-clinician')}}"><img src="{{ url('public/new/img/teachers.svg') }}">Clinician </a>
-                    </li>
-                    <li class="">
-                        <a href="{{route('list-patient')}}"><img src="{{ url('public/new/img/sessions.svg') }}">Patient </a>
-                    </li>
-                    
-                    <!-- <li class="parent_item">
-                        <a href="#" class="parent_link">
-                            <img src="{{ url('public/new/img/msgg.svg') }}" alt="Message Center">
-                            Message Center
-                            <span class="fa fa-chevron-down"></span>
-                        </a>
-                        <ul class="nav child_menu">
-                            <li><a href="#">Inbox</a></li> 
-                            <li><a href="#">Sent</a></li>
-                        </ul>
-                    </li> -->
+                        <div class="sub_section_menu">
+                            <h2 class="nav">Users</h2>
+                        </div>
 
-                </ul>
+                        <li class="">
+                            <a href="{{route('list-clinician')}}"><img src="{{ url('public/new/img/teachers.svg') }}">Clinician </a>
+                        </li>
+                        <li class="">
+                            <a href="{{route('list-patient')}}"><img src="{{ url('public/new/img/sessions.svg') }}">Patient </a>
+                        </li>
+                        
+                        <!-- <li class="parent_item">
+                            <a href="#" class="parent_link">
+                                <img src="{{ url('public/new/img/msgg.svg') }}" alt="Message Center">
+                                Message Center
+                                <span class="fa fa-chevron-down"></span>
+                            </a>
+                            <ul class="nav child_menu">
+                                <li><a href="#">Inbox</a></li> 
+                                <li><a href="#">Sent</a></li>
+                            </ul>
+                        </li> -->
+
+                    </ul>
+
+                @elseif(Auth::user()->user_type == 3)
+
+                    <ul class="nav side-menu">
+                        <li class="active">
+                            <a href="/becoming-institute-crm/"><img src="{{ url('public/new/img/dashboard.svg') }}">Dashboard</a>
+                        </li>
+
+                        <div class="sub_section_menu">
+                            <h2 class="nav">Forms and Assessmnet</h2>
+                        </div>
+
+                        <li class="">
+                            <a href="{{route('forms.index')}}">
+                                <i class="fa fa-file-text-o" aria-hidden="true"></i> Forms
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{route('assessment-list')}}"><img src="{{ url('public/new/img/sessions.svg') }}"> Assessments</a>
+                        </li>
+
+                        <div class="sub_section_menu">
+                            <h2 class="nav">Users</h2>
+                        </div>
+
+                        <li class="">
+                            <a href="{{route('list-patient')}}"><img src="{{ url('public/new/img/sessions.svg') }}">Patient </a>
+                        </li>
+                        
+                        <!-- <li class="parent_item">
+                            <a href="#" class="parent_link">
+                                <img src="{{ url('public/new/img/msgg.svg') }}" alt="Message Center">
+                                Message Center
+                                <span class="fa fa-chevron-down"></span>
+                            </a>
+                            <ul class="nav child_menu">
+                                <li><a href="#">Inbox</a></li> 
+                                <li><a href="#">Sent</a></li>
+                            </ul>
+                        </li> -->
+
+                    </ul>
+
+                @else(Auth::user()->user_type == 4)
+
+                    <ul class="nav side-menu">
+                        <li class="active">
+                            <a href="/becoming-institute-crm/"><img src="{{ url('public/new/img/dashboard.svg') }}">Dashboard</a>
+                        </li>
+
+                        <div class="sub_section_menu">
+                            <h2 class="nav">Forms and Assessmnet</h2>
+                        </div>
+
+                        <li class="">
+                            <a href="{{route('forms.index')}}">
+                                <i class="fa fa-file-text-o" aria-hidden="true"></i> Forms
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{route('assessment-list')}}"><img src="{{ url('public/new/img/sessions.svg') }}"> Assessments</a>
+                        </li>
+
+                        <div class="sub_section_menu">
+                            <h2 class="nav">Users</h2>
+                        </div>
+
+                        <li class="">
+                            <a href="{{route('list-clinician')}}"><img src="{{ url('public/new/img/teachers.svg') }}">Clinician </a>
+                        </li>
+                        
+                        <!-- <li class="parent_item">
+                            <a href="#" class="parent_link">
+                                <img src="{{ url('public/new/img/msgg.svg') }}" alt="Message Center">
+                                Message Center
+                                <span class="fa fa-chevron-down"></span>
+                            </a>
+                            <ul class="nav child_menu">
+                                <li><a href="#">Inbox</a></li> 
+                                <li><a href="#">Sent</a></li>
+                            </ul>
+                        </li> -->
+
+                    </ul>
+
+                @endif
             </div>
         </div>
 

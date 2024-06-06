@@ -15,12 +15,12 @@ class CRMAssessmentController extends Controller
     {
         $assessments = CRMAssessment::orderBy('id', 'DESC')->get();
 
-        return view('admin.assessment.list', compact('assessments'));
+        return view('assessment.list', compact('assessments'));
     }
 
     public function create()
     {        
-        return view('admin.assessment.create');
+        return view('assessment.create');
     }
 
     public function save(Request $request)
@@ -68,7 +68,7 @@ class CRMAssessmentController extends Controller
     public function edit(CRMAssessment $assessment)
     {        
         $questions = CRMAssessmentQuestion::where('assessment_id', $assessment->id)->orderBy('id', 'ASC')->get();
-        return view('admin.assessment.edit', compact('assessment' , 'questions'));
+        return view('assessment.edit', compact('assessment' , 'questions'));
     }
 
     public function destroyQuestion($id)
@@ -133,27 +133,30 @@ class CRMAssessmentController extends Controller
             'title' => 'required|string|max:255',
             'due_date' => 'required|date',
         ]);
-
+    
         $assessment = CRMAssessment::findOrFail($assessment);
-
+    
         $assessment->update([
-            'title' => $request->input('title'),           
+            'title' => $request->input('title'),
             'due_date' => $request->input('due_date'),
             'description' => $request->input('description'),
         ]);
-
+    
         $questions = $request->questions ?? [];
-
-        foreach ($questions as $questionData) {
+    
+        foreach ($questions as $key => $questionData) {
             if (isset($questionData['id'])) {
+                // Update existing question
                 $question = CRMAssessmentQuestion::find($questionData['id']);
                 if ($question) {
                     $question->update([
                         'question' => $questionData['question'],
+                        // 'question_type' => $questionData['type'],
                         'answer' => isset($questionData['options']) ? implode(',', $questionData['options']) : null,
                     ]);
                 }
             } else {
+                // Create new question
                 $question = new CRMAssessmentQuestion();
                 $question->assessment_id = $assessment->id;
                 $question->question = $questionData['question'];
@@ -162,7 +165,7 @@ class CRMAssessmentController extends Controller
                 $question->save();
             }
         }
-        
+    
         return redirect()->route('assessment-list')->with('success', 'Assessment updated successfully');
     }
 
@@ -174,12 +177,12 @@ class CRMAssessmentController extends Controller
         $data = CRMAssessment::Where('id', $assessment)->first();
         $questions = CRMAssessmentQuestion::where('assessment_id', $data->id)->get();
         
-        return view('admin.assessment.show', compact('data', 'questions'));
+        return view('assessment.show', compact('data', 'questions'));
     }
     public function destroy($id)
     {
-        dd($id);
-        $questions = CRMAssessmentQuestion::where('assessment_id' , $id)->get();  
+        // dd($id);
+        $questions = CRMAssessmentQuestion::where('assessment_id' , $id)->get();   
 
         foreach ($questions as $question) {
             $question->delete();

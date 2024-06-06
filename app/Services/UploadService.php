@@ -13,4 +13,6 @@ class UploadService
 
         return 'public'.$path.'/'.$fileName;
     }
+
+    
 }

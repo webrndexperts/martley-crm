@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class ClinicianController extends Controller
 {
+    public function dashboard()
+    {
+        // $clinicians = Clinician::all(); 
+        return view('clinician.dashboard');
+    }
     public function index()
     {
         $clinicians = Clinician::all(); 

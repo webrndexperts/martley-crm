@@ -23,6 +23,7 @@
 
 <link href="{{ url('public/css/style.css') }}" rel="stylesheet">
 
+
 <style>
     .loader {
         opacity: 0.7;
@@ -42,4 +43,14 @@
         content: "";
         font-family: fcicons !important;
     }
+
+    .login{
+        background: url("{{
+        asset('images/login_background.jpg')
+        }}") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        }
 </style>

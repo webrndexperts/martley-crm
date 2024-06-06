@@ -98,6 +98,31 @@
 <script>
 
 
+// function addQuestion(questionType) {
+//     let questionCount = document.querySelectorAll('#questions-container .form-group').length;
+//     questionCount++;
+//     const questionContainer = document.getElementById('questions-container');
+//     const newQuestionDiv = document.createElement('div');
+//     newQuestionDiv.classList.add('form-group', 'mb-3');
+//     newQuestionDiv.innerHTML = `
+//         <label for="question">Question ${questionCount}</label> <button type="button" class="btn btn-danger" onclick="removeQuestion(this)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+//         <input type="text" name="questions[${questionCount}][question]" class="form-control mb-2" placeholder="Enter question" required>
+//         <input type="hidden" name="questions[${questionCount}][type]" value="${questionType}" required>
+//     `;
+//     if (questionType === 'radio') {
+//         newQuestionDiv.innerHTML += `
+//             <div class="options-container">
+//                 <label for="options_${questionCount}">Options:</label>
+//                 <input type="text" name="questions[${questionCount}][options][]" class="form-control mb-2" placeholder="Option 1" required>
+//                 <input type="text" name="questions[${questionCount}][options][]" class="form-control mb-2" placeholder="Option 2" required>
+//             </div>
+
+//             <button type="button" class="btn btn-secondary mt-2" onclick="addOption(this)">Add Option</button>
+//         `;
+//     }
+//     questionContainer.appendChild(newQuestionDiv);
+// }
+
 function addQuestion(questionType) {
     let questionCount = document.querySelectorAll('#questions-container .form-group').length;
     questionCount++;
@@ -106,15 +131,15 @@ function addQuestion(questionType) {
     newQuestionDiv.classList.add('form-group', 'mb-3');
     newQuestionDiv.innerHTML = `
         <label for="question">Question ${questionCount}</label> <button type="button" class="btn btn-danger" onclick="removeQuestion(this)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-        <input type="text" name="questions[${questionCount}][question]" class="form-control mb-2" placeholder="Enter question" required>
-        <input type="hidden" name="questions[${questionCount}][type]" value="${questionType}" required>
+        <input type="text" name="questions[new_${questionCount}][question]" class="form-control mb-2" placeholder="Enter question" required>
+        <input type="hidden" name="questions[new_${questionCount}][type]" value="${questionType}" required>
     `;
     if (questionType === 'radio') {
         newQuestionDiv.innerHTML += `
             <div class="options-container">
                 <label for="options_${questionCount}">Options:</label>
-                <input type="text" name="questions[${questionCount}][options][]" class="form-control mb-2" placeholder="Option 1" required>
-                <input type="text" name="questions[${questionCount}][options][]" class="form-control mb-2" placeholder="Option 2" required>
+                <input type="text" name="questions[new_${questionCount}][options][]" class="form-control mb-2" placeholder="Option 1" required>
+                <input type="text" name="questions[new_${questionCount}][options][]" class="form-control mb-2" placeholder="Option 2" required>
             </div>
 
             <button type="button" class="btn btn-secondary mt-2" onclick="addOption(this)">Add Option</button>
