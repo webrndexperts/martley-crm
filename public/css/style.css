@@ -2,9 +2,8 @@
     max-width: 25px;
 }
 .custom-list-dropdown .c-icon:not(.c-icon-c-s):not(.c-icon-custom-size) {
-    width: 2rem;
-    height: 2rem;
-    font-size: 2rem;
+    width: 16px;
+    height: 16px;
 }
 .custom-list-dropdown .c-icon {
     display: inline-block;
@@ -14,4 +13,22 @@
 }
 .custom-list-dropdown a {
     font-size: 2rem;
+}
+.custom-list-dropdown .open>.dropdown-menu {
+    display: grid !important;
+}
+.custom-list-dropdown .dropdown-menu {
+    min-width: 10rem;
+    margin-left: 25px;
+}
+.custom-list-dropdown .dropdown-item {
+    font-size: 16px;
+    padding: 5px 0px 5px 14px;
+}
+.custom-list-dropdown .dropdown-item button {
+    border: none;
+    background: none;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
 }

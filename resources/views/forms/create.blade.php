@@ -15,6 +15,8 @@
             </div>
         @endif
 
+        <a href="{{ route('forms.index') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+
         <form method="POST" action="{{ route('forms.store') }}" enctype="multipart/form-data">
             @csrf
 
