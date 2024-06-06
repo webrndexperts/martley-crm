@@ -16,6 +16,8 @@
             </div>
         @endif
 
+        <a href="{{ route('forms.index') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+
         <form method="POST" action="{{ route('forms.update', base64_encode($form->id)) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')

@@ -10,6 +10,10 @@
     z-index: 9999;
     background: url('img/loading.gif') 50% 50% no-repeat rgb(249,249,249);
 }
+.custom-list-dropdown .c-icon:not(.c-icon-c-s):not(.c-icon-custom-size) {
+    width: 16px;
+    height: 16px;
+}
  .sigPad {
      padding: 0px;
      width: 100%;
@@ -1066,4 +1070,25 @@ div#meet {
 div#datatable_info {
     margin-right: 20px;
 }
+}
+.custom-list-dropdown a {
+    font-size: 2rem;
+}
+.custom-list-dropdown .open>.dropdown-menu {
+    display: grid !important;
+}
+.custom-list-dropdown .dropdown-menu {
+    min-width: 10rem;
+    margin-left: 25px;
+}
+.custom-list-dropdown .dropdown-item {
+    font-size: 16px;
+    padding: 5px 0px 5px 14px;
+}
+.custom-list-dropdown .dropdown-item button {
+    border: none;
+    background: none;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
 }
