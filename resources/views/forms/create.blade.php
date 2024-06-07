@@ -2,49 +2,68 @@
 @section('title', "Add New Form")
 
 @section('content')
-    <section class="form-section">
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <a href="{{ route('forms.index') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
-
-        <form method="POST" action="{{ route('forms.store') }}" enctype="multipart/form-data">
-            @csrf
-
-            <div class="row">
-                <div class="col-md-10 form-group">
-                    <input type="text" class="form-field" placeholder="Name" name="name" required />
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
                 </div>
-                <div class="col-md-2">
-                    <span class="add-new-field" role="button">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Add Field
-                    </span>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Create Form</h2>
+
+                    <a href="{{ route('forms.index') }}" class="btn btn-primary" style="float:right;" title="Back">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                    </a>
+
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+
+                    <form method="POST" action="{{ route('forms.store') }}" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="row">
+                            <div class="col-md-10 form-group">
+                                <label>Form Name</label>
+                                <input type="text" class="form-field" placeholder="Form Name" name="name" required />
+                            </div>
+
+                            <div class="col-md-2">
+                                <span class="add-new-field" role="button">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add Field
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row append-rows" id="fieldsContainer">
+                            @include('forms.includes.fields')
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <label>Form Button Text</label>
+                            <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-field" required />
+                        </div>
+
+
+                        <div class="col-md-12 form-group">
+                            <button type="submit">Create</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="row append-rows" id="fieldsContainer">
-                @include('forms.includes.fields')
-            </div>
-
-            <div class="col-md-12 form-group">
-                <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-field" required />
-            </div>
-
-
-            <div class="col-md-12 form-group">
-                <button type="submit">Create</button>
-            </div>
-        </form>
-    </section>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

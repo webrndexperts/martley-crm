@@ -17,37 +17,10 @@ use App\Http\Controllers\FormController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-// Route::get('/', function () {return redirect()->route('login');});
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Route::get('/', function () {
-//     if (Auth::check()) {
-//         switch (Auth::user()->user_type) {
-//             case 2:
-//                 return redirect()->route('home');
-//             case 3:
-//                 return redirect()->route('clinician-dashboard');
-//             case 4:
-//                 return redirect()->route('home');
-//             default:
-//                 return redirect()->route('login');
-//         }
-//     } else {
-//         return redirect()->route('login');
-//     }
-// });
-
-
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-
-    // Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::group(['middleware' => 'admin'], function() {
 
@@ -124,10 +97,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/table-values', [FormController::class, 'generateTable'])->name('forms.datatable');
         
         Route::prefix('submit')->group(function () {
+            Route::get('/{id}', [FormController::class, 'checkFormSubmit'])->name('forms.submit-view');
             Route::post('/', [FormController::class, 'submitAnswers'])->name('forms.submit');
             Route::get('/list/{id}', [FormController::class, 'listSubmissions'])->name('forms.submit-list');
             Route::post('/list/table', [FormController::class, 'listTable'])->name('forms.submit-table');
-            Route::get('/view/{id}', [FormController::class, 'viewSubmission'])->name('forms.submit-view');
+            Route::get('/view/{id}/{user}', [FormController::class, 'viewSubmission'])->name('forms.submit-view');
         });
     });
 });
