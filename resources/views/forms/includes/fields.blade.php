@@ -1,6 +1,6 @@
 <div class="col-md-12 main-fields-div">
     <div class="form-group">
-        <select name="form[0][type]" class="form-field select-field-type">
+        <select name="form[0][type]" class="form-control select-field-type">
             <option value="">-- Select Field Type --</option>
             <option value="input">Input</option>
             <option value="password">Password</option>
@@ -14,17 +14,17 @@
     </div>
     
     <div class="form-group">
-        <input type="text" name="form[0][label]" placeholder="Label" class="form-field" />
+        <input type="text" name="form[0][label]" placeholder="Label" class="form-control" />
     </div>
 
     <div class="form-group field-div">
-        <textarea disabled class="form-field textarea hide" placeholder="Textarea"></textarea>
-        <input type="file" disabled class="form-field file hide" />
-        <input type="text" disabled class="form-field input hide" placeholder="Input" />
-        <input type="text" disabled class="form-field password hide" placeholder="Password" />
-        <input type="number" disabled class="form-field number hide" placeholder="Number" />
-        <input type="tel" disabled class="form-field tel hide" placeholder="Telephone" />
-        <input type="email" disabled class="form-field email hide" placeholder="Email" />
+        <textarea disabled class="form-control textarea hide" placeholder="Textarea"></textarea>
+        <input type="file" disabled class="form-control file hide" />
+        <input type="text" disabled class="form-control input hide" placeholder="Input" />
+        <input type="text" disabled class="form-control password hide" placeholder="Password" />
+        <input type="number" disabled class="form-control number hide" placeholder="Number" />
+        <input type="tel" disabled class="form-control tel hide" placeholder="Telephone" />
+        <input type="email" disabled class="form-control email hide" placeholder="Email" />
 
         <div class="mcq hide mcq-parent" data-index="0">
             <span class="add-mcq"><i class="fa fa-plus" aria-hidden="true"></i></span>
@@ -33,13 +33,13 @@
 
     <div class="form-group Required_label">
         <label>
-            <input type="checkbox" name="form[0][options][required]" class="form-field" value="1" />
+            <input type="checkbox" name="form[0][options][required]" class="form-control" value="1" />
             Is Required?
         </label>
     </div>
 
     <div class="form-group">
-        <input type="text" name="form[0][options][placeholder]" placeholder="Placeholder" class="form-field" />
+        <input type="text" name="form[0][options][placeholder]" placeholder="Placeholder" class="form-control" />
     </div>
 
     <span role="button" class="remove-field text-danger">

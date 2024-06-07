@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
          *********************************************************************/
 
         Route::group(['prefix' => 'patient'], function() {
-            Route::get('/list', [PatientController::class, 'index'])->name('list-patient');
+            // Route::get('/list', [PatientController::class, 'index'])->name('list-patient');
             Route::get('/create', [PatientController::class, 'create'])->name('create-patient');
             Route::post('/save', [PatientController::class, 'save'])->name('save-patient');
             Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('edit-patient');
@@ -76,12 +76,38 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['prefix' => 'assessment'], function() {
             Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
             Route::get('/show/{assessment}', [CRMAssessmentController::class, 'show'])->name('show-assessment');
+
+            // Assign assessment
+
+            Route::get('/assigned-list', [CRMAssessmentController::class, 'AssignAssessmentList'])->name('assign-assessment-list');
+            Route::get('/assign-assessment', [CRMAssessmentController::class, 'AssignAssessment'])->name('assign-assessment');
+            Route::post('/save-assigned-assessment', [CRMAssessmentController::class, 'saveAssignedAssessment'])->name('assigned-assessment');
+            Route::get('/edit-assigned-assessment/{id}', [CRMAssessmentController::class, 'editAssignedAssessment'])->name('edit-assigned-assessment');
+            Route::post('/update-assigned-assessment/{id}', [CRMAssessmentController::class, 'updateAssignedAssessment'])->name('update-assigned-assessment');
+            Route::delete('/delete-assigned-assessment/{id}', [CRMAssessmentController::class, 'destroyAssignedAssessment'])->name('destroy-assigned-assessment');
+
+        });
+
+        Route::group(['prefix' => 'patient'], function() {
+            Route::get('/list', [PatientController::class, 'index'])->name('list-patient');
+        });
+
+        Route::group(['prefix' => 'form'], function() {
+            Route::get('/assigned-list', [FormController::class, 'AssignFormList'])->name('assign-form-list');
+            Route::get('/assign-form', [FormController::class, 'AssignForm'])->name('assign-form');
+            Route::post('/save-assigned-form', [FormController::class, 'saveAssignedForm'])->name('assigned-form');
+            Route::get('/edit-assigned-form/{id}', [FormController::class, 'editAssignedForm'])->name('edit-assigned-form');
+            Route::post('/update-assigned-form/{id}', [FormController::class, 'updateAssignedForm'])->name('update-assigned-form');
+            Route::delete('/delete-assigned-form/{id}', [FormController::class, 'destroyAssignedForm'])->name('destroy-assigned-form');
+
         });
 
     });
 
-    Route::group(['middleware' => 'clinician'], function() {
-        
+    Route::group(['middleware' => 'patient'], function() {
+
+        Route::get('/list', [ClinicianController::class, 'PatientClinician'])->name('patient-clinician-list');
+
     });
     
 
@@ -97,7 +123,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/table-values', [FormController::class, 'generateTable'])->name('forms.datatable');
         
         Route::prefix('submit')->group(function () {
-            Route::get('/{id}', [FormController::class, 'checkFormSubmit'])->name('forms.submit-view');
+            Route::get('/{id}', [FormController::class, 'checkFormSubmit'])->name('forms.submit-get');
             Route::post('/', [FormController::class, 'submitAnswers'])->name('forms.submit');
             Route::get('/list/{id}', [FormController::class, 'listSubmissions'])->name('forms.submit-list');
             Route::post('/list/table', [FormController::class, 'listTable'])->name('forms.submit-table');

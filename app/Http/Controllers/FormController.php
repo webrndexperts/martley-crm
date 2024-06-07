@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clinician;
 use Illuminate\Http\Request;
 use View, Auth, Session;
 use App\Models\User;
 use App\Models\Form;
 use App\Models\FormAnswer;
 use App\Models\FormField;
+use App\Models\ClinicianPatient;
+use App\Models\Patient;
+use App\Models\AssignedForm;
 use App\Services\UploadService;
 use App\Services\MailService;
 use Carbon\Carbon;
@@ -86,7 +90,7 @@ class FormController extends Controller
      */
     public function create()
     {
-        $data = array();
+        $data['renders'] = View::make('forms.includes.fields')->render();
         return view('forms.create', $data);
     }
 
@@ -142,6 +146,7 @@ class FormController extends Controller
     public function edit(string $id)
     {
         $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
+        $data['renders'] = View::make('forms.includes.fields')->render();
 
         return view('forms.update', $data);
     }
@@ -246,7 +251,7 @@ class FormController extends Controller
             $forms = $forms->offset($start)->limit($limit);
         }
 
-        $forms = $forms->with([ 'user', 'fields' ])->get();
+        $forms = $forms->with([ 'user', 'fields', 'submited' ])->get();
 
         $values = $this->generateTableValues($forms);
         $json_data = array(
@@ -272,8 +277,6 @@ class FormController extends Controller
         if($check && $check->id) {
             return redirect()->route('forms.index')->with('success', 'You have already submitted this form.');
         }
-
-
 
         $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
         return view('forms.submit', $data);
@@ -304,7 +307,7 @@ class FormController extends Controller
             $form = Form::where('id', $request->form_id)->first();
             $data['form'] = $form;
             $data['answers'] = FormAnswer::where('user_id', Auth::user()->id)->where('form_id', $request->form_id)->get();
-            
+
             $this->mailService->send($data, 'emails.forms.submit', $this->adminMail, "$form->name, details has been submitted.");
 
             return redirect()->route('forms.index')->with('success', 'Thanks, your forms details are submitted.');
@@ -374,4 +377,68 @@ class FormController extends Controller
 
         return view('forms.view-submission', $data);
     }
+
+
+    /**********************************************************************
+     *                      clinician Assign Forms
+     *********************************************************************/   
+    public function AssignFormList()
+    {
+        $id = Auth::user()->id;
+        $forms = AssignedForm::where('user_id' , $id)->get();
+        return view('assigned_forms.assigned-list', compact('forms'));
+    }
+
+    public function AssignForm()
+    {
+        $forms = Form::all();
+        $patients = ClinicianPatient::where('clinician_id' , Auth::user()->id)->get(); 
+
+        return view('assigned_forms.assign-form', compact('forms', 'patients'));
+    }
+
+    public function saveAssignedForm(Request $request)
+    {
+        // dd($request->all());
+
+        $form =  New AssignedForm;
+        $form->patient_id = $request->patient_id;
+        $form->form_id = $request->form_id;
+        $form->user_id = Auth::user()->id;
+
+        $form->save();
+        
+        session()->flash('success', 'Form has been assigned successfully.');
+
+        return redirect()->route('assign-form-list');
+    }
+
+    public function editAssignedForm($id)
+    {
+        $forms = Form::all();
+        $patients = Patient::all();
+        $assigned = AssignedForm::where('id' , $id)->with('patient' , 'form')->first();
+
+        return view('assigned_forms.edit-assigned', compact('forms', 'patients' , 'assigned'));
+    }
+    public function updateAssignedForm(Request $request , $id)
+    {
+        $form = AssignedForm::findOrFail($id);
+
+        $form->patient_id = $request->input('patient_id');
+        $form->form_id = $request->input('form_id');
+        $form->save();
+
+        return redirect()->route('assign-form-list')->with('success', 'Assigned form Updated successfully');
+    }
+    public function destroyAssignedForm($id)
+    {
+        // dd($id);
+        $form = AssignedForm::where('id' , $id)->first();
+
+        $form->delete();
+
+        return redirect()->route('assign-form-list');
+    }
+
 }

@@ -1,21 +1,32 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Clinician;
 use App\Models\User;
 use App\Models\Patient;
+use App\Models\ClinicianPatient;
 use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-
+use Auth;
 use Illuminate\Http\Request;
 class PatientController extends Controller
 {
     public function index()
     {
-        $patients = Patient::all(); 
+        if(Auth::user()->user_type == 2){
+
+            $patients = Patient::all(); 
+
+        } else{
+
+            $user = Clinician::where('user_id' , Auth::user()->id)->first();
+            $patients = ClinicianPatient::where('clinician_id' , $user->id)->get(); 
+            
+        }
         return view('admin.patient.list' , compact('patients'));
     }
-
+ 
     public function create()
     {
         $patients = Patient::all(); 
@@ -86,11 +97,11 @@ class PatientController extends Controller
             $user->save();
         }
 
-        if ($request->has('password')) {
-            $user = User::find($patient->user_id);
-            $user->password = bcrypt($request['password']);
-            $user->save();
-        }
+        // if ($request->has('password')) {
+        //     $user = User::find($patient->user_id);
+        //     $user->password = bcrypt($request['password']);
+        //     $user->save();
+        // }
 
         if ($request->has('user_type')) {
             $role = $request->input('user_type');
@@ -102,5 +113,6 @@ class PatientController extends Controller
         Session::flash('Success Message', 'patient has been updated successfully.');
 
         return redirect()->route('list-patient')->with('success', 'Patient Updated successfully.');
-    }
+    } 
+
 }

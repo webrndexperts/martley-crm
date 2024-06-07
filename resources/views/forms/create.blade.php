@@ -37,6 +37,10 @@
                             <div class="col-md-12 form-group">
                             <div class="add_fields">
                                 <label>Form Name</label>
+                                <input type="text" class="form-control" placeholder="Form Name" name="name" required />
+                            </div>
+
+                            <div class="col-md-2">
                                 <span class="add-new-field" role="button">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add Field
                                 </span>
@@ -51,7 +55,7 @@
 
                         <div class="col-md-12 form-group">
                             <label>Form Button Text</label>
-                            <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-field" required />
+                            <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-control" required />
                         </div>
 
 
@@ -68,6 +72,7 @@
 @push('scripts')
     <script type="text/javascript">
         var index = 1;
+        const fields = `{!! $renders !!}`
 
         function showFields(div, value) {
             for (var i = 0; i < div.children.length; i++) {
@@ -101,23 +106,14 @@
         })
 
         jQuery(document).on('click', '.add-new-field', function(e) {
-            jQuery.ajax({
-                url: "{{ route('fetch.fields') }}",
-                type: "GET",
-                success: function(response) {
-                    var _html = response.html;
+            var _html = fields;
 
-                    _html = _html.replaceAll('form[0]', `form[${index}]`);
-                    _html = _html.replaceAll('data-index="0"', `data-index="${index}"`);
+            _html = _html.replaceAll('form[0]', `form[${index}]`);
+            _html = _html.replaceAll('data-index="0"', `data-index="${index}"`);
 
-                    index += 1;
+            index += 1;
 
-                    $('#fieldsContainer').append(_html);
-                },
-                error: function(xhr) {
-                    console.error('Error fetching fields:', xhr.statusText);
-                }
-            });
+            $('#fieldsContainer').append(_html);
         })
 
         jQuery(document).on('change', '.select-field-type', function(e) {

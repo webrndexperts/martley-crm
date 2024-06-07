@@ -27,10 +27,11 @@
 
                 <div class="x_title">
                     <h2>Clinician List</h2>
-
-                    <a href="{{ route('create-clinician') }}" class="pull-right btn btn-info btn-sm" title="Add Clinician">
-                        <i class="fa fa-plus"></i> Add Clinician
-                    </a>
+                        @if(Auth::user()->user_type == 2)
+                            <a href="{{ route('create-clinician') }}" class="pull-right btn btn-info btn-sm" title="Add Clinician">
+                                <i class="fa fa-plus"></i> Add Clinician
+                            </a>
+                        @endif
 
                     <div class="clearfix"></div>
                 </div>
@@ -61,38 +62,57 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
-                                @foreach($clinicians as $clinician)
+                            @if(Auth::user()->user_type == 2)
+                                <tbody>
+                                    @foreach($clinicians as $clinician)
 
-                                    <tr>
-                                        <td><strong>{{ ++$index }}</strong></td>
+                                        <tr>
+                                            <td><strong>{{ ++$index }}</strong></td>
 
-                                        <!-- <td><img src="{{ $clinician->user->picture }}" class="img-circle" alt="user image" height="40" width="40"></td> -->
-                                        <td>{{ $clinician->first_name }} {{ $clinician->last_name }}</td>
+                                            
+                                            <td>{{ $clinician->first_name }} {{ $clinician->last_name }}</td>
 
-                                        <td>@if ($clinician->user)  {{ $clinician->user->email }}  @else  @endif</td> 
+                                            <td>@if ($clinician->user)  {{ $clinician->user->email }}  @else  @endif</td> 
 
-                                        <td>{{ $clinician->phone }}</td>
+                                            <td>{{ $clinician->phone }}</td>
 
-                                        <td class="text-center">
+                                            <td class="text-center">
 
-                                            <a href="{{ route('edit-clinician', $clinician->id) }}"  class="btn btn-info btn-sm edit-btn1" title="Edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-
-                                            @if($clinician->user->status === 'active')
-                                                <a href="{{ route('deactive-clinician', $clinician->user->id) }}" class="btn btn-warning btn-sm" title="Deactive">
-                                                    <i class="fa fa-ban" aria-hidden="true"></i> Deactive
+                                                <a href="{{ route('edit-clinician', $clinician->id) }}"  class="btn btn-info btn-sm edit-btn1" title="Edit">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
-                                            @else
-                                                <a href="{{ route('active-clinician', $clinician->user->id) }}" class="btn btn-success btn-sm" title="Active">
-                                                    <i class="fa fa-check" aria-hidden="true"></i> Active
-                                                </a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+
+                                                @if($clinician->user->status === 'active')
+                                                    <a href="{{ route('deactive-clinician', $clinician->user->id) }}" class="btn btn-warning btn-sm" title="Deactive">
+                                                        <i class="fa fa-ban" aria-hidden="true"></i> Deactive
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('active-clinician', $clinician->user->id) }}" class="btn btn-success btn-sm" title="Active">
+                                                        <i class="fa fa-check" aria-hidden="true"></i> Active
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            @else
+                                <tbody>
+                                    @foreach($clinicians as $index => $clinician)
+                                        <tr>
+                                            <td><strong>{{ $index + 1 }}</strong></td>
+                                            <td>{{ $clinician->clinician->first_name }} {{ $clinician->clinician->last_name }}</td>
+                                            <td>{{ $clinician->clinician->user->email ?? '' }}</td>
+                                            <td>{{ $clinician->clinician->phone }}</td>
+                                            <td class="text-center">
+                                                --------
+                                                <!-- <a href="{{ route('edit-clinician', $clinician->clinician->id) }}" class="btn btn-info btn-sm" title="Edit">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a> -->
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            @endif
                         </table>
                     @endif
                 </div>

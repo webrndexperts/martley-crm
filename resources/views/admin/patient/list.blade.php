@@ -27,10 +27,11 @@
 
                 <div class="x_title">
                     <h2>Patient List</h2>
-
-                    <a href="{{ route('create-patient') }}" class="pull-right btn btn-info btn-sm" title="Add Patient">
-                        <i class="fa fa-plus"></i> Add Patient
-                    </a>
+                    @if(Auth::user()->user_type == 2)
+                        <a href="{{ route('create-patient') }}" class="pull-right btn btn-info btn-sm" title="Add Patient">
+                            <i class="fa fa-plus"></i> Add Patient
+                        </a>
+                    @endif
 
                     <div class="clearfix"></div>
                 </div>
@@ -60,28 +61,40 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-
-                            <tbody>
-                                @foreach($patients as $patient)
-
-                                    <tr>
-                                        <td><strong>{{ ++$index }}</strong></td>
-
-                                         <!-- <td><img src="{{ $patient->user->picture }}" class="img-circle" alt="user image" height="40" width="40"></td> -->
-                                        
-                                        <td>{{ $patient->first_name }} {{ $patient->last_name }}</td>
-                                        <td>@if ($patient->user)  {{ $patient->user->email }}  @else  @endif</td> 
-                                        <td>{{ $patient->phone }}</td>
-
-                                        <td class="text-center">
-
-                                            <a href="{{ route('edit-patient', $patient->id) }}"  class="btn btn-info btn-sm edit-btn1" title="Edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+                            @if(Auth::user()->user_type == 2)
+                                <tbody>
+                                    @foreach($patients as $index => $patient)
+                                        <tr>
+                                            <td><strong>{{ $index + 1 }}</strong></td>
+                                            <td>{{ $patient->first_name }} {{ $patient->last_name }}</td>
+                                            <td>{{ $patient->user->email ?? '' }}</td>
+                                            <td>{{ $patient->phone }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ route('edit-patient', $patient->id) }}" class="btn btn-info btn-sm" title="Edit">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            @else
+                                <tbody>
+                                    @foreach($patients as $index => $patient)
+                                        <tr>
+                                            <td><strong>{{ $index + 1 }}</strong></td>
+                                            <td>{{ $patient->patient->first_name }} {{ $patient->patient->last_name }}</td>
+                                            <td>{{ $patient->patient->user->email ?? '' }}</td>
+                                            <td>{{ $patient->patient->phone }}</td>
+                                            <td class="text-center">
+                                                --------
+                                                <!-- <a href="{{ route('edit-patient', $patient->patient->id) }}" class="btn btn-info btn-sm" title="Edit">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a> -->
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            @endif
                         </table>
                     @endif
                 </div>

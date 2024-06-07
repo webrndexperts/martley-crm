@@ -88,6 +88,14 @@
                                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                 </button>
                                             </a> -->
+
+                                            <form action="{{ route('destroy-assessment', $assessment->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
 

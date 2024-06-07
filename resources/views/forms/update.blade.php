@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-md-10 form-group">
                                 <label>Form Name</label>
-                                <input type="text" class="form-field" placeholder="Form Name" name="name" value="{{ $form->name }}" required />
+                                <input type="text" class="form-control" placeholder="Form Name" name="name" value="{{ $form->name }}" required />
                             </div>
                             <div class="col-md-2">
                                 <span class="add-new-field" role="button">
@@ -50,7 +50,7 @@
 
                         <div class="col-md-12 form-group">
                             <label>Form Button Text</label>
-                            <input type="text" name="button" value="{{ $form->submit }}" placeholder="Button Text" class="form-field" required />
+                            <input type="text" name="button" value="{{ $form->submit }}" placeholder="Button Text" class="form-control" required />
                         </div>
                         <input type="hidden" name="removed" id="removed-input" />
 
@@ -68,6 +68,7 @@
     <script type="text/javascript">
         var count = "{{ count($form->fields) }}";
         var index = (count > 0) ? count : 1;
+        const fields = `{!! $renders !!}`
 
         function showFields(div, value) {
             for (var i = 0; i < div.children.length; i++) {
@@ -84,8 +85,8 @@
         function addMcqField(_parent) {
             if(_parent && typeof _parent != 'undefined') {
                 var div = `<div class="col-md-3 mcq-field">
-                    <input type="radio" disabled class="form-field">
-                    <input type="text" name="form[${_parent.dataset.index}][options][mcq][]" class="form-field" placeholder="Label" />
+                    <input type="radio" disabled class="form-control">
+                    <input type="text" name="form[${_parent.dataset.index}][options][mcq][]" class="form-control" placeholder="Label" />
                     <span class="remove-mcq"><i class="fa fa-minus" aria-hidden="true"></i></span>
                 </div>`;
 
@@ -108,23 +109,14 @@
         })
 
         jQuery(document).on('click', '.add-new-field', function(e) {
-            jQuery.ajax({
-                url: "{{ route('fetch.fields') }}",
-                type: "GET",
-                success: function(response) {
-                    var _html = response.html;
+            var _html = fields;
 
-                    _html = _html.replaceAll('form[0]', `form[${index}]`);
-                    _html = _html.replaceAll('data-index="0"', `data-index="${index}"`);
+            _html = _html.replaceAll('form[0]', `form[${index}]`);
+            _html = _html.replaceAll('data-index="0"', `data-index="${index}"`);
 
-                    index += 1;
+            index += 1;
 
-                    $('#fieldsContainer').append(_html);
-                },
-                error: function(xhr) {
-                    console.error('Error fetching fields:', xhr.statusText);
-                }
-            });
+            $('#fieldsContainer').append(_html);
         })
 
         jQuery(document).on('change', '.select-field-type', function(e) {
