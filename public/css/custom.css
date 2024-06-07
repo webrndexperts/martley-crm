@@ -1,0 +1,78 @@
+.add_field  input.form-field,.add_field  select.form-field.select-field-type  {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.add_field  label {
+    color: #000;
+    font-weight: 600 !important;
+}
+.Required_label label {
+    display: flex;
+    align-items: center;
+}
+
+.form-group.Required_label input.form-field {
+    width: auto;
+    margin: 0 10px 0 0;
+}
+.add_fields {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+span.add-new-field {
+    background: #bc9c23;
+    padding: 10px;
+    color: #ffff;
+    position: relative;
+    top: -8px;
+}
+span.remove-field.text-danger {
+    float: right;
+    background: #a94442;
+    padding: 10px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.add_field  button {
+    padding: 10px;
+    background: #337ab7;
+    color: #fff;
+    border: none;
+}
+.add_field .row {
+    margin: 0 !important;
+}
+a.btn.btn-primary {
+    margin-right: 0;
+}
+.custom-list-dropdown.w-50 .dropdown-menu {
+    width: 100%;
+    margin: 0;
+    padding: 10px 2px;
+}
+.add_field textarea.form-field.textarea {
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+}
+.mcq.mcq-parent {
+    display: flow-root;
+    column-gap: 10px;
+}
+span.add-mcq {
+    display: block;
+}
+input.form-field.redio_btns {
+    width: auto;
+}
+.mcq.mcq-parent .col-md-3.mcq-field {
+    padding: 12px 12px 12px 0;
+}
+span.remove-mcq {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+}

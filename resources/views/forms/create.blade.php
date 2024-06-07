@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-12 col-sm-12 col-xs-12 add_field">
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -34,15 +34,14 @@
                         @csrf
 
                         <div class="row">
-                            <div class="col-md-10 form-group">
+                            <div class="col-md-12 form-group">
+                            <div class="add_fields">
                                 <label>Form Name</label>
-                                <input type="text" class="form-field" placeholder="Form Name" name="name" required />
-                            </div>
-
-                            <div class="col-md-2">
                                 <span class="add-new-field" role="button">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add Field
                                 </span>
+                            </div>
+                                <input type="text" class="form-field" placeholder="Form Name" name="name" required />
                             </div>
                         </div>
 
@@ -85,7 +84,7 @@
         function addMcqField(_parent) {
             if(_parent && typeof _parent != 'undefined') {
                 var div = `<div class="col-md-3 mcq-field">
-                    <input type="radio" disabled class="form-field">
+                    <input type="radio" disabled class="form-field redio_btns">
                     <input type="text" name="form[${_parent.dataset.index}][options][mcq][]" class="form-field" placeholder="Label" />
                     <span class="remove-mcq"><i class="fa fa-minus" aria-hidden="true"></i></span>
                 </div>`;

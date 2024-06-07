@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group Required_label">
         <label>
             <input type="checkbox" name="form[0][options][required]" class="form-field" value="1" />
             Is Required?
