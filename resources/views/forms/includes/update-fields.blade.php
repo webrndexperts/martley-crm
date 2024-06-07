@@ -2,7 +2,7 @@
     @foreach($form->fields as $k => $field)
         <div class="col-md-12 main-fields-div">
             <div class="form-group">
-                <select name="form[{{ $k }}][type]" class="form-field select-field-type">
+                <select name="form[{{ $k }}][type]" class="form-control select-field-type">
                     <option value="">-- Select Field Type --</option>
                     <option @if($field->type == 'input') selected @endif value="input">Input</option>
                     <option @if($field->type == 'password') selected @endif value="password">Password</option>
@@ -16,20 +16,20 @@
             </div>
             
             <div class="form-group">
-                <input type="text" name="form[{{ $k }}][label]" placeholder="Label" class="form-field" value="{{ $field->label }}" />
+                <input type="text" name="form[{{ $k }}][label]" placeholder="Label" class="form-control" value="{{ $field->label }}" />
                 <input type="hidden" name="form[{{ $k }}][id]" value="{{ $field->id }}" />
             </div>
 
             <?php $options = json_decode($field->options); ?>
 
             <div class="form-group field-div">
-                <textarea disabled class="form-field textarea {{ ($field->type == 'textarea') ? '' : 'hide' }}" placeholder="Textarea"></textarea>
-                <input type="file" disabled class="form-field file {{ ($field->type == 'file') ? '' : 'hide' }}" />
-                <input type="text" disabled class="form-field input {{ ($field->type == 'input') ? '' : 'hide' }}" placeholder="Input" />
-                <input type="text" disabled class="form-field password {{ ($field->type == 'password') ? '' : 'hide' }}" placeholder="Password" />
-                <input type="number" disabled class="form-field number {{ ($field->type == 'number') ? '' : 'hide' }}" placeholder="Number" />
-                <input type="tel" disabled class="form-field tel {{ ($field->type == 'tel') ? '' : 'hide' }}" placeholder="Telephone" />
-                <input type="email" disabled class="form-field email {{ ($field->type == 'email') ? '' : 'hide' }}" placeholder="Email" />
+                <textarea disabled class="form-control textarea {{ ($field->type == 'textarea') ? '' : 'hide' }}" placeholder="Textarea"></textarea>
+                <input type="file" disabled class="form-control file {{ ($field->type == 'file') ? '' : 'hide' }}" />
+                <input type="text" disabled class="form-control input {{ ($field->type == 'input') ? '' : 'hide' }}" placeholder="Input" />
+                <input type="text" disabled class="form-control password {{ ($field->type == 'password') ? '' : 'hide' }}" placeholder="Password" />
+                <input type="number" disabled class="form-control number {{ ($field->type == 'number') ? '' : 'hide' }}" placeholder="Number" />
+                <input type="tel" disabled class="form-control tel {{ ($field->type == 'tel') ? '' : 'hide' }}" placeholder="Telephone" />
+                <input type="email" disabled class="form-control email {{ ($field->type == 'email') ? '' : 'hide' }}" placeholder="Email" />
 
                 <div class="mcq {{ ($field->type == 'mcq') ? '' : 'hide' }} mcq-parent" data-index="{{ $k }}">
                     <span class="add-mcq"><i class="fa fa-plus" aria-hidden="true"></i></span>
@@ -37,8 +37,8 @@
                     @if(property_exists($options, 'mcq'))
                         @foreach($options->mcq as $val)
                             <div class="col-md-3 mcq-field">
-                                <input type="radio" disabled class="form-field">
-                                <input type="text" name="form[{{ $k }}][options][mcq][]" class="form-field" placeholder="Label" value="{{ $val }}" />
+                                <input type="radio" disabled class="form-control">
+                                <input type="text" name="form[{{ $k }}][options][mcq][]" class="form-control" placeholder="Label" value="{{ $val }}" />
                                 <span class="remove-mcq"><i class="fa fa-minus" aria-hidden="true"></i></span>
                             </div>
                         @endforeach
@@ -50,13 +50,13 @@
 
             <div class="form-group">
                 <label>
-                    <input type="checkbox" name="form[{{ $k }}][options][required]" @if(property_exists($options, 'required')) checked @endif class="form-field" value="1" />
+                    <input type="checkbox" name="form[{{ $k }}][options][required]" @if(property_exists($options, 'required')) checked @endif class="form-control" value="1" />
                     Is Required?
                 </label>
             </div>
 
             <div class="form-group">
-                <input type="text" name="form[{{ $k }}][options][placeholder]" placeholder="Placeholder" class="form-field" value="{{ (property_exists($options, 'placeholder')) ? $options->placeholder : '' }}" />
+                <input type="text" name="form[{{ $k }}][options][placeholder]" placeholder="Placeholder" class="form-control" value="{{ (property_exists($options, 'placeholder')) ? $options->placeholder : '' }}" />
             </div>
 
             <span role="button" class="remove-field text-danger" data-removed="{{ $field->id }}">

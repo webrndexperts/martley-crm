@@ -86,7 +86,7 @@ class FormController extends Controller
      */
     public function create()
     {
-        $data = array();
+        $data['renders'] = View::make('forms.includes.fields')->render();
         return view('forms.create', $data);
     }
 
@@ -142,6 +142,7 @@ class FormController extends Controller
     public function edit(string $id)
     {
         $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
+        $data['renders'] = View::make('forms.includes.fields')->render();
 
         return view('forms.update', $data);
     }
@@ -246,7 +247,7 @@ class FormController extends Controller
             $forms = $forms->offset($start)->limit($limit);
         }
 
-        $forms = $forms->with([ 'user', 'fields' ])->get();
+        $forms = $forms->with([ 'user', 'fields', 'submited' ])->get();
 
         $values = $this->generateTableValues($forms);
         $json_data = array(
@@ -272,8 +273,6 @@ class FormController extends Controller
         if($check && $check->id) {
             return redirect()->route('forms.index')->with('success', 'You have already submitted this form.');
         }
-
-
 
         $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
         return view('forms.submit', $data);
@@ -304,7 +303,7 @@ class FormController extends Controller
             $form = Form::where('id', $request->form_id)->first();
             $data['form'] = $form;
             $data['answers'] = FormAnswer::where('user_id', Auth::user()->id)->where('form_id', $request->form_id)->get();
-            
+
             $this->mailService->send($data, 'emails.forms.submit', $this->adminMail, "$form->name, details has been submitted.");
 
             return redirect()->route('forms.index')->with('success', 'Thanks, your forms details are submitted.');
