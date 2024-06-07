@@ -24,4 +24,9 @@ class Form extends Model
     public function submited() {
         return $this->hasOne(FormAnswer::class)->where('form_answers.user_id', Auth::user()->id);
     }
+
+    public function assignedForms()
+    {
+        return $this->hasMany(AssignedForm::class);
+    }
 }

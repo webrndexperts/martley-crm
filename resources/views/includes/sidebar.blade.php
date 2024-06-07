@@ -71,12 +71,29 @@
 
                         <li class="">
                             <a href="{{route('forms.index')}}">
-                                <i class="fa fa-file-text-o" aria-hidden="true"></i> Forms
+                                <i class="fa fa-file-text-o" aria-hidden="true"></i> 
+                                Forms
                             </a>
                         </li>
 
                         <li class="">
-                            <a href="{{route('assessment-list')}}"><img src="{{ url('public/new/img/sessions.svg') }}"> Assessments</a>
+                            <a href="{{route('assign-form-list')}}">
+                                <i class="fa fa-list-alt"></i>
+                                Assign Forms
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{route('assessment-list')}}">
+                                    <i class="fa fa-building-o"></i> 
+                                Assessments
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="{{route('assign-assessment-list')}}">
+                                <i class="fa fa-list-alt"></i>
+                                Assign Assessments
+                            </a>
                         </li>
 
                         <div class="sub_section_menu">
@@ -84,7 +101,10 @@
                         </div>
 
                         <li class="">
-                            <a href="{{route('list-patient')}}"><img src="{{ url('public/new/img/sessions.svg') }}">Patient </a>
+                            <a href="{{route('list-patient')}}">
+                                <img src="{{ url('public/new/img/sessions.svg') }}">
+                                Patient 
+                            </a>
                         </li>
                         
                         <!-- <li class="parent_item">
@@ -127,7 +147,7 @@
                         </div>
 
                         <li class="">
-                            <a href="{{route('list-clinician')}}"><img src="{{ url('public/new/img/teachers.svg') }}">Clinician </a>
+                            <a href="{{route('patient-clinician-list')}}"><img src="{{ url('public/new/img/teachers.svg') }}">Clinician </a>
                         </li>
                         
                         <!-- <li class="parent_item">

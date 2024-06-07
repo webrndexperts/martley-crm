@@ -14,4 +14,10 @@ class CRMAssessment extends Model
         'description',
         'due_date',
     ];
+
+    public function AssignedAssessment()
+    {
+        return $this->hasMany(AssignedAssessment::class);
+    }
+
 }

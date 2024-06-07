@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Patient;
 use App\Models\User;
 use App\Models\Clinician;
+use App\Models\ClinicianPatient;
 use App\Mail\WelcomeEmail;
+use Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -11,11 +14,6 @@ use Illuminate\Http\Request;
 
 class ClinicianController extends Controller
 {
-    public function dashboard()
-    {
-        // $clinicians = Clinician::all(); 
-        return view('clinician.dashboard');
-    }
     public function index()
     {
         $clinicians = Clinician::all(); 
@@ -66,7 +64,6 @@ class ClinicianController extends Controller
     }
     public function update(Request $request, $id)
     {
-
         // dd($request->all());
 
         $clinician = Clinician::find($id);
@@ -94,11 +91,11 @@ class ClinicianController extends Controller
             $user->save();
         }
 
-        if ($request->has('password')) {
-            $user = User::find($clinician->user_id);
-            $user->password = bcrypt($request['password']);
-            $user->save();
-        }
+        // if ($request->has('password')) {
+        //     $user = User::find($clinician->user_id);
+        //     $user->password = bcrypt($request['password']);
+        //     $user->save();
+        // }
 
         if ($request->has('user_type')) {
             $role = $request->input('user_type');
@@ -122,11 +119,21 @@ class ClinicianController extends Controller
         }
 
     public function deactiveClinician($id)
-        {
-            $user = User::findOrFail($id);
-            $user->status = 'deactive';
-            $user->save();
+    {
+        $user = User::findOrFail($id);
+        $user->status = 'deactive';
+        $user->save();
 
-            return redirect()->route('list-clinician')->with('success', 'User disabled successfully.');
-        }
+        return redirect()->route('list-clinician')->with('success', 'User disabled successfully.');
+    }
+
+    public function PatientClinician()
+    {
+
+        $user = Patient::where('user_id' , Auth::user()->id)->first();
+        $clinicians = ClinicianPatient::where('patient_id' , $user->id)->get(); 
+        
+        return view('admin.clinician.list', compact('clinicians'));
+    }
+
 }

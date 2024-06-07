@@ -43,4 +43,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Define relationship with the ClinicianPatient model as a patient
+    public function clinicianPatients()
+    {
+        return $this->hasMany(ClinicianPatient::class, 'patient_id');
+    }
+
+    // Define relationship with the ClinicianPatient model as a clinician
+    public function patientsClinician()
+    {
+        return $this->hasMany(ClinicianPatient::class, 'clinician_id');
+    }
+
+    public function clinician()
+    {
+        return $this->hasOne(Clinician::class, 'user_id');
+    }
 }

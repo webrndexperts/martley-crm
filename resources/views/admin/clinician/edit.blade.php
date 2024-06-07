@@ -30,9 +30,9 @@
                         <a class="nav-link" id="contact-info-tab" data-toggle="tab" href="#contact-info">Contact Info</a>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" id="credential-tab" data-toggle="tab" href="#credential">Credentials</a>
-                    </li>
+                    </li> -->
                 </ul>
 
 
@@ -113,7 +113,7 @@
 
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" name="email" class="form-control" value="{{ $clinician->user->email }}" required>
+                                <input type="email" name="email" class="form-control" value="{{ $clinician->user->email }}" disabled>
                             </div>
 
                             <div class="form-group">
@@ -129,7 +129,7 @@
 
                         <!-- Tab 3: Credentials -->
 
-                        <div class="tab-pane fade" id="credential">
+                        <!-- <div class="tab-pane fade" id="credential">
                             <h3> </h3>
 
                             <div class="form-group">
@@ -137,7 +137,7 @@
                                 <input type="password" name="password" class="form-control" value="{{ $clinician->user->password }}" required>
                             </div>
 
-                        </div>
+                        </div> -->
 
                     </div>
                     <button type="submit" class="btn btn-primary" title="Save">Save</button>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Assessments')
+@section('title', 'Assign Form List')
 
 @section('content')
     <div class="row">
@@ -29,16 +29,19 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    <h2>Assessments</h2>
-                    <a href="{{ route('create-assessment') }}" class="pull-right btn btn-info btn-sm" title="Add Clinical Assessment">
-                        <i class="fa fa-plus"></i> Add Assessment
-                    </a>
+                    <h2>Assigned Form</h2>
+                        @if(Auth::user()->user_type == 3)
+                            <a href="{{ route('assign-form') }}" class="pull-right btn btn-info btn-sm" title="Assign Form">
+                                <i class="fa fa-plus"></i> Assign Form
+                            </a>
+                        @endif
+
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="x_content">
 
-                    @if(count($assessments) == 0)
+                    @if(count($forms) == 0)
                         <div class="alert alert-dismissible fade in alert-info" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">×</span>
@@ -51,39 +54,48 @@
                             <thead>
                                 <tr>
                                     <th>Sr. no.</th>
-                                    <th>Assessment Name</th>                   
-                                    <th>Description</th>                       
-                                    <th>Due Date</th>                       
+                                    <th>Form Name</th>                   
+                                    <th>Pateint</th>                       
+                                    <!-- <th>Due Date</th>                        -->
                                     <th>Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody id="assessmentsTableBody">
-                                @foreach($assessments as $index => $assessment)
+                                @foreach($forms as $index => $form)
                                     
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $assessment->title }}</td>
+
+                                        <td>{{ $form->form->name }}</td>
                                     
-                                        <td>{!! $assessment->description !!}</td>
-                                        <td>{{ $assessment->due_date }}</td>   
+                                        <td>{!! $form->patient->first_name !!}</td>
 
                                         <td class="text-center">
-                                            <a class="btn btn-info btn-sm" href="{{ route('edit-assessment', $assessment->id) }}" title="Edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-
-                                            <a href="{{ route('show-assessment', $assessment->id) }}" title="View">
+                                            @if(Auth::user()->user_type == 3)
+                                                <a class="btn btn-info btn-sm" href="{{ route('edit-assigned-form', $form->id) }}" title="Edit">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
+                                            @endif
+                                            <!-- <a href="{{ route('show-assessment', $form->id) }}" title="View">
                                                 <button type="button" class="btn btn-info btn-sm">
                                                     <i class="fa fa-eye" aria-hidden="true"></i> 
                                                 </button>
-                                            </a> 
+                                            </a>  -->
 
-                                            <!-- <a href="{{route('destroy-assessment', $assessment)}}" class="delete" title="Delete">
+                                            <!-- <a href="{{route('destroy-assigned-form', $form->id)}}" class="delete" title="Delete">
                                                 <button type="button" class="btn btn-danger btn-sm">
                                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                 </button>
                                             </a> -->
+                                            
+                                            <form action="{{ route('destroy-assigned-form', $form->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
 
