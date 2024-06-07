@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Assessments')
+@section('title', 'Assign Assessment List')
 
 @section('content')
     <div class="row">
@@ -29,10 +29,13 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    <h2>Assessments</h2>
-                    <a href="{{ route('create-assessment') }}" class="pull-right btn btn-info btn-sm" title="Add Clinical Assessment">
-                        <i class="fa fa-plus"></i> Add Assessment
-                    </a>
+                    <h2>Assigned Assessment</h2>
+                        @if(Auth::user()->user_type == 3)
+                            <a href="{{ route('assign-assessment') }}" class="pull-right btn btn-info btn-sm" title="Assign Assessment">
+                                <i class="fa fa-plus"></i> Assign Assessment
+                            </a>
+                        @endif
+
                     <div class="clearfix"></div>
                 </div>
 
@@ -52,8 +55,8 @@
                                 <tr>
                                     <th>Sr. no.</th>
                                     <th>Assessment Name</th>                   
-                                    <th>Description</th>                       
-                                    <th>Due Date</th>                       
+                                    <th>Pateint</th>                       
+                                    <!-- <th>Due Date</th>                        -->
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -63,27 +66,36 @@
                                     
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $assessment->title }}</td>
+
+                                        <td>{{ $assessment->assessment->title }}</td>
                                     
-                                        <td>{!! $assessment->description !!}</td>
-                                        <td>{{ $assessment->due_date }}</td>   
+                                        <td>{{ $assessment->patient->first_name }} {{ $assessment->patient->last_name }}</td>
 
                                         <td class="text-center">
-                                            <a class="btn btn-info btn-sm" href="{{ route('edit-assessment', $assessment->id) }}" title="Edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-
-                                            <a href="{{ route('show-assessment', $assessment->id) }}" title="View">
+                                            @if(Auth::user()->user_type == 3)
+                                                <a class="btn btn-info btn-sm" href="{{ route('edit-assigned-assessment', $assessment->id) }}" title="Edit">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
+                                            @endif
+                                            <!-- <a href="{{ route('show-assessment', $assessment->id) }}" title="View">
                                                 <button type="button" class="btn btn-info btn-sm">
                                                     <i class="fa fa-eye" aria-hidden="true"></i> 
                                                 </button>
-                                            </a> 
+                                            </a>  -->
 
-                                            <!-- <a href="{{route('destroy-assessment', $assessment)}}" class="delete" title="Delete">
+                                            <!-- <a href="{{route('destroy-assigned-assessment', $assessment->id)}}" class="delete" title="Delete">
                                                 <button type="button" class="btn btn-danger btn-sm">
                                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                 </button>
                                             </a> -->
+                                            
+                                            <form action="{{ route('destroy-assigned-assessment', $assessment->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
 

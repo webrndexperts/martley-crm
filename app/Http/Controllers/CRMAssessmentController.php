@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CRMAssessment;
 use App\Models\Clinician;
+use App\Models\ClinicianPatient;
+use App\Models\Patient;
+use App\Models\AssignedAssessment;
 use App\Models\CRMAssessmentQuestion;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,7 +65,7 @@ class CRMAssessmentController extends Controller
 
             $question->save();
         }
-        return redirect()->route('assessment-list')->with('success', 'Clinical Assessment added successfully');
+        return redirect()->route('assessment-list')->with('success', 'Assessment added successfully');
     }
 
     public function edit(CRMAssessment $assessment)
@@ -83,50 +86,7 @@ class CRMAssessmentController extends Controller
         }
     }
 
-    // public function update(Request $request)
-    // {
-    //     // dd($request->all());
-
-    //     $request->validate([
-    //         'title' => 'required|string|max:255',
-    //         'due_date' => 'required',
-    //     ]);
         
-    //     $assessment = CRMAssessment::find($request->id);
-
-    //     if (!$assessment) {
-    //         return back()->with('error', 'Assessment not found');
-    //     }
-    
-    //     $assessment->update([
-    //         'title' => $request->input('title'),
-    //         'description' => $request->input('description'),
-    //         'due_date' => $request->input('due_date'), 
-    //     ]);   
-
-    //     $questions = $request->questions ?? [];
-
-    //     foreach ($questions as $questionData) {
-
-    //         if (isset($questionData['id'])) {
-    //             $question = CRMAssessmentQuestion::find($questionData['id']);
-    //             $question->update([
-    //                 'question' => $questionData['question'],
-    //                 'answer' => isset($questionData['options']) ? implode(',', $questionData['options']) : null,
-    //             ]);
-    //         } else {
-    //             $question = new CRMAssessmentQuestion();
-    //             $question->assessment_id = $assessment->id;
-    //             $question->question = $questionData['question'];
-    //             $question->question_type = $questionData['type'];
-    //             $question->answer = isset($questionData['options']) && $questionData['type'] === 'radio' ? implode(',', $questionData['options']) : null;
-    //             $question->save();
-    //         }
-    //     }
-
-    //     return redirect()->route('assessment-list')->with('success', 'Assessment updated successfully');
-    // }
-    
     public function update(Request $request, $assessment)
     {
         $request->validate([
@@ -182,14 +142,81 @@ class CRMAssessmentController extends Controller
     public function destroy($id)
     {
         // dd($id);
-        $questions = CRMAssessmentQuestion::where('assessment_id' , $id)->get();   
+        $questions = CRMAssessmentQuestion::where('assessment_id' , $id);   
 
         foreach ($questions as $question) {
             $question->delete();
         } 
   
-        $assessment = CRMAssessment::find($id);
+        $assessment = CRMAssessment::findOrFail($id);
+        
+        $assessment->delete();
+        return redirect()->route('assessment-list')->with('success', 'Assessment and related questions deleted successfully.');
+    }
 
-        return $assessment->delete();
+    
+                    /**********************************************************************
+                     *                      clinician Assign Assessment
+                     *********************************************************************/
+
+   
+    public function AssignAssessmentList()
+    {
+        $id = Auth::user()->id;
+        $assessments = AssignedAssessment::where('user_id' , $id)->get();
+        return view('assigned_assessment.assigned-list', compact('assessments'));
+    }
+
+    public function AssignAssessment()
+    {
+        $assessments = CRMAssessment::all();
+        $patients = ClinicianPatient::where('clinician_id' , Auth::user()->id)->get(); 
+
+        return view('assigned_assessment.assign-assessment', compact('assessments', 'patients'));
+    }
+
+    public function saveAssignedAssessment(Request $request)
+    {
+        // dd($request->all());
+
+        $form =  New AssignedAssessment;
+        $form->patient_id = $request->patient_id;
+        $form->assessment_id = $request->assessment_id;
+        $form->user_id = Auth::user()->id;
+
+        $form->save();
+        
+        session()->flash('success', 'Form has been assigned successfully.');
+
+        return redirect()->route('assign-assessment-list')->with('success', 'Assessment Created successfully');
+    }
+
+    public function editAssignedAssessment($id)
+    {
+        $assessments = CRMAssessment::all();
+        $patients = Patient::all();
+        $assigned = AssignedAssessment::where('id' , $id)->with('patient' , 'assessment')->first();
+
+        return view('assigned_assessment.edit-assigned', compact('assessments', 'patients' , 'assigned'));
+    }
+    public function updateAssignedAssessment(Request $request , $id)
+    {
+        $assessment = AssignedAssessment::findOrFail($id);
+
+        $assessment->patient_id = $request->input('patient_id');
+        $assessment->assessment_id = $request->input('assessment_id');
+        $assessment->save();
+
+        return redirect()->route('assign-assessment-list')->with('success', 'Assigned Assessment Updated successfully');
+    }
+
+    public function destroyAssignedAssessment($id)
+    {
+        // dd($id);
+        $assessment = AssignedAssessment::where('id' , $id)->first();
+
+        $assessment->delete();
+
+        return redirect()->route('assign-assessment-list')->with('success', 'Assessment Deleted successfully');
     }
 }

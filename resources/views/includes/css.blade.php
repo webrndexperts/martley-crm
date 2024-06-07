@@ -18,6 +18,8 @@
 <link href="{{ url('public/css/breadcrumb.css') }}" rel="stylesheet">
 <link href="{{ url('public/admin/vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
 <!-- custom css -->
 <link href="{{ url('public/css/perasale_hms.css') }}" rel="stylesheet">
 

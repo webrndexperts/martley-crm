@@ -13,4 +13,16 @@ class Clinician extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function clinicianPatients()
+    {
+        return $this->hasMany(ClinicianPatient::class);
+    }
+
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class, 'clinician_patients', 'clinician_id', 'patient_id');
+    }
+
 }
+
