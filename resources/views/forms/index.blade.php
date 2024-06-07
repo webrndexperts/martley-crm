@@ -1,36 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-	<section class="form-section">
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+	<div class="row">
+	    <div class="col-md-12 col-sm-12 col-xs-12">
+	        @if(session('success'))
+	            <div class="alert alert-success">
+	                {{ session('success') }}
+	            </div>
+	        @endif
 
-        @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
+	        @if(session('error'))
+	            <div class="alert alert-danger">
+	                {{ session('error') }}
+	            </div>
+	        @endif
 
-		<a href="{{ route('forms.create') }}">Create</a>
-
-
-		<div class="table-responsive">
-	  		<table class="table align-middle table-striped" id="forms_table">
-				<thead>
-					<tr>
-						<th scope="col">Sr. No</th>
-						<th scope="col">Name</th>
-						<th scope="col">Created By</th>
-						<th scope="col">Created Date</th>
-						<th scope="col">Actions</th>
-					</tr>
-				</thead>
-			</table>
 		</div>
-	</section>
+
+	    <div class="x_panel">
+	        <div class="x_title">
+	            <h2>Forms List</h2>
+
+	            <a href="{{ route('forms.create') }}" class="pull-right btn btn-info btn-sm">
+	            	<i class="fa fa-plus" aria-hidden="true"></i> Create
+	            </a>
+	            <div class="clearfix"></div>
+	        </div>
+
+	        <div class="x_content">
+				<div class="table-responsive">
+			  		<table class="table align-middle table-striped" id="forms_table">
+						<thead>
+							<tr>
+								<th scope="col">Sr. No</th>
+								<th scope="col">Name</th>
+								<th scope="col">Created By</th>
+								<th scope="col">Created Date</th>
+								<th scope="col">Actions</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>	
 @endsection
 
 @push('scripts')

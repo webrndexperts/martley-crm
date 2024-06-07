@@ -13,13 +13,21 @@ use App\Models\ClinicianPatient;
 use App\Models\Patient;
 use App\Models\AssignedForm;
 use App\Services\UploadService;
+use App\Services\MailService;
+use Carbon\Carbon;
 
 class FormController extends Controller
 {
     protected $uploadService;
+    protected $mailService;
+    protected $adminMail;
 
     public function __construct() {
         $this->uploadService = new UploadService();
+        $this->mailService = new MailService();
+
+        $user = User::where('user_type', '2')->first();
+        $this->adminMail = ($user && $user->id) ? $user->email : '';
     }
 
     /**
@@ -39,7 +47,7 @@ class FormController extends Controller
             $data[$key]['id'] = $row->id;
             $data[$key]['name'] = ($row->name) ? ucwords($row->name) : "";
             $data[$key]['user'] = ($row->user && $row->user->id) ? $row->user->name : "";
-            $data[$key]['created_at'] = $row->created_at;
+            $data[$key]['created_at'] = Carbon::parse($row->created_at)->format('Y-m-d');
             $data[$key]['actions'] = view('appends.actions.forms', [ "row" => $row ])->render();
         }
 
@@ -62,8 +70,8 @@ class FormController extends Controller
             $data[$key]['DT_RowAttr'] = $_r;
             $data[$key]['id'] = $row->id;
             $data[$key]['name'] = ($row->user && $row->user->id) ? $row->user->name : "";
-            $data[$key]['created_at'] = $row->created_at;
-            $data[$key]['actions'] = view('appends.actions.forms', [ "row" => $row ])->render();
+            $data[$key]['created_at'] = Carbon::parse($row->created_at)->format('Y-m-d');
+            $data[$key]['actions'] = view('appends.actions.form-submission', [ "row" => $row ])->render();
         }
 
         return $data;
@@ -120,7 +128,7 @@ class FormController extends Controller
             $message = $err->getMessage();
         }
 
-        return redirect('forms')->with($type, $message);
+        return redirect()->route('forms.index')->with($type, $message);
     }
 
     /**
@@ -262,6 +270,19 @@ class FormController extends Controller
         return response()->json(['html' => $html]);
     }
 
+    public function checkFormSubmit($id) {
+
+        $check = FormAnswer::where('form_id', base64_decode($id))->where('user_id', Auth::user()->id)->first();
+        if($check && $check->id) {
+            return redirect()->route('forms.index')->with('success', 'You have already submitted this form.');
+        }
+
+
+
+        $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
+        return view('forms.submit', $data);
+    }
+
     /**
      * Function to submit all the form values from users end.
      */
@@ -284,7 +305,13 @@ class FormController extends Controller
                 ], $_values);
             }
 
-            return redirect('forms')->with('success', 'Thanks, your forms details are submitted.');
+            $form = Form::where('id', $request->form_id)->first();
+            $data['form'] = $form;
+            $data['answers'] = FormAnswer::where('user_id', Auth::user()->id)->where('form_id', $request->form_id)->get();
+            
+            $this->mailService->send($data, 'emails.forms.submit', $this->adminMail, "$form->name, details has been submitted.");
+
+            return redirect()->route('forms.index')->with('success', 'Thanks, your forms details are submitted.');
         }
 
         return redirect()->back()->with('error', 'Please fill values to complete submission');
@@ -320,14 +347,13 @@ class FormController extends Controller
             });
         }
 
-        $forms = $forms->groupBy('user_id')->groupBy('form_id');
-
         $counts = $forms->count();
         $forms = $forms->orderBy($order, $dir);
         if($limit >= 0) {
             $forms = $forms->offset($start)->limit($limit);
         }
 
+        $forms = $forms->groupBy('user_id')->groupBy('form_id');
         $forms = $forms->with([ 'user' ])->get();
 
         $values = $this->generateListTableValues($forms);
@@ -342,8 +368,15 @@ class FormController extends Controller
         return json_encode($json_data);
     }
 
-    public function viewSubmission(string $id) {
-        return view('forms.view-submission');
+    public function viewSubmission(string $id, string $user) {
+        $data['form'] = Form::where('id', base64_decode($id))->first();
+
+        $data['formAnswers'] = FormAnswer::where('form_id', base64_decode($id))
+            ->where('user_id', base64_decode($user))
+            ->with('question')
+            ->get();
+
+        return view('forms.view-submission', $data);
     }
 
 
