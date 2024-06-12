@@ -4,6 +4,9 @@
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+.add_field input.form-control,.add_field textarea.form-control.textarea{
+    background: #fff !important;
+}
 .add_field  label {
     color: #000;
     font-weight: 600 !important;
@@ -12,15 +15,10 @@
     display: flex;
     align-items: center;
 }
-
-.form-group.Required_label input.form-field {
+.Required_label input.form-control {
     width: auto;
-    margin: 0 10px 0 0;
-}
-.add_fields {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    margin-right: 6px !important;
+    box-shadow: none;
 }
 span.add-new-field {
     background: #bc9c23;
@@ -28,6 +26,7 @@ span.add-new-field {
     color: #ffff;
     position: relative;
     top: -8px;
+    float: right;
 }
 span.remove-field.text-danger {
     float: right;

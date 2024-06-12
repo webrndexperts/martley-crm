@@ -106,7 +106,7 @@
 					<input
 						type="radio"
 						@if($mk == 0) checked @endif
-						class="form-control"
+						class="form-control  redio_btns"
 						name="answers[{{ $k }}][answer]"
 						value="{{ $mcq }}"
 						@if(property_exists($options, 'required')) required @endif

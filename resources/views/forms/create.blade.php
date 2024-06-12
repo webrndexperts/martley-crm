@@ -35,16 +35,15 @@
 
                         <div class="row">
                             <div class="col-md-12 form-group">
+                            <span class="add-new-field" role="button">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add Field
+                                </span>
                             <div class="add_fields">
                                 <label>Form Name</label>
                                 <input type="text" class="form-control" placeholder="Form Name" name="name" required />
                             </div>
 
-                            <div class="col-md-2">
-                                <span class="add-new-field" role="button">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Add Field
-                                </span>
-                            </div>
+                           
                                 <input type="text" class="form-field" placeholder="Form Name" name="name" required />
                             </div>
                         </div>

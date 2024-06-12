@@ -36,9 +36,9 @@
 
                     @if(property_exists($options, 'mcq'))
                         @foreach($options->mcq as $val)
-                            <div class="col-md-3 mcq-field">
-                                <input type="radio" disabled class="form-control">
-                                <input type="text" name="form[{{ $k }}][options][mcq][]" class="form-control" placeholder="Label" value="{{ $val }}" />
+                            <div class="col-md-3 mcq-field ">
+                                <input type="radio" disabled class="form-field redio_btns">
+                                <input type="text" name="form[{{ $k }}][options][mcq][]" class="form-control " placeholder="Label" value="{{ $val }}" />
                                 <span class="remove-mcq"><i class="fa fa-minus" aria-hidden="true"></i></span>
                             </div>
                         @endforeach
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group Required_label">
                 <label>
                     <input type="checkbox" name="form[{{ $k }}][options][required]" @if(property_exists($options, 'required')) checked @endif class="form-control" value="1" />
                     Is Required?
