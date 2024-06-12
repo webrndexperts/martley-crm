@@ -123,7 +123,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/table-values', [FormController::class, 'generateTable'])->name('forms.datatable');
         
         Route::prefix('submit')->group(function () {
-            Route::get('/{id}', [FormController::class, 'checkFormSubmit'])->name('forms.submit-view');
+            Route::get('/{id}', [FormController::class, 'checkFormSubmit'])->name('forms.submit-get');
             Route::post('/', [FormController::class, 'submitAnswers'])->name('forms.submit');
             Route::get('/list/{id}', [FormController::class, 'listSubmissions'])->name('forms.submit-list');
             Route::post('/list/table', [FormController::class, 'listTable'])->name('forms.submit-table');

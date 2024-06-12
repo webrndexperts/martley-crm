@@ -24,6 +24,7 @@
 <link href="{{ url('public/css/perasale_hms.css') }}" rel="stylesheet">
 
 <link href="{{ url('public/css/style.css') }}" rel="stylesheet">
+<link href="{{ url('public/css/custom.css') }}" rel="stylesheet">
 
 
 <style>
