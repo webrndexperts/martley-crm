@@ -1,6 +1,6 @@
 @if(Auth::user()->user_type == 4)
 	@if(!$row->submited)
-		<a href="{{ route('forms.submit-get', base64_encode($row->id)) }}" class="btn btn-info btn-sm" title="Fill">
+		<a href="{{ route('assesments.answer.submit-get', base64_encode($row->id)) }}" class="btn btn-info btn-sm" title="Fill">
 			<i class="fa fa-file-word-o" aria-hidden="true"></i>
 		</a>
 	@else

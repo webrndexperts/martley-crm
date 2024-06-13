@@ -7,7 +7,7 @@
             <div class="animate form login_form">
                 
                 <section class="login_content">
-                    <form action="{{ route('login') }}" method="post">
+                    <form action="{{ route('login.custom') }}" method="post">
                         {{ csrf_field() }}
                         <img src="{{url('public/new/img/image_2024_02_02T10_11_48_862Z.png') }}"> 
                             

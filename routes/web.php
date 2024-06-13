@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClinicianController;
 use App\Http\Controllers\PatientController;
@@ -19,17 +20,17 @@ use App\Http\Controllers\FormController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Auth::routes();
+Route::post('/user/login', [LoginController::class, 'customLogin'])->name('login.custom')->middleware('guest');
 
 Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => 'admin'], function() {
-
-         /**********************************************************************
+        /**********************************************************************
                                Clinician routes
-         *********************************************************************/
-
+        *********************************************************************/
         Route::group(['prefix' => 'clinician'], function() {
             Route::get('/list', [ClinicianController::class, 'index'])->name('list-clinician');
+            Route::post('/list/table', [ClinicianController::class, 'generateTable'])->name('clinitian.datatable');
             Route::get('/create', [ClinicianController::class, 'create'])->name('create-clinician');
             Route::post('/save', [ClinicianController::class, 'save'])->name('save-clinician');
             Route::get('/edit/{id}', [ClinicianController::class, 'edit'])->name('edit-clinician');
@@ -40,21 +41,21 @@ Route::group(['middleware' => ['auth']], function () {
     
         /**********************************************************************
                                Patient routes
-         *********************************************************************/
-
+        *********************************************************************/
         Route::group(['prefix' => 'patient'], function() {
             // Route::get('/list', [PatientController::class, 'index'])->name('list-patient');
             Route::get('/create', [PatientController::class, 'create'])->name('create-patient');
             Route::post('/save', [PatientController::class, 'save'])->name('save-patient');
             Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('edit-patient');
             Route::post('/update/{id}', [PatientController::class, 'update'])->name('update-patient');
+            Route::get('/active/{id}', [PatientController::class, 'activate'])->name('patient.activate');
+            Route::get('/deactive/{id}', [PatientController::class, 'deactivate'])->name('patient.deactivate');
         });
     
         
         /**********************************************************************
          *                      Assessment routes
-         *********************************************************************/
-
+        *********************************************************************/
         Route::group(['prefix' => 'assessment'], function() {
             // Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
             Route::get('/create', [CRMAssessmentController::class, 'create'])->name('create-assessment');
@@ -67,10 +68,9 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-        /**********************************************************************
-         *          Shared Assessment Routes (Admin and Clinician)
-         *********************************************************************/
-        
+    /**********************************************************************
+     *          Shared Assessment Routes (Admin and Clinician)
+     *********************************************************************/ 
     Route::group(['middleware' => 'adminOrClinician'], function() {
         Route::group(['prefix' => 'assessment'], function() {
             // Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
@@ -89,44 +89,44 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::group(['prefix' => 'patient'], function() {
             Route::get('/list', [PatientController::class, 'index'])->name('list-patient');
+            Route::post('/list/table', [PatientController::class, 'generateTable'])->name('patient.datatable');
         });
 
-        Route::group(['prefix' => 'form'], function() {
-            Route::get('/assigned-list', [FormController::class, 'AssignFormList'])->name('assign-form-list');
-            Route::get('/assign-form', [FormController::class, 'AssignForm'])->name('assign-form');
-            Route::post('/save-assigned-form', [FormController::class, 'saveAssignedForm'])->name('assigned-form');
-            Route::get('/edit-assigned-form/{id}', [FormController::class, 'editAssignedForm'])->name('edit-assigned-form');
-            Route::post('/update-assigned-form/{id}', [FormController::class, 'updateAssignedForm'])->name('update-assigned-form');
-            Route::delete('/delete-assigned-form/{id}', [FormController::class, 'destroyAssignedForm'])->name('destroy-assigned-form');
-
+        Route::group(['prefix' => 'form/assign'], function() {
+            Route::get('/', [FormController::class, 'AssignFormList'])->name('assign-form-list');
+            Route::post('/table', [FormController::class, 'assignedList'])->name('form.assign.datatable');
+            Route::get('/add', [FormController::class, 'AssignForm'])->name('assign-form');
+            Route::post('/save', [FormController::class, 'saveAssignedForm'])->name('assigned-form');
+            Route::get('/edit/{id}', [FormController::class, 'editAssignedForm'])->name('edit-assigned-form');
+            Route::post('/update/{id}', [FormController::class, 'updateAssignedForm'])->name('update-assigned-form');
+            Route::delete('/delete/{id}', [FormController::class, 'destroyAssignedForm'])->name('destroy-assigned-form');
         });
-
     });
 
     Route::group(['middleware' => 'patient'], function() {
-
         Route::get('/list', [ClinicianController::class, 'PatientClinician'])->name('patient-clinician-list');
-
     });
 
     Route::group(['prefix' => 'assessment'], function() {
         Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
         Route::post('/table/values', [CRMAssessmentController::class, 'generateTable'])->name('assesments.datatable');
         Route::prefix('submit')->group(function () {
-            Route::post('/list/{id}', [CRMAssessmentController::class, 'listSubmission'])->name('assesments.submit-list');
+            Route::get('/{id}', [CRMAssessmentController::class, 'checkFormSubmit'])->name('assesments.answer.submit-get');
+            Route::post('/', [CRMAssessmentController::class, 'submitAnswers'])->name('assesments.answer.submit');
+            Route::get('/list/{id}', [CRMAssessmentController::class, 'listSubmissions'])->name('assesments.submit-list');
+            Route::post('/list/table', [CRMAssessmentController::class, 'listTable'])->name('assesments.submit-table');
+            Route::get('/view/{id}/{user}', [CRMAssessmentController::class, 'viewSubmission'])->name('assesments.answer.submit-view');
         });
     });
     
 
     /**********************************************************************
      *                      Form routes
-     *********************************************************************/
-
+    *********************************************************************/
     Route::resource('forms', FormController::class);
 
-    Route::get('/fields/fetch', [FormController::class, 'fetchFields'])->name('fetch.fields');
-
     Route::prefix('forms')->group(function () {
+        Route::get('/fields/fetch', [FormController::class, 'fetchFields'])->name('fetch.fields');
         Route::post('/table-values', [FormController::class, 'generateTable'])->name('forms.datatable');
         
         Route::prefix('submit')->group(function () {

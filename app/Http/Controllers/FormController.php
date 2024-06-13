@@ -79,6 +79,29 @@ class FormController extends Controller
     }
 
     /**
+     * Function to generate form Values.
+     * @param $listing Laravel Array of objects from query.
+     * 
+     * @return Array values.
+     */
+    protected function generateAssignedListValues($listing) {
+        $data = array();
+
+        foreach ($listing as $key => $row) {
+            $_r = new \stdClass();
+            // $_r->style = ($row->trashed()) ? "background-color: #f5c1c1;" : "";
+
+            $data[$key]['DT_RowAttr'] = $_r;
+            $data[$key]['id'] = $row->id;
+            $data[$key]['form'] = $row->form->name;
+            $data[$key]['patient'] = $row->patient->first_name.' '.$row->patient->last_name;
+            $data[$key]['actions'] = view('appends.actions.form-assign', [ "row" => $row ])->render();
+        }
+
+        return $data;
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -397,29 +420,76 @@ class FormController extends Controller
     /**********************************************************************
      *                      clinician Assign Forms
      *********************************************************************/   
-    public function AssignFormList()
-    {
-        $id = Auth::user()->id;
-        $forms = AssignedForm::where('user_id' , $id)->get();
-        return view('assigned_forms.assigned-list', compact('forms'));
+    public function AssignFormList() {
+        return view('assigned_forms.assigned-list');
+    }
+
+    public function assignedList(Request $request) {
+        $columns = array(
+            0 => 'id',
+            1 => 'user_id',
+            2 => 'created_at'
+        );
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $forms = AssignedForm::Query();
+
+        if(Auth::user()->user_type != '2') {
+            $forms = $forms->where('user_id', Auth::user()->id);
+        }
+
+        if(!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+
+            $forms = $forms->where(function($q) use($search) {
+                $q->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('user_id', 'LIKE', "%{$search}%")
+                    ->orWhere('created_at', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $counts = $forms->count();
+        $forms = $forms->orderBy($order, $dir);
+        if($limit >= 0) {
+            $forms = $forms->offset($start)->limit($limit);
+        }
+
+        $forms = $forms->with([ 'user', 'patient' ])->get();
+
+        $values = $this->generateAssignedListValues($forms);
+        $json_data = array(
+            "input" => $request->all(),
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($counts),
+            "recordsFiltered" => intval($counts),
+            "data" => $values
+        );
+
+        return json_encode($json_data);
     }
 
     public function AssignForm()
     {
         $data['forms'] = Form::all();
-        $clinitian = Clinician::where('user_id', Auth::user()->id)->first();
-        $data['patients'] = ClinicianPatient::where('clinician_id' , $clinitian->id)->get();
+        $data['patients'] = Patient::assigned()->get();
 
         return view('assigned_forms.assign-form', $data);
     }
 
     public function saveAssignedForm(Request $request)
     {
-        $form =  New AssignedForm;
-        $form->patient_id = $request->patient_id;
-        $form->form_id = $request->form_id;
-        $form->user_id = Auth::user()->id;
-        $form->save();
+        foreach($request->patient_id as $patient) {
+            AssignedForm::updateOrCreate([
+                'patient_id' => $patient,
+                'form_id' => $request->form_id
+            ], [
+                'user_id' => Auth::user()->id
+            ]);
+        }
         
         session()->flash('success', 'Form has been assigned successfully.');
 
@@ -429,8 +499,7 @@ class FormController extends Controller
     public function editAssignedForm($id)
     {
         $data['forms'] = Form::all();
-        $clinitian = Clinician::where('user_id', Auth::user()->id)->first();
-        $data['patients'] = ClinicianPatient::where('clinician_id' , $clinitian->id)->get();
+        $data['patients'] = Patient::assigned()->get();
         $data['assigned'] = AssignedForm::where('id' , $id)->with('patient' , 'form')->first();
 
         return view('assigned_forms.edit-assigned', $data);

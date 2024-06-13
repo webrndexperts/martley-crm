@@ -1014,7 +1014,7 @@ ul.nav.child_menu li.active {
 .nav li li.current-page a:hover{
     background: #eee !important;
 }
-.nav.side-menu>li.active>a {
+.nav.side-menu>li.active>a, .nav.side-menu>li.current-page>a {
 /*    background: #34495e;*/
     color: #fff !important;
     background: #000;

@@ -14,30 +14,27 @@
                     {{ session('error') }}
                 </div>
             @endif
-
         </div>
 
         <div class="x_panel">
             <div class="x_title">
-                <h2>Assigned Form</h2>
+                <h2>{{ $assessment->title }}</h2>
 
-                @if(Auth::user()->user_type == 2 || Auth::user()->user_type == 3)
-                    <a href="{{ route('assign-form') }}" class="pull-right btn btn-info btn-sm">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Create
-                    </a>
-                @endif
-                
+                <a href="{{ route('assessment-list') }}" class="pull-right btn btn-info btn-sm">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                </a>
                 <div class="clearfix"></div>
             </div>
 
             <div class="x_content">
                 <div class="table-responsive">
-                    <table class="table align-middle table-striped" id="form_assign_table">
+                    <table class="table align-middle table-striped" id="forms_table">
                         <thead>
                             <tr>
                                 <th scope="col">Sr. No</th>
-                                <th scope="col">Form Name</th>
-                                <th scope="col">Pateint</th>
+                                <th scope="col">Submitted By</th>
+                                <th scope="col">Assesment</th>
+                                <th scope="col">Submitted Date</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -45,16 +42,16 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
 @endsection
 
 @push('scripts')
     <script type="text/javascript">
         function generateDataTable() {
-            var _url = "{{ route('form.assign.datatable') }}";
+            var _url = "{{ route('assesments.submit-table') }}";
             let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            $('#form_assign_table').DataTable({
+            $('#forms_table').DataTable({
                 "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "All"] ],
                 processing: true,
                 serverSide: true,
@@ -66,6 +63,9 @@
                     "dataType": "json",
                     "beforeSend": function (xhr) {
                         xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    },
+                    'data': {
+                        id: "{{ $assessment->id }}"
                     }
                 },
                 columns: [
@@ -75,8 +75,9 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    {data: 'form'},
-                    {data: 'patient'},
+                    {data: 'name'},
+                    {data: 'assessment'},
+                    {data: 'created_at'},
                     {data: 'actions', orderable: false, searchable: false}
                 ],
                 "language":{

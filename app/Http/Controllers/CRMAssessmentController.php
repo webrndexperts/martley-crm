@@ -9,7 +9,8 @@ use App\Models\ClinicianPatient;
 use App\Models\Patient;
 use App\Models\AssignedAssessment;
 use App\Models\CRMAssessmentQuestion;
-use Illuminate\Support\Facades\Auth;
+use App\Models\AssesmentAnswer;
+use Auth;
 use Carbon\Carbon;
 
 
@@ -40,6 +41,30 @@ class CRMAssessmentController extends Controller
         return $data;
     }
 
+    /**
+     * Function to generate form Values.
+     * @param $listing Laravel Array of objects from query.
+     * 
+     * @return Array values.
+     */
+    protected function generateListTableValues($listing) {
+        $data = array();
+
+        foreach ($listing as $key => $row) {
+            $_r = new \stdClass();
+            // $_r->style = ($row->trashed()) ? "background-color: #f5c1c1;" : "";
+
+            $data[$key]['DT_RowAttr'] = $_r;
+            $data[$key]['id'] = $row->id;
+            $data[$key]['name'] = ($row->user && $row->user->id) ? $row->user->name : "";
+            $data[$key]['assessment'] = ($row->assessment && $row->assessment->id) ? $row->assessment->title : "";
+            $data[$key]['created_at'] = Carbon::parse($row->created_at)->format('Y-m-d');
+            $data[$key]['actions'] = view('appends.actions.assesment-submission', [ "row" => $row ])->render();
+        }
+
+        return $data;
+    }
+
     public function index()
     {
         return view('assessment.list');
@@ -65,15 +90,10 @@ class CRMAssessmentController extends Controller
         $assessment->title = $request->input('title');
         $assessment->description = $request->input('description');
         $assessment->due_date = $request->input('due_date');
-        
         $assessment->save();
         
-        $assessmentId = $assessment->id;
-
-        $assessments = CRMAssessment::all();
-        
+        $assessmentId = $assessment->id;        
         $questions = $request->questions ?? [];
-        // dd($request->questions);
 
         foreach ($questions as $questionData) {
             $question = new CRMAssessmentQuestion();
@@ -107,7 +127,6 @@ class CRMAssessmentController extends Controller
             return response()->json(['error' => 'Question not found'], 404);
         }
     }
-
         
     public function update(Request $request, $assessment)
     {
@@ -133,7 +152,6 @@ class CRMAssessmentController extends Controller
                 if ($question) {
                     $question->update([
                         'question' => $questionData['question'],
-                        // 'question_type' => $questionData['type'],
                         'answer' => isset($questionData['options']) ? implode(',', $questionData['options']) : null,
                     ]);
                 }
@@ -154,8 +172,6 @@ class CRMAssessmentController extends Controller
     
     public function show($assessment)
     {
-        // dd($assessment);
-        
         $data = CRMAssessment::Where('id', $assessment)->first();
         $questions = CRMAssessmentQuestion::where('assessment_id', $data->id)->get();
         
@@ -163,7 +179,6 @@ class CRMAssessmentController extends Controller
     }
     public function destroy($id)
     {
-        // dd($id);
         $questions = CRMAssessmentQuestion::where('assessment_id' , $id);   
 
         foreach ($questions as $question) {
@@ -287,5 +302,106 @@ class CRMAssessmentController extends Controller
     }
 
 
-    public function listSubmission(string $id) {}
+    public function listSubmissions(string $id) {
+        $data['assessment'] = CRMAssessment::where('id', base64_decode($id))->first();
+
+        return view('assessment.list-submit', $data);
+    }
+
+    public function listTable(Request $request) {
+        $columns = array(
+            0 => 'id',
+            1 => 'user_id',
+            1 => 'assesment_id',
+            2 => 'created_at'
+        );
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $answers = AssesmentAnswer::where('assesment_id', $request->id);
+
+        if(!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+
+            $answers = $answers->where(function($q) use($search) {
+                $q->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('user_id', 'LIKE', "%{$search}%")
+                    ->orWhere('assesment_id', 'LIKE', "%{$search}%")
+                    ->orWhere('created_at', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $counts = $answers->count();
+        $answers = $answers->orderBy($order, $dir);
+        if($limit >= 0) {
+            $answers = $answers->offset($start)->limit($limit);
+        }
+
+        $answers = $answers->groupBy('user_id')->groupBy('assesment_id');
+        $answers = $answers->with([ 'user', 'assessment' ])->get();
+
+        $values = $this->generateListTableValues($answers);
+        $json_data = array(
+            "input" => $request->all(),
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($counts),
+            "recordsFiltered" => intval($counts),
+            "data" => $values
+        );
+
+        return json_encode($json_data);
+    }
+
+    public function checkFormSubmit($id) {
+
+        $check = AssesmentAnswer::where('assesment_id', base64_decode($id))->where('user_id', Auth::user()->id)->first();
+        if($check && $check->id) {
+            return redirect()->route('assessment-list')->with('success', 'You have already submitted this assessment.');
+        }
+
+        $data['assessment'] = CRMAssessment::where('id', base64_decode($id))->with('questions')->first();
+        return view('assessment.submit', $data);
+    }
+
+    /**
+     * Function to submit all the form values from users end.
+     */
+    public function submitAnswers(Request $request) {
+        if($request->answers && count($request->answers) > 0) {
+            foreach($request->answers as $key => $value) {
+                $_values = array();
+
+                if($value['type'] == 'file') {
+                    $file = $this->uploadService->upload($value['answer'], '/forms/answers');
+                    $_values['answer'] = url($file);
+                } else {
+                    $_values['answer'] = $value['answer'];
+                }
+
+                AssesmentAnswer::updateOrCreate([
+                    'user_id' => Auth::user()->id,
+                    'assesment_id' => $request->assessment_id,
+                    'question_id' => $value['id']
+                ], $_values);
+            }
+
+            return redirect()->route('assessment-list')->with('success', 'Thanks, your assesment details are submitted.');
+        }
+
+        return redirect()->back()->with('error', 'Please fill values to complete submission');
+    }
+
+    public function viewSubmission(string $id, string $user) {
+        $data['assessment'] = CRMAssessment::where('id', base64_decode($id))->first();
+
+        $data['answers'] = AssesmentAnswer::where('assesment_id', base64_decode($id))
+            ->where('user_id', base64_decode($user))
+            ->with('question')
+            ->get();
+
+        return view('assessment.view-submission', $data);
+    }
 }

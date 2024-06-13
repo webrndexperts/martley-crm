@@ -25,7 +25,9 @@
             @endif
 
             <div class="x_title">
-                <a href="{{route('list-clinician')}}" class="btn btn-primary" style="float:right;" title="Back">Back</a>
+                <a href="{{route('list-clinician')}}" class="btn btn-primary" style="float:right;" title="Back">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                </a>
                 <div class="clearfix"></div>
             </div>
 

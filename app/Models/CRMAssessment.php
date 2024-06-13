@@ -44,9 +44,13 @@ class CRMAssessment extends Model
         return $this->hasMany(AssignedAssessment::class);
     }
 
+    public function questions() {
+        return $this->hasMany(CRMAssessmentQuestion::class, 'assessment_id');
+    }
+
     public function submited() {
-        return $this->hasOne(CRMAssessmentQuestion::class, 'assessment_id')
-            ->where('c_r_m_assessment_questions.answer', '!=', null);
+        return $this->hasOne(AssesmentAnswer::class, 'assesment_id')
+            ->where('assesment_answers.user_id', Auth::user()->id);
     }
 
 }

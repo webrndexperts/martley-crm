@@ -45,7 +45,6 @@
 		@if($field->label) <label>{{ $field->label }}</label> @endif
 		
 		<textarea
-			type="password"
 			class="form-control"
 			rows="3"
 			name="answers[{{ $k }}][answer]"
