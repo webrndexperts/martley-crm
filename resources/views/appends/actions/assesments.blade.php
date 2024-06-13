@@ -15,18 +15,22 @@
 				</p>
 				<div class="dropdown-menu" aria-labelledby="formsList{{ $row->id }}">	
 					@if(Auth::user()->user_type == 2 || Auth::user()->user_type == 3)
-						<a href="{{ route('forms.submit-list', base64_encode($row->id)) }}" class="dropdown-item text-secondary">
+						<a href="{{ route('assesments.submit-list', base64_encode($row->id)) }}" class="dropdown-item text-secondary">
 							<i class="fa fa-list-alt" aria-hidden="true"></i> Submissions
 						</a>
 					@endif
 
-					@if(Auth::user()->user_type == 2)
-						<a href="{{ route('forms.edit', base64_encode($row->id)) }}" class="dropdown-item text-primary">
+					<a href="{{ route('show-assessment', $row->id) }}" class="dropdown-item text-secondary" title="View">
+						<i class="fa fa-eye" aria-hidden="true"></i> View
+					</a>
+
+					@if(Auth::user()->user_type == 2 || Auth::user()->id == $row->user_id)
+						<a href="{{ route('edit-assessment', $row->id) }}" class="dropdown-item text-primary">
 							<i class="fa fa-pencil" aria-hidden="true"></i> Edit
 						</a>
 
 						<a class="dropdown-item text-danger">
-							<form action="{{ route('forms.destroy', base64_encode($row->id)) }}" method="POST">
+							<form action="{{ route('destroy-assessment', $row->id) }}" method="POST">
 								@csrf
 								@method('DELETE')
 								<button type="submit">

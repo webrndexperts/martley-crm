@@ -34,23 +34,36 @@
 
                         <div class="row">
                             <div class="col-md-12 form-group">
-                            <span class="add-new-field" role="button">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Add Field
-                                </span>
                                 <label>Form Name</label>
                                 <input type="text" class="form-control" placeholder="Form Name" name="name" value="{{ $form->name }}" required />
                             </div>
-                            
+
+                            <div class="col-md-12 form-group">
+                                <div class="form-group">
+                                    <label for="description">Form Description:</label>
+                                    <textarea name="description" class="form-control" rows="3" placeholder="Enter description">{{ $form->description }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <label>Form Button Text</label>
+                                <input type="text" name="button" value="{{ $form->submit }}" placeholder="Button Text" class="form-control" required />
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <div class="add_fields">
+                                    <label>Form Fields</label>
+                                    <span class="add-new-field" role="button">
+                                        <i class="fa fa-plus" aria-hidden="true"></i> Add Field
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row append-rows" id="fieldsContainer">
                             @include('forms.includes.update-fields')
                         </div>
 
-                        <div class="col-md-12 form-group">
-                            <label>Form Button Text</label>
-                            <input type="text" name="button" value="{{ $form->submit }}" placeholder="Button Text" class="form-control" required />
-                        </div>
                         <input type="hidden" name="removed" id="removed-input" />
 
                         <div class="col-md-12 form-group">

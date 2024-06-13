@@ -46,6 +46,7 @@ class FormController extends Controller
             $data[$key]['DT_RowAttr'] = $_r;
             $data[$key]['id'] = $row->id;
             $data[$key]['name'] = ($row->name) ? ucwords($row->name) : "";
+            $data[$key]['description'] = ucwords($row->description);
             $data[$key]['user'] = ($row->user && $row->user->id) ? $row->user->name : "";
             $data[$key]['created_at'] = Carbon::parse($row->created_at)->format('Y-m-d');
             $data[$key]['actions'] = view('appends.actions.forms', [ "row" => $row ])->render();
@@ -90,6 +91,10 @@ class FormController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->user_type != '2') {
+            return redirect()->route('forms.index')->with('error', 'You are not allowed to access this route.');
+        }
+
         $data['renders'] = View::make('forms.includes.fields')->render();
         return view('forms.create', $data);
     }
@@ -108,6 +113,7 @@ class FormController extends Controller
             // $form->user_id = Auth::user()->id;
             $form->user_id = 1;
             $form->name = $request->name;
+            $form->description = $request->description;
             $form->submit = $request->button;
 
             if($form->save()) {
@@ -145,6 +151,10 @@ class FormController extends Controller
      */
     public function edit(string $id)
     {
+        if(Auth::user()->user_type != '2') {
+            return redirect()->route('forms.index')->with('error', 'You are not allowed to access this route.');
+        }
+
         $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
         $data['renders'] = View::make('forms.includes.fields')->render();
 
@@ -163,6 +173,7 @@ class FormController extends Controller
             $form = Form::find(base64_decode($id));
 
             $form->name = $request->name;
+            $form->description = $request->description;
             $form->submit = $request->button;
 
             if($form->save()) {
@@ -209,6 +220,10 @@ class FormController extends Controller
      */
     public function destroy(string $id)
     {
+        if(Auth::user()->user_type != '2') {
+            return redirect()->route('forms.index')->with('error', 'You are not allowed to access this route.');
+        }
+
         $_id = base64_decode($id);
         Form::where('id', $_id)->delete();
         $ids = FormField::where('form_id', $_id)->pluck('id')->toArray();
@@ -232,7 +247,7 @@ class FormController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
 
-        $forms = Form::Query();
+        $forms = Form::assigned();
 
         if(!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
@@ -391,21 +406,19 @@ class FormController extends Controller
 
     public function AssignForm()
     {
-        $forms = Form::all();
-        $patients = ClinicianPatient::where('clinician_id' , Auth::user()->id)->get(); 
+        $data['forms'] = Form::all();
+        $clinitian = Clinician::where('user_id', Auth::user()->id)->first();
+        $data['patients'] = ClinicianPatient::where('clinician_id' , $clinitian->id)->get();
 
-        return view('assigned_forms.assign-form', compact('forms', 'patients'));
+        return view('assigned_forms.assign-form', $data);
     }
 
     public function saveAssignedForm(Request $request)
     {
-        // dd($request->all());
-
         $form =  New AssignedForm;
         $form->patient_id = $request->patient_id;
         $form->form_id = $request->form_id;
         $form->user_id = Auth::user()->id;
-
         $form->save();
         
         session()->flash('success', 'Form has been assigned successfully.');
@@ -415,12 +428,14 @@ class FormController extends Controller
 
     public function editAssignedForm($id)
     {
-        $forms = Form::all();
-        $patients = Patient::all();
-        $assigned = AssignedForm::where('id' , $id)->with('patient' , 'form')->first();
+        $data['forms'] = Form::all();
+        $clinitian = Clinician::where('user_id', Auth::user()->id)->first();
+        $data['patients'] = ClinicianPatient::where('clinician_id' , $clinitian->id)->get();
+        $data['assigned'] = AssignedForm::where('id' , $id)->with('patient' , 'form')->first();
 
-        return view('assigned_forms.edit-assigned', compact('forms', 'patients' , 'assigned'));
+        return view('assigned_forms.edit-assigned', $data);
     }
+
     public function updateAssignedForm(Request $request , $id)
     {
         $form = AssignedForm::findOrFail($id);
@@ -431,11 +446,10 @@ class FormController extends Controller
 
         return redirect()->route('assign-form-list')->with('success', 'Assigned form Updated successfully');
     }
+
     public function destroyAssignedForm($id)
     {
-        // dd($id);
         $form = AssignedForm::where('id' , $id)->first();
-
         $form->delete();
 
         return redirect()->route('assign-form-list');

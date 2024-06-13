@@ -72,9 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
          *********************************************************************/
         
     Route::group(['middleware' => 'adminOrClinician'], function() {
-
         Route::group(['prefix' => 'assessment'], function() {
-            Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
+            // Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
             Route::get('/show/{assessment}', [CRMAssessmentController::class, 'show'])->name('show-assessment');
 
             // Assign assessment
@@ -108,6 +107,14 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/list', [ClinicianController::class, 'PatientClinician'])->name('patient-clinician-list');
 
+    });
+
+    Route::group(['prefix' => 'assessment'], function() {
+        Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
+        Route::post('/table/values', [CRMAssessmentController::class, 'generateTable'])->name('assesments.datatable');
+        Route::prefix('submit')->group(function () {
+            Route::post('/list/{id}', [CRMAssessmentController::class, 'listSubmission'])->name('assesments.submit-list');
+        });
     });
     
 

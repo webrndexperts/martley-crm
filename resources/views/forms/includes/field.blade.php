@@ -47,6 +47,7 @@
 		<textarea
 			type="password"
 			class="form-control"
+			rows="3"
 			name="answers[{{ $k }}][answer]"
 			@if(property_exists($options, 'required')) required @endif
 			@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
@@ -115,8 +116,12 @@
 						@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
 					/>
 					{{ $mcq }}
+<<<<<<< HEAD
 </span>
 
+=======
+				</span>
+>>>>>>> 75ce2e098d538178dbb8f3b7b9c1a0cd346becff
 			@endforeach
 		@endif
 	</div>

@@ -18,7 +18,7 @@
     </div>
 
     <div class="form-group field-div">
-        <textarea disabled class="form-control textarea hide" placeholder="Textarea"></textarea>
+        <textarea disabled class="form-control textarea hide" placeholder="Textarea" rows="3"></textarea>
         <input type="file" disabled class="form-control file hide" />
         <input type="text" disabled class="form-control input hide" placeholder="Input" />
         <input type="text" disabled class="form-control password hide" placeholder="Password" />
