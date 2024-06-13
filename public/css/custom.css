@@ -75,9 +75,26 @@ a.btn.btn-primary {
     top: 14px;
     right: 20px;
 }
-/*.main-fields-div {
-    background: #ccc;
-    padding: 15px 10px;
-    margin: 10px 0px 10px 0px;
+input.form-control {
+    box-shadow: none;
+}
+.main-fields-div {
+    background: #e7e7e7;
+    padding: 50px 15px;
     border-radius: 10px;
-}*/
+    margin: 20px 0;
+}
+.submit_all_fields .redio_btns {
+    margin: 0 10px 0 0 !important;
+}
+.submit_all_fields span {
+    display: flex;
+    align-items: center;
+}
+.submit_all_fields {
+    display: flex;
+    column-gap: 10px;
+}
+.submit_all_fields .redio_btns {
+    width: auto;
+}

@@ -97,9 +97,11 @@
 @endif
 
 @if($field->type == 'mcq')
-	<div class="form-group">
-		@if($field->label) <label>{{ $field->label }}</label> @endif
-
+	<div class="form-group ">
+		@if($field->label) 
+		<label>{{ $field->label }}</label> 
+		<div class="submit_all_fields">
+		@endif
 		@if(property_exists($options, 'mcq'))
 			@foreach($options->mcq as $mk => $mcq)
 				<span>
@@ -113,8 +115,14 @@
 						@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
 					/>
 					{{ $mcq }}
+<<<<<<< HEAD
+</span>
+
+=======
 				</span>
+>>>>>>> 75ce2e098d538178dbb8f3b7b9c1a0cd346becff
 			@endforeach
 		@endif
+	</div>
 	</div>
 @endif
