@@ -7,7 +7,7 @@
 .add_field input.form-control,.add_field textarea.form-control.textarea{
     background: #fff !important;
 }
-.add_field  label {
+label {
     color: #000;
     font-weight: 600 !important;
 }
@@ -47,12 +47,12 @@ span.remove-field.text-danger {
 a.btn.btn-primary {
     margin-right: 0;
 }
-.custom-list-dropdown.w-50 .dropdown-menu {
+.custom-list-dropdown .dropdown-menu {
     width: 100%;
     margin: 0;
     padding: 10px 2px;
 }
-.add_field textarea.form-field.textarea {
+.add_field .form-field.textarea {
     width: 100%;
     background: #fff;
     border-radius: 5px;
@@ -61,16 +61,16 @@ a.btn.btn-primary {
     display: flow-root;
     column-gap: 10px;
 }
-span.add-mcq {
+.add-mcq {
     display: block;
 }
-input.form-field.redio_btns {
+.form-field.redio_btns {
     width: auto;
 }
-.mcq.mcq-parent .col-md-3.mcq-field {
+.mcq.mcq-parent .mcq-field {
     padding: 12px 12px 12px 0;
 }
-span.remove-mcq {
+.remove-mcq {
     position: absolute;
     top: 14px;
     right: 20px;

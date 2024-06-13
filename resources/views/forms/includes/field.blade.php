@@ -47,6 +47,7 @@
 		<textarea
 			type="password"
 			class="form-control"
+			rows="3"
 			name="answers[{{ $k }}][answer]"
 			@if(property_exists($options, 'required')) required @endif
 			@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
@@ -102,7 +103,7 @@
 
 		@if(property_exists($options, 'mcq'))
 			@foreach($options->mcq as $mk => $mcq)
-				<label>
+				<span>
 					<input
 						type="radio"
 						@if($mk == 0) checked @endif
@@ -113,7 +114,7 @@
 						@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
 					/>
 					{{ $mcq }}
-				</label>
+				</span>
 			@endforeach
 		@endif
 	</div>

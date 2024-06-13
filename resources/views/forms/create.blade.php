@@ -33,15 +33,29 @@
 
                         <div class="row">
                             <div class="col-md-12 form-group">
-
-                                <div class="add_fields">
-                                    <label>Form Name</label>
-                                    <span class="add-new-field" role="button">
-                                        <i class="fa fa-plus" aria-hidden="true"></i> Add Field
-                                    </span>
-                                </div>
-
+                                <label>Form Name</label>
                                 <input type="text" class="form-field" placeholder="Form Name" name="name" required />
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <div class="form-group">
+                                    <label for="description">Form Description:</label>
+                                    <textarea name="description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <label>Form Button Text</label>
+                                <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-control" required />
+                            </div>
+                        
+                            <div class="col-md-12 form-group">
+                            <div class="add_fields">
+                                <label>Form Fields</label>
+                                <span class="add-new-field" role="button">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add Field
+                                </span>
+                            </div>
                             </div>
                         </div>
 
@@ -50,13 +64,7 @@
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <label>Form Button Text</label>
-                            <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-control" required />
-                        </div>
-
-
-                        <div class="col-md-12 form-group">
-                            <button type="submit">Create</button>
+                            <button type="submit">Save</button>
                         </div>
                     </form>
                 </div>

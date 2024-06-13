@@ -23,7 +23,7 @@
             <?php $options = json_decode($field->options); ?>
 
             <div class="form-group field-div">
-                <textarea disabled class="form-control textarea {{ ($field->type == 'textarea') ? '' : 'hide' }}" placeholder="Textarea"></textarea>
+                <textarea disabled class="form-control textarea {{ ($field->type == 'textarea') ? '' : 'hide' }}" placeholder="Textarea" rows="3"></textarea>
                 <input type="file" disabled class="form-control file {{ ($field->type == 'file') ? '' : 'hide' }}" />
                 <input type="text" disabled class="form-control input {{ ($field->type == 'input') ? '' : 'hide' }}" placeholder="Input" />
                 <input type="text" disabled class="form-control password {{ ($field->type == 'password') ? '' : 'hide' }}" placeholder="Password" />

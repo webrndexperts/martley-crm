@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('phone');
             $table->date('birthday');
-            $table->tinyint('sex');
-            $table->tinyint('status');
+            $table->tinyInteger('sex');
+            $table->tinyInteger('status');
             $table->text('address');
             $table->timestamps();
         });

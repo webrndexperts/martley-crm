@@ -29,7 +29,7 @@
                             <select name="patient_id" id="patient_id" class="form-control select2" required>
                                 <option value="">-- Select Patient --</option>
                                 @foreach($patients as $patient)
-                                    <option value="{{ $patient->id }}">{{ $patient->first_name }} {{ $patient->last_name }}</option>
+                                    <option value="{{ $patient->patient_id }}">{{ $patient->patient->first_name }} {{ $patient->patient->last_name }}</option>
                                 @endforeach
                             </select>
                         </div>

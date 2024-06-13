@@ -1,110 +1,93 @@
 @extends('layouts.app')
-
 @section('title', 'Assessments')
 
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
 
-            @if(isset($errors))
-                @if ( count($errors) > 0)
+            @if(session('error'))
                 <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                    {{ session('error') }}
                 </div>
+            @endif
+
+        </div>
+
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Assessments</h2>
+                @if(Auth::user()->user_type == 2)
+                    <a href="{{ route('create-assessment') }}" class="pull-right btn btn-info btn-sm" title="Add Clinical Assessment">
+                        <i class="fa fa-plus"></i> Add Assessment
+                    </a>
                 @endif
-            @endif
-            @if(\Session::has('msg'))
+                
+                <div class="clearfix"></div>
+            </div>
 
-            @endif
-            <div class="x_panel">
-
-                <div class="x_title">
-                    <h2>Assessments</h2>
-                    @if(Auth::user()->user_type == 2)
-                        <a href="{{ route('create-assessment') }}" class="pull-right btn btn-info btn-sm" title="Add Clinical Assessment">
-                            <i class="fa fa-plus"></i> Add Assessment
-                        </a>
-                    @endif
-
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="x_content">
-
-                    @if(count($assessments) == 0)
-                        <div class="alert alert-dismissible fade in alert-info" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                            <strong>Sorry !</strong> No Data Found.
-                        </div>
-                    @else
-                        <table class="table table-striped table-bordered dataTable no-footer" id="datatable">
-
-                            <thead>
-                                <tr>
-                                    <th>Sr. no.</th>
-                                    <th>Assessment Name</th>                   
-                                    <th>Description</th>                       
-                                    <th>Due Date</th>                       
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="assessmentsTableBody">
-                                @foreach($assessments as $index => $assessment)
-                                    
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $assessment->title }}</td>
-                                    
-                                        <td>{!! $assessment->description !!}</td>
-                                        <td>{{ $assessment->due_date }}</td>   
-
-                                        <td class="text-center">
-                                            @if(Auth::user()->user_type == 2)
-                                                <a class="btn btn-info btn-sm" href="{{ route('edit-assessment', $assessment->id) }}" title="Edit">
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                </a>
-                                            @endif
-                                            <a href="{{ route('show-assessment', $assessment->id) }}" title="View">
-                                                <button type="button" class="btn btn-info btn-sm">
-                                                    <i class="fa fa-eye" aria-hidden="true"></i> 
-                                                </button>
-                                            </a> 
-
-                                            <!-- <a href="{{route('destroy-assessment', $assessment)}}" class="delete" title="Delete">
-                                                <button type="button" class="btn btn-danger btn-sm">
-                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                </button>
-                                            </a> -->
-
-                                            <form action="{{ route('destroy-assessment', $assessment->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">
-                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @endif
+            <div class="x_content">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered dataTable no-footer" id="assesments_table">
+                        <thead>
+                            <tr>
+                                <th>Sr. no.</th>
+                                <th>Assessment Name</th>                   
+                                <th>Description</th>                       
+                                <th>Due Date</th>                       
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-@stop
+@endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        function generateDataTable() {
+            var _url = "{{ route('assesments.datatable') }}";
+            let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $('#assesments_table').DataTable({
+                "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "All"] ],
+                processing: true,
+                serverSide: true,
+                processing: true,
+                order: [[ 0, "DESC" ]],
+                ajax: {
+                    'url': _url,
+                    'type': 'post',
+                    "dataType": "json",
+                    "beforeSend": function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
+                columns: [
+                    {
+                        "data": "DT_RowIndex",
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'name'},
+                    {data: 'description'},
+                    {data: 'date'},
+                    {data: 'actions', orderable: false, searchable: false}
+                ],
+                "language":{
+                    "processing": '<div class="loader-image"></div>',
+                },
+                "dom": '<"top table-search-flds d-flex align-items-center justify-content-between"fl>rt<"bottom table-paginater"ip><"clear">'
+            });
+        }
+
+        generateDataTable();
+    </script>
+@endpush

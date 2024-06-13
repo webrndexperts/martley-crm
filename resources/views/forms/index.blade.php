@@ -21,9 +21,12 @@
 	        <div class="x_title">
 	            <h2>Forms List</h2>
 
-	            <a href="{{ route('forms.create') }}" class="pull-right btn btn-info btn-sm">
-	            	<i class="fa fa-plus" aria-hidden="true"></i> Create
-	            </a>
+	            @if(Auth::user()->user_type == '2')
+		            <a href="{{ route('forms.create') }}" class="pull-right btn btn-info btn-sm">
+		            	<i class="fa fa-plus" aria-hidden="true"></i> Create
+		            </a>
+	            @endif
+	            
 	            <div class="clearfix"></div>
 	        </div>
 
@@ -34,6 +37,7 @@
 							<tr>
 								<th scope="col">Sr. No</th>
 								<th scope="col">Name</th>
+								<th scope="col">Description</th>
 								<th scope="col">Created By</th>
 								<th scope="col">Created Date</th>
 								<th scope="col">Actions</th>
@@ -74,6 +78,7 @@
 	                    }
 	                },
 					{data: 'name'},
+					{data: 'description'},
 					{data: 'user'},
 					{data: 'created_at'},
 					{data: 'actions', orderable: false, searchable: false}
