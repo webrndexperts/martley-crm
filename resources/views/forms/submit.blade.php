@@ -4,7 +4,7 @@
 @section('content')
 
 	<div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-12 col-sm-12 col-xs-12 add_field">
     		@if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
