@@ -38,13 +38,7 @@
                                 @elseif($answer->question->type == 'mcq')
                                     <?php $options = json_decode($answer->question->options); ?>
 
-                                    @if(property_exists($options, 'mcq'))
-                                        <div class="mcq-options">
-                                            @foreach($options->mcq as $val)
-                                                <span>{{ $val }}</span>
-                                            @endforeach
-                                        </div>
-                                    @endif
+                                   
 
                                     <span class="answer">{{ $answer->answer }}</span>
                                 @else

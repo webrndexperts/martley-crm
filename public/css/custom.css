@@ -35,6 +35,9 @@ span.remove-field.text-danger {
     color: #fff;
     margin-bottom: 10px;
 }
+.redio_btns {
+    width: auto;
+}
 .add_field  button {
     padding: 10px;
     background: #337ab7;
@@ -65,7 +68,7 @@ a.btn.btn-primary {
     display: block;
 }
 .form-field.redio_btns {
-    width: auto;
+    width: auto !important;
 }
 .mcq.mcq-parent .mcq-field {
     padding: 12px 12px 12px 0;
@@ -97,4 +100,14 @@ input.form-control {
 }
 .submit_all_fields .redio_btns {
     width: auto;
+}
+.form_fields {
+    margin: 20px 0 0 0;
+}
+.answer {
+    margin-left: 50px;
+    font-size: 16px;
+}
+.answer-div label {
+    font-size: 18px;
 }

@@ -49,7 +49,7 @@
                                 <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-control" required />
                             </div>
                         
-                            <div class="col-md-12 form-group">
+                            <div class="col-md-12 form-group form_fields">
                             <div class="add_fields">
                                 <label>Form Fields</label>
                                 <span class="add-new-field" role="button">
