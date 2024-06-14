@@ -101,8 +101,8 @@
                                 <label for="status">Status:</label>
 
                                 <select name="status" class="form-control" value="{{old('status')}}">
-                                    <option value="0">Active</option>
-                                    <option value="1">Inactive</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>

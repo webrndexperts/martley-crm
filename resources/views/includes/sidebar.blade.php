@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="{{ url('/') }}" class="site_title"> <img src="{{ url('public/new/img/image_2024_02_02T10_11_48_862Z.png') }}"></a>
+            <a href="{{ url('/') }}" class="site_title"> <img src="{{ url('public/new/img/logo.png') }}"></a>
         </div>
 
         <div class="clearfix"></div>

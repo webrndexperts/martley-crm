@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
 use App\Models\Clinician;
 use App\Models\User;
 use App\Models\Patient;
 use App\Models\ClinicianPatient;
 use App\Mail\WelcomeEmail;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
-use Auth, DB;
-use Illuminate\Http\Request;
+use App\Mail\AccountCreateMail;
+use Auth, DB, Mail, Session;
+
 class PatientController extends Controller
 {
     /**
@@ -57,9 +57,8 @@ class PatientController extends Controller
         $user->email =$request->email;
         $user->password = bcrypt($request->password);
         $user->user_type = $type;
+        $user->status = $request->status;
         $user->save();
-
-        // Mail::to($user->email)->send(new WelcomeEmail('add', $name));
 
         $patient = new Patient;
         $patient->user_id = $user->id;
@@ -71,6 +70,8 @@ class PatientController extends Controller
         $patient->status = $request->status;
         $patient->address = $request->address;
         $patient->save();
+
+        Mail::to($user->email)->send(new AccountCreateMail($request->all()));
 
         return redirect()->route('list-patient')->with('success', 'Patient has created successfully.');
     }

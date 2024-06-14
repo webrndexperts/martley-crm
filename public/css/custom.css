@@ -80,9 +80,9 @@ input.form-control {
 }
 .main-fields-div {
     background: #e7e7e7;
-    padding: 50px 15px;
+    padding: 20px 15px;
     border-radius: 10px;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 .submit_all_fields .redio_btns {
     margin: 0 10px 0 0 !important;
@@ -97,4 +97,22 @@ input.form-control {
 }
 .submit_all_fields .redio_btns {
     width: auto;
+}
+.w-50-cust {
+    width: 49%;
+}
+.d-flex-cust {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+textarea.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+table td.email {
+    text-transform: none;
 }

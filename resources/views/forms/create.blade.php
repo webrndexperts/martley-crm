@@ -46,7 +46,7 @@
 
                             <div class="col-md-12 form-group">
                                 <label>Form Button Text</label>
-                                <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-control" required />
+                                <input type="text" name="button" value="Submit" placeholder="Button Text" class="form-field" required />
                             </div>
                         
                             <div class="col-md-12 form-group">
@@ -63,8 +63,8 @@
                             @include('forms.includes.fields')
                         </div>
 
-                        <div class="col-md-12 form-group">
-                            <button type="submit">Save</button>
+                        <div class="col-md-12 form-group mt-10">
+                            <button class="button-form" type="submit">Save</button>
                         </div>
                     </form>
                 </div>
@@ -129,6 +129,7 @@
 
                 var _mcqField = _parent.querySelector('.mcq-parent');
                 if(this.value == 'mcq') {
+                    addMcqField(_mcqField);
                     addMcqField(_mcqField);
                 } else {
                     if(_mcqField.children.length > 1) {

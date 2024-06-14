@@ -58,9 +58,8 @@ class ClinicianController extends Controller
         $user->email =$request->email;
         $user->password = bcrypt($request->password);
         $user->user_type = $type;
+        $user->status = $request->status;
         $user->save();
-
-        // Mail::to($user->email)->send(new WelcomeEmail('add', $name));
 
         $clinician = new Clinician;
         $clinician->user_id = $user->id;
@@ -72,6 +71,8 @@ class ClinicianController extends Controller
         $clinician->status = $request->status;
         $clinician->address = $request->address;
         $clinician->save();
+
+        Mail::to($user->email)->send(new AccountCreateMail($request->all()));
 
         session()->flash('success', 'Clinician has been created successfully.');
 

@@ -89,8 +89,8 @@
                                 <div class="form-group">
                                 <label for="status">Status:</label>
                                     <select name="status" class="form-control">
-                                        <option value="{{ \App\Libraries\Enumerations\UserStatus::$ACTIVE }}" {{ $patient->status == \App\Libraries\Enumerations\UserStatus::$ACTIVE ? 'selected' : '' }}>Active</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserStatus::$INACTIVE }}" {{ $patient->status == \App\Libraries\Enumerations\UserStatus::$INACTIVE ? 'selected' : '' }}>Inactive</option>
+                                        <option value="1" {{ $patient->user->status == 1 ? 'selected' : '' }}>Active</option>
+                                        <option value="0" {{ $patient->user->status == 0 ? 'selected' : '' }}>Inactive</option>
                                     </select>
 
                                 </div>

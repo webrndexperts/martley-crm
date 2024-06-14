@@ -201,9 +201,6 @@ class FormController extends Controller
 
             if($form->save()) {
                 foreach ($newArray as $key => $value) {
-
-                    // dd($value);
-
                     if($value && isset($value['id'])) {
                         FormField::updateOrCreate([
                             'id' => $value['id'],
@@ -343,10 +340,24 @@ class FormController extends Controller
             }
 
             $form = Form::where('id', $request->form_id)->first();
+            $patient = Patient::where('user_id', Auth::user()->id)->first();
+            $clinician = ($patient && $patient->id) ? 
+                AssignedForm::where('patient_id', $patient->id)
+                    ->where('form_id', $request->form_id)
+                    ->first()
+            : null;
+
             $data['form'] = $form;
             $data['answers'] = FormAnswer::where('user_id', Auth::user()->id)->where('form_id', $request->form_id)->get();
 
+            // send email to admin
             $this->mailService->send($data, 'emails.forms.submit', $this->adminMail, "$form->name, details has been submitted.");
+            // Send mail to clinitian
+            if($clinician && $clinician->id) {
+                if($clinician->user->email != $this->adminMail) {
+                    $this->mailService->send($data, 'emails.forms.submit', $clinician->user->email, "$form->name, details has been submitted.");
+                }
+            }
 
             return redirect()->route('forms.index')->with('success', 'Thanks, your forms details are submitted.');
         }

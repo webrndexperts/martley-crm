@@ -81,7 +81,7 @@
                         }
                     },
                     {data: 'name'},
-                    {data: 'email'},
+                    {data: 'email', className: 'email'},
                     {data: 'phone'},
                     {data: 'actions', orderable: false, searchable: false}
                 ],
