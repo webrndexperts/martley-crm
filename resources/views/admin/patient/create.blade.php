@@ -25,7 +25,9 @@
             @endif
 
             <div class="x_title">
-                <a href="{{route('list-patient')}}" class="btn btn-primary" style="float:right;" title="Back">Back</a>
+                <a href="{{route('list-patient')}}" class="btn btn-primary" style="float:right;" title="Back">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                </a>
                 <div class="clearfix"></div>
             </div>
 
@@ -99,8 +101,8 @@
                                 <label for="status">Status:</label>
 
                                 <select name="status" class="form-control" value="{{old('status')}}">
-                                    <option value="0">Active</option>
-                                    <option value="1">Inactive</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>

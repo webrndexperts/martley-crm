@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label>Form Name</label>
-                                <input type="text" class="form-control" placeholder="Form Name" name="name" value="{{ $form->name }}" required />
+                                <input type="text" class="form-field" placeholder="Form Name" name="name" value="{{ $form->name }}" required />
                             </div>
 
                             <div class="col-md-12 form-group">
@@ -47,7 +47,7 @@
 
                             <div class="col-md-12 form-group">
                                 <label>Form Button Text</label>
-                                <input type="text" name="button" value="{{ $form->submit }}" placeholder="Button Text" class="form-control" required />
+                                <input type="text" name="button" value="{{ $form->submit }}" placeholder="Button Text" class="form-field" required />
                             </div>
 
                             <div class="col-md-12 form-group">
@@ -98,7 +98,7 @@
             if(_parent && typeof _parent != 'undefined') {
                 var div = `<div class="col-md-3 mcq-field redio_btns">
                     <input type="radio" disabled class="form-field redio_btns ">
-                    <input type="text" name="form[${_parent.dataset.index}][options][mcq][]" class="form-control" placeholder="Label" />
+                    <input type="text" name="form[${_parent.dataset.index}][options][mcq][]" class="form-field" placeholder="Label" />
                     <span class="remove-mcq"><i class="fa fa-minus" aria-hidden="true"></i></span>
                 </div>`;
 

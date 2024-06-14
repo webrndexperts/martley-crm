@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Auth, Session;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -36,5 +39,26 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    /**
+     * Custom login function to check if user is active or not.
+     */
+    public function customLogin(Request $request) {
+        $this->validateLogin($request);
+
+        if ($this->attemptLogin($request)) {
+            // check if user is active or not except admin.
+            if (Auth::user()->user_type != '2' && Auth::user()->status == '0') {
+                Auth::logout();
+
+                Session::flash('unsuccess', 'Your account has been disabled.');
+                return redirect()->back();
+            }
+
+            return $this->sendLoginResponse($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
     }
 }

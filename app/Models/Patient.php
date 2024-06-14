@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Clinician;
+use Auth;
 
 class Patient extends Model
 {
@@ -33,4 +35,21 @@ class Patient extends Model
         return $this->hasMany(AssignedAssessment::class);
     }
     
+    /**
+     * Function to add scope in forms table.
+     * @param query Form SQL Query.
+     * 
+     * @return SQL Query.
+     */
+    public static function scopeAssigned($query) {
+        if(Auth::user()->user_type != '2') {
+            $user = Clinician::where('user_id' , Auth::user()->id)->first();
+
+            $query = $query->leftJoin('clinician_patients as a', 'a.patient_id', '=', 'patients.id')
+                ->where('a.clinician_id', $user->id)
+                ->select('patients.*');
+        }
+
+        return $query;
+    }
 }

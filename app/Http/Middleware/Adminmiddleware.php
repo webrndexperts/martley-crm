@@ -22,7 +22,7 @@ class Adminmiddleware
 
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->user_type == 2 && Auth::user()->status != 'disabled') {
+        if (Auth::check() && Auth::user()->user_type == 2) {
             return $next($request);
         }
 

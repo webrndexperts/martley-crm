@@ -15,7 +15,9 @@
 
             <div class="x_title">
                 <h2>Edit/View Clinician</h2>
-                <a href="{{route('list-clinician')}}" class="btn btn-primary" style="float:right;" title="Back">Back</a>
+                <a href="{{route('list-clinician')}}" class="btn btn-primary" style="float:right;" title="Back">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                </a>
                 <div class="clearfix"></div>
             </div>
 
@@ -30,9 +32,9 @@
                         <a class="nav-link" id="contact-info-tab" data-toggle="tab" href="#contact-info">Contact Info</a>
                     </li>
 
-                    <!-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" id="credential-tab" data-toggle="tab" href="#credential">Credentials</a>
-                    </li> -->
+                    </li>
                 </ul>
 
 
@@ -87,8 +89,8 @@
                                 <div class="form-group">
                                 <label for="status">Status:</label>
                                     <select name="status" class="form-control">
-                                        <option value="{{ \App\Libraries\Enumerations\UserStatus::$ACTIVE }}" {{ $clinician->status == \App\Libraries\Enumerations\UserStatus::$ACTIVE ? 'selected' : '' }}>Active</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserStatus::$INACTIVE }}" {{ $clinician->status == \App\Libraries\Enumerations\UserStatus::$INACTIVE ? 'selected' : '' }}>Inactive</option>
+                                        <option value="1" {{ $clinician->user->status == 1 ? 'selected' : '' }}>Active</option>
+                                        <option value="0" {{ $clinician->user->status == 0 ? 'selected' : '' }}>Inactive</option>
                                     </select>
 
                                 </div>
@@ -129,15 +131,15 @@
 
                         <!-- Tab 3: Credentials -->
 
-                        <!-- <div class="tab-pane fade" id="credential">
+                        <div class="tab-pane fade" id="credential">
                             <h3> </h3>
 
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" name="password" class="form-control" value="{{ $clinician->user->password }}" required>
+                                <input type="password" name="password" class="form-control" value="" required>
                             </div>
 
-                        </div> -->
+                        </div>
 
                     </div>
                     <button type="submit" class="btn btn-primary" title="Save">Save</button>

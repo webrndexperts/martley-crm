@@ -4,7 +4,7 @@
 
 		<input
 			type="email"
-			class="form-control"
+			class="form-field"
 			name="answers[{{ $k }}][answer]"
 			@if(property_exists($options, 'required')) required @endif
 			@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
@@ -18,7 +18,7 @@
 		
 		<input
 			type="password"
-			class="form-control"
+			class="form-field"
 			name="answers[{{ $k }}][answer]"
 			@if(property_exists($options, 'required')) required @endif
 			@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
@@ -32,7 +32,7 @@
 		
 		<input
 			type="text"
-			class="form-control"
+			class="form-field"
 			name="answers[{{ $k }}][answer]"
 			@if(property_exists($options, 'required')) required @endif
 			@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
@@ -45,7 +45,6 @@
 		@if($field->label) <label>{{ $field->label }}</label> @endif
 		
 		<textarea
-			type="password"
 			class="form-control"
 			rows="3"
 			name="answers[{{ $k }}][answer]"
@@ -61,7 +60,7 @@
 		
 		<input
 			type="file"
-			class="form-control"
+			class="form-field"
 			name="answers[{{ $k }}][answer]"
 			@if(property_exists($options, 'required')) required @endif
 			@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
@@ -75,7 +74,7 @@
 		
 		<input
 			type="number"
-			class="form-control"
+			class="form-field"
 			name="answers[{{ $k }}][answer]"
 			@if(property_exists($options, 'required')) required @endif
 			@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
@@ -89,7 +88,7 @@
 		
 		<input
 			type="tel"
-			class="form-control"
+			class="form-field"
 			name="answers[{{ $k }}][answer]"
 			@if(property_exists($options, 'required')) required @endif
 			@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
@@ -97,10 +96,28 @@
 	</div>
 @endif
 
+@if($field->type == 'checkbox')
+	<div class="form-group">
+		<label class="submit_all_fields">
+			<input
+				type="checkbox"
+				class="form-field redio_btns"
+				value="1"
+				name="answers[{{ $k }}][answer]"
+				@if(property_exists($options, 'required')) required @endif
+				@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
+			/>
+
+			<span>{{ $field->label }}</span>
+		</label>
+	</div>
+@endif
+
 @if($field->type == 'mcq')
 	<div class="form-group ">
 		@if($field->label) 
 		<label>{{ $field->label }}</label> 
+
 		<div class="submit_all_fields">
 		@endif
 		@if(property_exists($options, 'mcq'))
@@ -109,19 +126,14 @@
 					<input
 						type="radio"
 						@if($mk == 0) checked @endif
-						class="form-control  redio_btns"
+						class="form-control redio_btns"
 						name="answers[{{ $k }}][answer]"
 						value="{{ $mcq }}"
 						@if(property_exists($options, 'required')) required @endif
 						@if(property_exists($options, 'placeholder')) placeholder="{{ $options->placeholder }}" @endif
 					/>
 					{{ $mcq }}
-<<<<<<< HEAD
-</span>
-
-=======
 				</span>
->>>>>>> 75ce2e098d538178dbb8f3b7b9c1a0cd346becff
 			@endforeach
 		@endif
 	</div>

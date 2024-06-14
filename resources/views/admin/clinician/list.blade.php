@@ -7,116 +7,91 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-
-            @if(isset($errors))
-                @if ( count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-            @endif
-
-            @if(\Session::has('msg'))
-            @endif
-
-            <div class="x_panel">
-
-                <div class="x_title">
-                    <h2>Clinician List</h2>
-                        @if(Auth::user()->user_type == 2)
-                            <a href="{{ route('create-clinician') }}" class="pull-right btn btn-info btn-sm" title="Add Clinician">
-                                <i class="fa fa-plus"></i> Add Clinician
-                            </a>
-                        @endif
-
-                    <div class="clearfix"></div>
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
                 </div>
+            @endif
 
-                <div class="x_content">
-                    @if(count($clinicians)<1) 
-                        <div class="alert alert-dismissible fade in alert-info" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-                            <strong>Sorry !</strong> No Data Found.
-                        </div>
+        </div>
 
-                      @else
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Clinicians List</h2>
 
-                        <?php $index = 0; ?>
+                @if(Auth::user()->user_type == '2')
+                    <a href="{{ route('create-clinician') }}" class="pull-right btn btn-info btn-sm" title="Add Clinician">
+                        <i class="fa fa-plus"></i> Add Clinician
+                    </a>
+                @endif
+                
+                <div class="clearfix"></div>
+            </div>
 
-                        <table class="table table-striped table-bordered dataTable no-footer" id="datatable">
-                            <thead>
-                                <tr>
-                                    <th>Sr. no.</th>
-                                    <!-- <th>Picture</th> -->
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-
-                            @if(Auth::user()->user_type == 2)
-                                <tbody>
-                                    @foreach($clinicians as $clinician)
-
-                                        <tr>
-                                            <td><strong>{{ ++$index }}</strong></td>
-
-                                            
-                                            <td>{{ $clinician->first_name }} {{ $clinician->last_name }}</td>
-
-                                            <td>@if ($clinician->user)  {{ $clinician->user->email }}  @else  @endif</td> 
-
-                                            <td>{{ $clinician->phone }}</td>
-
-                                            <td class="text-center">
-
-                                                <a href="{{ route('edit-clinician', $clinician->id) }}"  class="btn btn-info btn-sm edit-btn1" title="Edit">
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                </a>
-
-                                                @if($clinician->user->status === 'active')
-                                                    <a href="{{ route('deactive-clinician', $clinician->user->id) }}" class="btn btn-warning btn-sm" title="Deactive">
-                                                        <i class="fa fa-ban" aria-hidden="true"></i> Deactive
-                                                    </a>
-                                                @else
-                                                    <a href="{{ route('active-clinician', $clinician->user->id) }}" class="btn btn-success btn-sm" title="Active">
-                                                        <i class="fa fa-check" aria-hidden="true"></i> Active
-                                                    </a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            @else
-                                <tbody>
-                                    @foreach($clinicians as $index => $clinician)
-                                        <tr>
-                                            <td><strong>{{ $index + 1 }}</strong></td>
-                                            <td>{{ $clinician->clinician->first_name }} {{ $clinician->clinician->last_name }}</td>
-                                            <td>{{ $clinician->clinician->user->email ?? '' }}</td>
-                                            <td>{{ $clinician->clinician->phone }}</td>
-                                            <td class="text-center">
-                                                --------
-                                                <!-- <a href="{{ route('edit-clinician', $clinician->clinician->id) }}" class="btn btn-info btn-sm" title="Edit">
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                </a> -->
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            @endif
-                        </table>
-                    @endif
+            <div class="x_content">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered dataTable no-footer" id="clinitian_table">
+                        <thead>
+                            <tr>
+                                <th>Sr. no.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-@stop
+@endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        function generateDataTable() {
+            var _url = "{{ route('clinitian.datatable') }}";
+            let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $('#clinitian_table').DataTable({
+                "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "All"] ],
+                processing: true,
+                serverSide: true,
+                processing: true,
+                order: [[ 0, "DESC" ]],
+                ajax: {
+                    'url': _url,
+                    'type': 'post',
+                    "dataType": "json",
+                    "beforeSend": function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
+                columns: [
+                    {
+                        "data": "DT_RowIndex",
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'name'},
+                    {data: 'email', className: 'email'},
+                    {data: 'phone'},
+                    {data: 'actions', orderable: false, searchable: false}
+                ],
+                "language":{
+                    "processing": '<div class="loader-image"></div>',
+                },
+                "dom": '<"top table-search-flds d-flex align-items-center justify-content-between"fl>rt<"bottom table-paginater"ip><"clear">'
+            });
+        }
+
+        generateDataTable();
+    </script>
+@endpush

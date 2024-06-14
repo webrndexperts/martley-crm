@@ -20,4 +20,8 @@ class FormAnswer extends Model
     public function question() {
         return $this->belongsTo(FormField::class, 'form_field_id');
     }
+
+    public function form() {
+        return $this->belongsTo(Form::class, 'form_id');
+    }
 }
