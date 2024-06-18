@@ -25,20 +25,20 @@
 
                     <li class="">
                         <a href="{{route('forms.index')}}">
-                            <i class="fa fa-file-text-o" aria-hidden="true"></i> Forms
+                        <img src="{{ url('public/new/img/Form.svg') }}"> Forms
                         </a>
                     </li>
 
                     <li class="">
                         <a href="{{route('assessment-list')}}">
-                            <i class="fa fa-building-o"></i> Assessments
+                        <img src="{{ url('public/new/img/Assessment.svg') }}"> Assessments
                         </a>
                     </li>
 
                     @if(Auth::user()->user_type == '2' || Auth::user()->user_type == '3')
                         <li class="">
                             <a href="{{route('assign-form-list')}}">
-                                <i class="fa fa-list-alt"></i> Assign Forms
+                            <img src="{{ url('public/new/img/Assign.svg') }}"> Assign Forms
                             </a>
                         </li>
                     @endif
@@ -59,7 +59,7 @@
                     @if(Auth::user()->user_type == '2' || Auth::user()->user_type == '4')
                         <li class="">
                             <a href="{{route('list-clinician')}}">
-                                <img src="{{ url('public/new/img/teachers.svg') }}"> Clinician
+                                <img src="{{ url('public/new/img/teacher.svg') }}"> Clinician
                             </a>
                         </li>
                     @endif

@@ -129,3 +129,39 @@ textarea.form-control {
 table td.email {
     text-transform: none;
 }
+/*  */
+.nav>li>a {
+    display: flex;
+    align-items: center;
+}
+.toggle a {
+    margin-left: 6px;
+}
+
+.navbar-right button {
+    padding: 10px 20px;
+    font-family: Poppins;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    margin: 0;
+    color: #000;
+}
+.navbar-right form {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right i.fa.fa-sign-out.pull-right {
+    font-size: 15px;
+    position: relative;
+    left: 9px;
+    top: 3px;
+}
+#personal-info select.form-control {
+    margin: 10px 0 !important;
+}
+.alert-success {
+    background-color: rgb(192 163 52);
+    border-color: rgb(192 163 52);
+}
