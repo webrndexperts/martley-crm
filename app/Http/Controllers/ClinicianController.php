@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\User;
 use App\Models\Clinician;
 use App\Models\ClinicianPatient;
 use App\Mail\WelcomeEmail;
-use Auth, DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
+use App\Mail\AccountCreateMail;
+use Auth, DB, Mail, Session;
 
 class ClinicianController extends Controller
 {

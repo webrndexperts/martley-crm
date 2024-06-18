@@ -65,11 +65,19 @@
                     @endif
 
                     @if(Auth::user()->user_type == '2' || Auth::user()->user_type == '3')
-                    <li class="">
-                        <a href="{{route('list-patient')}}">
-                            <img src="{{ url('public/new/img/sessions.svg') }}"> Patient
-                        </a>
-                    </li>
+                        <li class="">
+                            <a href="{{route('list-patient')}}">
+                                <img src="{{ url('public/new/img/sessions.svg') }}"> Patient
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(Auth::user()->user_type == '2')
+                        <li class="">
+                            <a href="{{ route('patient.assignment.get') }}">
+                                <i class="fa fa-list-alt"></i> Assign Patient
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </div>

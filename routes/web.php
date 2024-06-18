@@ -50,6 +50,18 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/update/{id}', [PatientController::class, 'update'])->name('update-patient');
             Route::get('/active/{id}', [PatientController::class, 'activate'])->name('patient.activate');
             Route::get('/deactive/{id}', [PatientController::class, 'deactivate'])->name('patient.deactivate');
+
+            Route::prefix('assign')->group(function() {
+                Route::get('/', [PatientController::class, 'assignPatient'])->name('patient.assignment.get');
+                Route::post('/table', [PatientController::class, 'assignPatientTable'])->name('patient.assignment.datatable');
+                Route::get('/patient/{id}', [PatientController::class, 'getAssignmentPatient'])->name('patient.assignment.patient');
+                Route::get('/add', [PatientController::class, 'addAssignPatient'])->name('patient.assignment.add');
+                Route::post('/save', [PatientController::class, 'submitAssignPatient'])->name('patient.assignment.save');
+                Route::get('/edit/{id}', [PatientController::class, 'editAssignPatient'])->name('patient.assignment.edit');
+                Route::post('/update', [PatientController::class, 'updateAssignPatient'])->name('patient.assignment.update');
+                Route::post('/delete/{id}', [PatientController::class, 'deleteAssignPatient'])->name('patient.assignment.delete');
+            });
+
         });
     
         

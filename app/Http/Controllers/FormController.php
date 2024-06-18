@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Clinician;
 use Illuminate\Http\Request;
-use View, Auth, Session;
 use App\Models\User;
 use App\Models\Form;
 use App\Models\FormAnswer;
@@ -14,6 +13,8 @@ use App\Models\Patient;
 use App\Models\AssignedForm;
 use App\Services\UploadService;
 use App\Services\MailService;
+use App\Mail\AssignFormMail;
+use View, Auth, Session, Mail;
 use Carbon\Carbon;
 
 class FormController extends Controller
@@ -493,13 +494,25 @@ class FormController extends Controller
 
     public function saveAssignedForm(Request $request)
     {
+        $form = Form::where('id', $request->form_id)->first();
+
         foreach($request->patient_id as $patient) {
-            AssignedForm::updateOrCreate([
+            $record = AssignedForm::updateOrCreate([
                 'patient_id' => $patient,
                 'form_id' => $request->form_id
             ], [
                 'user_id' => Auth::user()->id
             ]);
+
+            if ($record->wasRecentlyCreated) {
+                $patient = Patient::where('id', $patient)->first();
+                $mailValues['patient'] = $patient;
+
+                $mailValues['form'] = $form;
+                $mailValues['user'] = Auth::user();
+
+                Mail::to($patient->user->email)->send(new AssignFormMail($mailValues));
+            }
         }
         
         session()->flash('success', 'Form has been assigned successfully.');

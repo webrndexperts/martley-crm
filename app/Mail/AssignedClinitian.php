@@ -9,19 +9,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AccountCreateMail extends Mailable
+class AssignedClinitian extends Mailable
 {
     use Queueable, SerializesModels;
     public $data;
     public $subject;
     public $attachments = [];
+
     /**
      * Create a new message instance.
      */
     public function __construct($values)
     {
         $this->data = $values;
-        $this->subject = "Welcome to ".config('app.name');
+        $this->subject = "New Patients assigned.";
     }
 
     /**
@@ -40,7 +41,7 @@ class AccountCreateMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.account-created',
+            view: 'emails.patient.clinitian-assign',
             with: [
                 'data' => $this->data,
                 'logo' => url('public/new/img/logo.png'),
