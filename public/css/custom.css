@@ -165,6 +165,13 @@ table td.email {
     background-color: rgb(192 163 52);
     border-color: rgb(192 163 52);
 }
+select.form-control {
+    margin: 10px 0 !important;
+}
+.nav.title h2 {
+    font-size: 16px !important;
+    font-family: "poppins";
+}
 .error-list-none {
     list-style: none;
     padding: 0;
