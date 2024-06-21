@@ -85,6 +85,8 @@ class PatientController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required',
+            'birthday' => 'required',
+            'gender' => 'required',
             'status' => 'required',
         ]);
 
@@ -100,7 +102,7 @@ class PatientController extends Controller
 
         $name = $request->first_name . ' ' . $request->last_name;
         $type = 4;
-        $password = ($request->password) ? $request->password : Str::random(8);
+        $password = ($request->password) ? $request->password : Str::ascii(Str::random(8));
 
         $user = new User();
         $user->name = $name;
@@ -117,12 +119,15 @@ class PatientController extends Controller
         $patient->last_name = $request->last_name;
         $patient->phone = $request->phone;
         $patient->birthday = $request->birthday;
-        $patient->sex = $request->sex;
+        $patient->sex = $request->gender;
         $patient->status = $request->status;
         $patient->address = $request->address;
         $patient->save();
 
-        Mail::to($user->email)->send(new AccountCreateMail($request->all()));
+        $mailData['user'] = $request->all();
+        $mailData['password'] = $password;
+
+        Mail::to($user->email)->send(new AccountCreateMail($mailData));
 
         return redirect()->route('list-patient')->with('success', 'Patient has created successfully.');
     }
@@ -135,12 +140,26 @@ class PatientController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required',
+            'birthday' => 'required',
+            'gender' => 'required',
+            'status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $patient = Patient::find($id);
 
         $patient->first_name = $request->input('first_name');
         $patient->last_name = $request->input('last_name');
         $patient->birthday = $request->input('birthday');
-        $patient->sex = $request->input('sex');  
+        $patient->sex = $request->input('gender');  
         $patient->status = $request->input('status'); 
         $patient->phone = $request->input('phone');
         $patient->address = $request->input('address');

@@ -1,18 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Edit/View Patient')
+@section('title', 'Edit Patient')
 
 @section('content')
 
 <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div class="x_title">
                 <h2>Edit/View Patient</h2>
                 <a href="{{route('list-patient')}}" class="btn btn-primary" style="float:right;" title="Back">
@@ -22,6 +15,28 @@
             </div>
 
             <div class="container">
+                @if(isset($errors))
+                    @if ( count($errors) > 0)
+                        <ul class="error-list-none form-errors">
+                            @foreach ($errors->all() as $error)
+                                <li class="text-danger">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                @endif
+
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <ul class="nav nav-tabs">
 
                     <li class="nav-item active">
@@ -73,8 +88,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                <label for="sex">Gender:</label>
-                                    <select name="sex" class="form-control">
+                                <label for="gender">Gender:</label>
+                                    <select name="gender" class="form-control">
                                         <option value="0">Select Gender:</option>
                                         <option value="{{ \App\Libraries\Enumerations\UserGender::$MALE }}" {{ $patient->sex == 0 ? 'selected' : '' }}>Male</option>
                                         <option value="{{ \App\Libraries\Enumerations\UserGender::$FEMALE }}" {{ $patient->sex == \App\Libraries\Enumerations\UserGender::$FEMALE ? 'selected' : '' }}>Female</option>

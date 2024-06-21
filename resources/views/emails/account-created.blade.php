@@ -27,7 +27,7 @@
                                             text-align: center;
                                             padding: 30px 30px 0;
                                         ">
-                                            <h3>Hello {{ ucfirst($data['first_name']) }} {{ ucfirst($data['last_name']) }},</h3>
+                                            <h3>Hello {{ ucfirst($data['user']['first_name']) }} {{ ucfirst($data['user']['last_name']) }},</h3>
                                             <p>We are pleased to inform you that your account has been successfully created on <b>{{ config('app.name') }}</b>. Below are your account details:</p>
                                         </td>
                                     </tr>
@@ -58,7 +58,7 @@
                                                                                                     <span><a href="mailto:webmaster@example.com" style="
                                                                                                         color: #bc9c23;
                                                                                                         text-decoration: none;
-                                                                                                    ">{{ $data['email'] }}</a></span>
+                                                                                                    ">{{ $data['user']['email'] }}</a></span>
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr>
@@ -66,7 +66,7 @@
                                                                                                     Password:
                                                                                                 </th>
                                                                                                 <td style="border:1px solid #e5e5e5;padding:12px">
-                                                                                                    {{ $data['password'] }}
+                                                                                                    {{ ($data['user']['password']) ? $data['user']['password'] : $data['password'] }}
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tfoot>

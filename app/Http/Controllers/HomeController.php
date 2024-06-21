@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\Clinician;
 use App\Models\ClinicianPatient;
+use App\Models\CRMAssessment;
+use App\Models\Form;
 
 class HomeController extends Controller
 {
@@ -41,6 +43,9 @@ class HomeController extends Controller
                 }
 
                 $data['patientCount'] = $patient->count();
+            } else {
+                $data['assesments'] = CRMAssessment::assigned()->with('submited')->get();
+                $data['forms'] = Form::assigned()->with('submited')->get();
             }
 
             return view('dashboard.index', $data);

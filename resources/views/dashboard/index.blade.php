@@ -7,6 +7,12 @@
             <div class="card">
                 <div class="card-page">
 
+                    @include('dashboard.counts')
+
+                    @include('dashboard.direct-actions')
+
+                    @include('dashboard.assesments')
+
                     @if(Auth::user()->user_type == 2)
 
                         <h2>{{Auth::user()->name}} <span> , you are logged in and your role is Admin .</span> </h2>
@@ -20,12 +26,6 @@
                         <h2>{{Auth::user()->name}} <span> , you are logged in and your role is Patient .</span> </h2>
 
                     @endif
-
-                    @include('dashboard.counts')
-
-                    @include('dashboard.direct-actions')
-
-
                    
                 </div>
             </div>
