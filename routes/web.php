@@ -35,8 +35,8 @@ Route::group(['middleware' => ['auth']], function () {
                                Clinician routes
         *********************************************************************/
         Route::group(['prefix' => 'clinician'], function() {
-            Route::get('/list', [ClinicianController::class, 'index'])->name('list-clinician');
-            Route::post('/list/table', [ClinicianController::class, 'generateTable'])->name('clinitian.datatable');
+            // Route::get('/list', [ClinicianController::class, 'index'])->name('list-clinician');
+            // Route::post('/list/table', [ClinicianController::class, 'generateTable'])->name('clinitian.datatable');
             Route::get('/create', [ClinicianController::class, 'create'])->name('create-clinician');
             Route::post('/save', [ClinicianController::class, 'save'])->name('save-clinician');
             Route::get('/edit/{id}', [ClinicianController::class, 'edit'])->name('edit-clinician');
@@ -122,6 +122,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => 'patient'], function() {
         Route::get('/list', [ClinicianController::class, 'PatientClinician'])->name('patient-clinician-list');
     });
+
+    Route::group(['prefix' => 'clinician'], function() {
+            Route::get('/list', [ClinicianController::class, 'index'])->name('list-clinician');
+            Route::post('/list/table', [ClinicianController::class, 'generateTable'])->name('clinitian.datatable');
+        });
 
     Route::group(['prefix' => 'assessment'], function() {
         Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');

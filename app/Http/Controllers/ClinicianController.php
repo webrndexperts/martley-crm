@@ -180,8 +180,6 @@ class ClinicianController extends Controller
         return view('admin.clinician.list', compact('clinicians'));
     }
 
-
-
     public function generateTable(Request $request) {
         $columns = array(
             0 => 'clinicians.id',

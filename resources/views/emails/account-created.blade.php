@@ -12,28 +12,25 @@
                     <tr>
                         <td align="center" valign="top">
                             <div id=""></div>
-                            <table border="0" cellpadding="0" cellspacing="0" width="600" id="container"
-                            style="background-color:#fff;border:1px solid #e0e0e0;border-radius:3px">
+                            <table border="0" cellpadding="0" cellspacing="0" width="900" id="container" style="background-color:#fff;border:1px solid #e0e0e0;border-radius:3px">
                                 <tbody>
                                     <tr>
                                         <td align="center" valign="top">
                                             <p style="margin-top: 50px;margin-bottom: 0;">
-                                                <img src="{{ url('public/new/img/logo.png') }}" alt="logo" style="border: 1px solid #bc9c23;" />
+                                                <img src="{{ url('/public/new/img/logo.png') }}" alt="ScolioLife™" style="border: 1px solid #bc9c23;">
                                             </p>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="
-                                            text-align: center;
-                                            padding: 30px 30px 0;
-                                        ">
-                                            <h3>Hello {{ ucfirst($data['user']['first_name']) }} {{ ucfirst($data['user']['last_name']) }},</h3>
+                                        <td style="padding: 30px 30px 0;">
+                                            <h2>Hello {{ ucfirst($data['user']['first_name']) }} {{ ucfirst($data['user']['last_name']) }},</h2>
                                             <p>We are pleased to inform you that your account has been successfully created on <b>{{ config('app.name') }}</b>. Below are your account details:</p>
                                         </td>
                                     </tr>
+
                                     <tr>
-                                        <td align="center" valign="top">
-                                            <table border="0" cellpadding="0" cellspacing="0" width="600" id="">
+                                        <td align="left" valign="top">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="700" id="">
                                                 <tbody>
                                                     <tr>
                                                         <td valign="top" id="" style="background-color:#fff">
@@ -43,22 +40,14 @@
                                                                         <td valign="top" style="padding:30px 30px 0px">
                                                                             <div id="" style="color:#636363;font-size:14px;line-height:150%">
                                                                                 <div>
-                                                                                    <table cellspacing="0" cellpadding="6"
-                                                                                    border="1"
-                                                                                    style="color:#636363;border:1px solid #e5e5e5;width:100%; width:100%;font-size: 14px">
+                                                                                    <table cellspacing="0" cellpadding="6" border="1" style="color:#636363;border:1px solid #e5e5e5;width:100%; width:100%;font-size: 14px">
                                                                                         <tfoot style="color:#636363;text-align: left !important;font-size: 14px">
                                                                                             <tr>
-                                                                                                <th scope="row" colspan="2"
-                                                                                                    style="border:1px solid #e5e5e5;padding:12px"
-                                                                                                >
+                                                                                                <th scope="row" colspan="2" style="border:1px solid #e5e5e5;padding:12px">
                                                                                                     Email:
                                                                                                 </th>
-                                                                                                <td
-                                                                                                style="border:1px solid #e5e5e5;padding:12px">
-                                                                                                    <span><a href="mailto:webmaster@example.com" style="
-                                                                                                        color: #bc9c23;
-                                                                                                        text-decoration: none;
-                                                                                                    ">{{ $data['user']['email'] }}</a></span>
+                                                                                                <td style="border:1px solid #e5e5e5;padding:12px">
+                                                                                                    {{ $data['user']['email'] }}
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr>
@@ -83,23 +72,22 @@
                                             </table>
                                         </td>
                                     </tr>
+
                                     <tr>
-                                        <td style="
-                                            text-align: center;
-                                            padding: 30px 30px 40px;
-                                        ">
+                                        <td style="text-align: left; padding: 30px 30px 40px;">
+
                                             <p style="text-align: left; color: #bc9c23; font-size: 12px;">
                                                 <i>**Steps to Change Your Password:**</i>
                                             </p>
 
                                             <ul style="list-style: auto; margin-top: 0;">
-                                                <li style="text-align: left;">Log in to your account using the temporary password.</li>
-                                                <li style="text-align: left;">Go to the profile section from top right.</li>
-                                                <li style="text-align: left;">There you can change your password and other things.</li>
+                                                <li style="text-align: left;line-height: 28px;">Log in to your account using the temporary password.</li>
+                                                <li style="text-align: left;line-height: 28px;">Go to the profile section from top right.</li>
+                                                <li style="text-align: left;line-height: 28px;">There you can change your password and other things.</li>
                                             </ul>
 
-                                            <p style="text-align: left;">If you encounter any issues or have any questions, please do not hesitate to contact us at <a style="color: #bc9c23; text-decoration: none;" href="mailto:hello@becomingmethod.com">hello@becomingmethod.com</a>.
-                                            </p>
+                                            <p style="text-align: left;line-height: 24px;">If you encounter any issues or have any questions, please do not hesitate to contact us at <a style="color: #bc9c23; text-decoration: none;" href="mailto:hello@becomingmethod.com">hello@becomingmethod.com</a>.</p>
+
                                             <p style="text-align: left;">We are excited to have you on board and look forward to serving you. <a href="{{ $url }}" style="color: #bc9c23; text-decoration: none;">Visit our site</a></p>
                                         </td>
                                     </tr>
