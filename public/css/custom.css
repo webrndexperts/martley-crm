@@ -198,3 +198,55 @@ input.is-invalid {
     background: transparent;
     border: none;
 }
+.end_form {
+    padding-left: 10px;
+}
+.end_date {
+    padding: 0 10px;
+}
+.create_card {
+    box-shadow: 0px 7px 10px 0px #00000026;
+    background: #fff7f7;
+    padding: 36px 0 28px;
+    margin: 0 10px 0 0;
+    text-align: center;
+    border-radius: 10px;
+}
+.create_card span {
+    font-size: 14px;
+}
+
+.create_card i.fa {
+    font-size: 20px;
+    margin-right: 7px;
+    color: #c0a334;
+}
+.actions-direct {
+    padding-left: 10px;
+}
+.actions-direct h2 {
+    font-size: 20px !important;
+    font-weight: 500;
+    font-family: "The Seasons";
+}
+.card-page h2 {
+    font-size: 20px !important;
+    padding-bottom: 12px;
+}
+a.counts-data {
+    font-size: 16px;
+    font-family: Poppins;
+    padding-left: 20px;
+}
+.clinician_patients {
+    border-right: 2px solid #929292;
+    padding-left: 0 !important;
+    padding-right: 20px;
+}
+
+.clinicians_data {
+    padding: 16px 0;
+}
+h2.role {
+    padding-top: 15px;
+}
