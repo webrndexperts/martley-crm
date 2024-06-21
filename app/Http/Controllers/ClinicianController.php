@@ -59,6 +59,8 @@ class ClinicianController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required',
+            'birthday' => 'required',
+            'gender' => 'required',
             'status' => 'required',
         ]);
 
@@ -74,7 +76,7 @@ class ClinicianController extends Controller
         
         $name = $request->first_name . ' ' . $request->last_name;
         $type = 3;
-        $password = ($request->password) ? $request->password : Str::random(8);
+        $password = ($request->password) ? $request->password : Str::ascii(Str::random(8));
 
         $user = new User();
         $user->name = $name;
@@ -96,7 +98,10 @@ class ClinicianController extends Controller
         $clinician->address = $request->address;
         $clinician->save();
 
-        Mail::to($user->email)->send(new AccountCreateMail($request->all()));
+        $mailData['user'] = $request->all();
+        $mailData['password'] = $password;
+
+        Mail::to($user->email)->send(new AccountCreateMail($mailData));
 
         session()->flash('success', 'Clinician has been created successfully.');
 
@@ -109,6 +114,20 @@ class ClinicianController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required',
+            'birthday' => 'required',
+            'gender' => 'required',
+            'status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $clinician = Clinician::find($id);
 
         $clinician->first_name = $request->input('first_name');
@@ -155,7 +174,6 @@ class ClinicianController extends Controller
 
     public function PatientClinician()
     {
-
         $user = Patient::where('user_id' , Auth::user()->id)->first();
         $clinicians = ClinicianPatient::where('patient_id' , $user->id)->get(); 
         

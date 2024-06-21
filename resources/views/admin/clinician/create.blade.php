@@ -15,7 +15,7 @@
             <div class="container">
                 @if(isset($errors))
                     @if ( count($errors) > 0)
-                        <ul class="error-list-none">
+                        <ul class="error-list-none form-errors">
                             @foreach ($errors->all() as $error)
                                 <li class="text-danger">{{ $error }}</li>
                             @endforeach
@@ -25,6 +25,12 @@
 
                 @if(session('success'))
                     <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -81,14 +87,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="sex">Gender:</label>
+                                <label for="gender">Gender:</label>
 
-                                <select name="sex" class="form-control">
+                                <select name="gender" class="form-control">
                                     <option value="">Select Gender</option>
-                                    <option @if(old('sex') == '0') selected @endif value="0">Male</option>
-                                    <option @if(old('sex') == '1') selected @endif value="1">Female</option>
-                                    <option @if(old('sex') == '2') selected @endif value="2">Other</option>
-                                    <option @if(old('sex') == '3') selected @endif value="3">Prefer not to say</option>
+                                    <option @if(old('gender') == '0') selected @endif value="0">Male</option>
+                                    <option @if(old('gender') == '1') selected @endif value="1">Female</option>
+                                    <option @if(old('gender') == '2') selected @endif value="2">Other</option>
+                                    <option @if(old('gender') == '3') selected @endif value="3">Prefer not to say</option>
                                 </select>
                             </div>
                         </div>

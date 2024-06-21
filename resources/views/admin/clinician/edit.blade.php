@@ -6,13 +6,6 @@
 
 <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div class="x_title">
                 <h2>Edit/View Clinician</h2>
                 <a href="{{route('list-clinician')}}" class="btn btn-primary" style="float:right;" title="Back">
@@ -22,6 +15,28 @@
             </div>
 
             <div class="container">
+                @if(isset($errors))
+                    @if ( count($errors) > 0)
+                        <ul class="error-list-none form-errors">
+                            @foreach ($errors->all() as $error)
+                                <li class="text-danger">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                @endif
+
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <ul class="nav nav-tabs">
 
                     <li class="nav-item active">
@@ -73,13 +88,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                <label for="sex">Gender:</label>
-                                    <select name="sex" class="form-control">
-                                        <option value="0">Select Gender:</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserGender::$MALE }}" {{ $clinician->sex == 0 ? 'selected' : '' }}>Male</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserGender::$FEMALE }}" {{ $clinician->sex == \App\Libraries\Enumerations\UserGender::$FEMALE ? 'selected' : '' }}>Female</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserGender::$OTHER }}" {{ $clinician->sex == \App\Libraries\Enumerations\UserGender::$OTHER ? 'selected' : '' }}>Other</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserGender::$PREFER_NOT_TO_SAY }}" {{ $clinician->sex == \App\Libraries\Enumerations\UserGender::$PREFER_NOT_TO_SAY ? 'selected' : '' }}>Prefer not to say</option>
+                                <label for="gender">Gender:</label>
+                                    <select name="gender" class="form-control">
+                                        <option value="">Select Gender:</option>
+                                        <option value="0" {{ $clinician->sex == 0 ? 'selected' : '' }}>Male</option>
+                                        <option value="1" {{ $clinician->sex == '1' ? 'selected' : '' }}>Female</option>
+                                        <option value="2" {{ $clinician->sex == '2' ? 'selected' : '' }}>Other</option>
+                                        <option value="3" {{ $clinician->sex == '3' ? 'selected' : '' }}>Prefer not to say</option>
                                     </select>
                                 </div>
                             </div>

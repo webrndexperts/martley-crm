@@ -267,8 +267,11 @@ class SessionController extends Controller
     {
         CrmSession::where('id', base64_decode($id))->delete();
         $meeting = CrmMeeting::where('session_id', base64_decode($id))->first();
-        CrmMeeting::where('session_id', $meeting->id)->delete();
-        CrmMeeting::deleteMeeting($meeting->zoom_id);
+        
+        if($meeting) {
+            CrmMeeting::where('session_id', $meeting->id)->delete();
+            CrmMeeting::deleteMeeting($meeting->zoom_id);
+        }
 
         return redirect()->back()->with('success', 'Session and meeting deleted successfully.');
     }

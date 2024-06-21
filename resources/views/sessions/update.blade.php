@@ -33,7 +33,7 @@
                         @method('PUT')
 
                         <div class="row">
-                            @if(Auh::user()->user_type == '2')
+                            @if(Auth::user()->user_type == '2')
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Clinician:</label>
@@ -115,7 +115,7 @@
 
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <select name="start_hour" class="form-control">
+                                            <select name="start_hour" id="start_hour" class="form-control">
                                                 @for ($hour = 0; $hour < 24; $hour++)
                                                     @php
                                                         $hourFormatted = sprintf('%02d', $hour);
@@ -126,7 +126,7 @@
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <select name="start_minute" class="form-control">
+                                            <select name="start_minute" id="start_minute" class="form-control">
                                                 @for ($minute = 0; $minute < 60; $minute += 15)
                                                     @php
                                                         $minuteFormatted = sprintf('%02d', $minute);
@@ -156,7 +156,7 @@
 
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <select name="end_hour" class="form-control">
+                                            <select name="end_hour" id="end_hour" class="form-control">
                                                 @for ($hour = 0; $hour < 24; $hour++)
                                                     @php
                                                         $hourFormatted = sprintf('%02d', $hour);
@@ -167,7 +167,7 @@
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <select name="end_minute" class="form-control">
+                                            <select name="end_minute" id="end_minute" class="form-control">
                                                 @for ($minute = 0; $minute < 60; $minute += 15)
                                                     @php
                                                         $minuteFormatted = sprintf('%02d', $minute);
@@ -230,6 +230,37 @@
             });
         }).catch( error => {
             console.error( error );
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const startTimeInputHour = document.getElementById('start_hour');
+            const startTimeInputMinute = document.getElementById('start_minute');
+            const endTimeInputHour = document.getElementById('end_hour');
+            const endTimeInputMinute = document.getElementById('end_minute');
+
+            // Add event listeners to start time inputs
+            startTimeInputHour.addEventListener('change', updateEndTime);
+            startTimeInputMinute.addEventListener('change', updateEndTime);
+
+            function updateEndTime() {
+                const startHour = parseInt(startTimeInputHour.value);
+                const startMinute = parseInt(startTimeInputMinute.value);
+
+                if (!isNaN(startHour) && !isNaN(startMinute)) {
+                    // Calculate end time as 1 hour (60 minutes) after start time
+                    const endTotalMinutes = startHour * 60 + startMinute + 60;
+                    let endHour = Math.floor(endTotalMinutes / 60);
+                    const endMinute = endTotalMinutes % 60;
+                    endHour = (endHour > 23) ? '00' : endHour;
+
+                    // Update end time select inputs
+                    endTimeInputHour.value = endHour.toString().padStart(2, '0');
+                    endTimeInputMinute.value = endMinute.toString().padStart(2, '0');
+
+                    // endTimeInputMinute.dispatchEvent(new Event('change'));
+                    $(endTimeInputMinute).trigger('change');
+                }
+            }
         });
     </script>
 @endpush
