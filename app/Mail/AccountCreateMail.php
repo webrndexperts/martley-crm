@@ -21,7 +21,7 @@ class AccountCreateMail extends Mailable
     public function __construct($values)
     {
         $this->data = $values;
-        $this->subject = "Welcome to Becoming Institute.";
+        $this->subject = "Welcome to ".config('app.name');
     }
 
     /**

@@ -5,27 +5,9 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-
-                @if(isset($errors))
-                    @if ( count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                @endif
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div class="x_title">
-                <a href="{{route('list-patient')}}" class="btn btn-primary" style="float:right;" title="Back">
+                <h2>Add New Patient</h2>
+                <a href="{{route('list-patient')}}" class="btn btn-info" style="float:right;" title="Back">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
                 </a>
                 <div class="clearfix"></div>
@@ -68,20 +50,20 @@
                             <div class="form-group">
                                 <label for="first_name">First Name:</label>
 
-                                <input type="text" name="first_name" class="form-control" minlength="3" value="{{old('first_name')}}" required>
+                                <input type="text" name="first_name" class="form-control" minlength="3" value="{{ old('first_name') }}" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="last_name">Last Name:</label>
 
-                                <input type="text" name="last_name" class="form-control" minlength="3"  value="{{old('last_name')}}" required>
+                                <input type="text" name="last_name" class="form-control" minlength="3"  value="{{ old('last_name') }}" required>
                             </div>
                         </div>
                         <div class="date-end">
                             <div class="form-group">
                                 <label for="birthday">Birthday:</label>
 
-                                <input type="date" name="birthday" class="form-control" value="{{old('birthday')}}" required>
+                                <input type="date" name="birthday" class="form-control" value="{{ old('birthday') }}" required>
                             </div>
 
                             <div class="form-group">
@@ -100,9 +82,9 @@
                             <div class="form-group">
                                 <label for="status">Status:</label>
 
-                                <select name="status" class="form-control" value="{{old('status')}}">
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                <select name="status" class="form-control" value="{{ old('status') }}">
+                                    <option @if(old('status') == '1') selected @endif value="1">Active</option>
+                                    <option @if(old('status') == '0') selected @endif value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>
@@ -117,19 +99,19 @@
                             <div class="form-group">
                                 <label for="email">Email:</label>
 
-                                <input type="email" name="email" class="form-control" value="{{old('email')}}" required>
+                                <input type="email" name="email" class="form-control" value="{{ old('email') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="phone">Phone:</label>
 
-                                <input type="phone" name="phone" class="form-control" value="{{old('phone')}}" required>
+                                <input type="phone" name="phone" class="form-control" value="{{ old('phone')}}">
                             </div>
 
                             <div class="form-group">
                                 <label for="address">Address:</label>
                                 
-                                <textarea id="address" name="address" class="form-control" placeholder="Enter your address">{{old('address')}}</textarea>
+                                <textarea id="address" name="address" class="form-control" placeholder="Enter your address">{{old('address') }}</textarea>
                             </div>
                         </div>
 
@@ -145,7 +127,7 @@
 
                                 <label for="password">Password:</label>
 
-                                <input type="password" name="password" value="{{old('password')}}" class="form-control">
+                                <input type="password" name="password" value="{{ old('password') }}" class="form-control">
 
                             </div>
 

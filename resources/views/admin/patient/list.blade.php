@@ -27,7 +27,7 @@
 
                 @if(Auth::user()->user_type == '2')
                     <a href="{{ route('create-patient') }}" class="pull-right btn btn-info btn-sm" title="Add Patient">
-                        <i class="fa fa-plus"></i> Add Patient
+                        <i class="fa fa-plus"></i> Create
                     </a>
                 @endif
                 

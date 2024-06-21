@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->enum('status', ['0', '1'])->default('1')->nullable()->after('user_type');
+            $table->string('profile')->nullable()->after('user_type');
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('status');
+            $table->dropColumn('profile');
         });
     }
 };

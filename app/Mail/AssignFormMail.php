@@ -44,6 +44,7 @@ class AssignFormMail extends Mailable
             view: 'emails.forms.assigned',
             with: [
                 'data' => $this->data,
+                'logo' => url('public/new/img/logo.png'),
                 'url' => url('/')
             ]
         );

@@ -12,6 +12,7 @@ class ClinicianPatient extends Model
     protected $fillable = [
         'clinician_id', 
         'patient_id', 
+        'updated_at', 
     ];
 
     public function patient()

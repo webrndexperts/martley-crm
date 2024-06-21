@@ -32,7 +32,7 @@
                     <h2>Assigned Assessment</h2>
                         @if(Auth::user()->user_type == 3)
                             <a href="{{ route('assign-assessment') }}" class="pull-right btn btn-info btn-sm" title="Assign Assessment">
-                                <i class="fa fa-plus"></i> Assign Assessment
+                                <i class="fa fa-plus"></i> Create
                             </a>
                         @endif
 

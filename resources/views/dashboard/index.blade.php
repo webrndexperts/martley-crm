@@ -5,15 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <!-- <div class="card-header">{{ __('Dashboard') }}</div> -->
-
                 <div class="card-body">
-
-                    <!-- @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif -->
 
                     @if(Auth::user()->user_type == 2)
 
@@ -28,6 +20,12 @@
                         <h2>{{Auth::user()->name}} <span> , you are logged in and your role is Patient .</span> </h2>
 
                     @endif
+
+                    @include('dashboard.counts')
+
+                    @include('dashboard.direct-actions')
+
+
                    
                 </div>
             </div>
@@ -37,5 +35,5 @@
 @endsection
 
 @push('scripts')
-    <!-- <script src="{{ asset('js/home.js') }}"></script> -->
+    
 @endpush

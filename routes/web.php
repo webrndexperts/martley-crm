@@ -7,6 +7,8 @@ use App\Http\Controllers\ClinicianController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\CRMAssessmentController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,10 @@ Auth::routes();
 Route::post('/user/login', [LoginController::class, 'customLogin'])->name('login.custom')->middleware('guest');
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::prefix('profile')->group(function() {
+        Route::get('/', [UserController::class, 'profile'])->name('profile.get');
+        Route::post('/', [UserController::class, 'updateProfile'])->name('profile.save');
+    });
 
     Route::group(['middleware' => 'admin'], function() {
         /**********************************************************************
@@ -43,13 +49,24 @@ Route::group(['middleware' => ['auth']], function () {
                                Patient routes
         *********************************************************************/
         Route::group(['prefix' => 'patient'], function() {
-            // Route::get('/list', [PatientController::class, 'index'])->name('list-patient');
             Route::get('/create', [PatientController::class, 'create'])->name('create-patient');
             Route::post('/save', [PatientController::class, 'save'])->name('save-patient');
             Route::get('/edit/{id}', [PatientController::class, 'edit'])->name('edit-patient');
             Route::post('/update/{id}', [PatientController::class, 'update'])->name('update-patient');
             Route::get('/active/{id}', [PatientController::class, 'activate'])->name('patient.activate');
             Route::get('/deactive/{id}', [PatientController::class, 'deactivate'])->name('patient.deactivate');
+
+            Route::prefix('assign')->group(function() {
+                Route::get('/', [PatientController::class, 'assignPatient'])->name('patient.assignment.get');
+                Route::post('/table', [PatientController::class, 'assignPatientTable'])->name('patient.assignment.datatable');
+                Route::get('/patient/{id}', [PatientController::class, 'getAssignmentPatient'])->name('patient.assignment.patient');
+                Route::get('/add', [PatientController::class, 'addAssignPatient'])->name('patient.assignment.add');
+                Route::post('/save', [PatientController::class, 'submitAssignPatient'])->name('patient.assignment.save');
+                Route::get('/edit/{id}', [PatientController::class, 'editAssignPatient'])->name('patient.assignment.edit');
+                Route::post('/update', [PatientController::class, 'updateAssignPatient'])->name('patient.assignment.update');
+                Route::post('/delete/{id}', [PatientController::class, 'deleteAssignPatient'])->name('patient.assignment.delete');
+            });
+
         });
     
         
@@ -77,7 +94,6 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/show/{assessment}', [CRMAssessmentController::class, 'show'])->name('show-assessment');
 
             // Assign assessment
-
             Route::get('/assigned-list', [CRMAssessmentController::class, 'AssignAssessmentList'])->name('assign-assessment-list');
             Route::get('/assign-assessment', [CRMAssessmentController::class, 'AssignAssessment'])->name('assign-assessment');
             Route::post('/save-assigned-assessment', [CRMAssessmentController::class, 'saveAssignedAssessment'])->name('assigned-assessment');
@@ -136,5 +152,14 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/list/table', [FormController::class, 'listTable'])->name('forms.submit-table');
             Route::get('/view/{id}/{user}', [FormController::class, 'viewSubmission'])->name('forms.submit-view');
         });
+    });
+
+    /**********************************************************************
+     *                      Sessions routes
+    *********************************************************************/
+    Route::resource('sessions', SessionController::class);
+
+    Route::prefix('sessions')->group(function () {
+        Route::post('/table', [SessionController::class, 'generateTable'])->name('sessions.datatable');
     });
 });

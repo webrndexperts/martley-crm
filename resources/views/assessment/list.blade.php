@@ -23,7 +23,7 @@
                 <h2>Assessments</h2>
                 @if(Auth::user()->user_type == 2)
                     <a href="{{ route('create-assessment') }}" class="pull-right btn btn-info btn-sm" title="Add Clinical Assessment">
-                        <i class="fa fa-plus"></i> Add Assessment
+                        <i class="fa fa-plus"></i> Create
                     </a>
                 @endif
                 
