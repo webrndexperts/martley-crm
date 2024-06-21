@@ -210,6 +210,7 @@ input.is-invalid {
     padding: 36px 0 28px;
     margin: 0 10px 0 0;
     text-align: center;
+    border-radius: 10px;
 }
 .create_card span {
     font-size: 14px;
@@ -245,4 +246,7 @@ a.counts-data {
 
 .clinicians_data {
     padding: 16px 0;
+}
+h2.role {
+    padding-top: 15px;
 }
