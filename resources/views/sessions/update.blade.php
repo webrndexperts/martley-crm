@@ -33,7 +33,7 @@
                         @method('PUT')
 
                         <div class="row">
-                            @if(Auh::user()->user_type == '2')
+                            @if(Auth::user()->user_type == '2')
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Clinician:</label>

@@ -32,7 +32,7 @@
                         @csrf
 
                         <div class="row">
-                            @if(Auh::user()->user_type == '2')
+                            @if(Auth::user()->user_type == '2')
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Clinician:</label>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 end_form">
                                 <div class="form-group">
                                     <label for="session_end_date">End Date</label>
                                     <input type="date" name="end_date" class="form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date') }}" />
@@ -114,7 +114,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 end_date">
                                             <select name="start_minute" class="form-control">
                                                 @for ($minute = 0; $minute < 60; $minute += 15)
                                                     @php
@@ -143,7 +143,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 end_form">
                                             <select name="end_minute" class="form-control">
                                                 @for ($minute = 0; $minute < 60; $minute += 15)
                                                     @php
