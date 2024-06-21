@@ -90,7 +90,7 @@
 										">
 											<p>Please let me know if you need any additional information or if there are any further steps required.</p>
 
-											<p>Thank you for your attention to this matter. <a href="{{ $url }}" style="color: #bc9c23; text-decoration: none;">Visit our site</a>
+											<p>Thank you for your attention to this matter. <a href="{{ url('/') }}" style="color: #bc9c23; text-decoration: none;">Visit our site</a>
 											</p>
 										</td>
 									</tr>

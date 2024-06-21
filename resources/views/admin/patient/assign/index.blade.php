@@ -25,7 +25,7 @@
                 <h2>Patients Assignment List</h2>
 
                 <a href="{{ route('patient.assignment.add') }}" class="pull-right btn btn-info btn-sm" title="Add Patient">
-                    <i class="fa fa-plus"></i> Add Assignmemt
+                    <i class="fa fa-plus"></i> Create
                 </a>
                 
                 <div class="clearfix"></div>

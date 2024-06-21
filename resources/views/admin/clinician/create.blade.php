@@ -5,25 +5,6 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-
-                @if(isset($errors))
-                    @if ( count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                @endif
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div class="x_title">
                 <a href="{{route('list-clinician')}}" class="btn btn-primary" style="float:right;" title="Back">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
@@ -32,6 +13,21 @@
             </div>
 
             <div class="container">
+                @if(isset($errors))
+                    @if ( count($errors) > 0)
+                        <ul class="error-list-none">
+                            @foreach ($errors->all() as $error)
+                                <li class="text-danger">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                @endif
+
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
                 <ul class="nav nav-tabs">
                     <li class="nav-item active">
@@ -101,8 +97,8 @@
                                 <label for="status">Status:</label>
 
                                 <select name="status" class="form-control" value="{{old('status')}}">
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option @if(old('status') == '1') selected @endif value="1">Active</option>
+                                    <option @if(old('status') == '0') selected @endif value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>
@@ -117,13 +113,13 @@
                             <div class="form-group">
                                 <label for="email">Email:</label>
 
-                                <input type="email" name="email" class="form-control" value="{{old('email')}}" required>
+                                <input type="email" name="email" class="form-control" value="{{old('email')}}">
                             </div>
 
                             <div class="form-group">
                                 <label for="phone">Phone:</label>
 
-                                <input type="phone" name="phone" class="form-control" value="{{old('phone')}}" required>
+                                <input type="phone" name="phone" class="form-control" value="{{old('phone')}}">
                             </div>
 
                             <div class="form-group">

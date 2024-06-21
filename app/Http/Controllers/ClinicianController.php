@@ -8,11 +8,16 @@ use App\Models\Clinician;
 use App\Models\ClinicianPatient;
 use App\Mail\WelcomeEmail;
 use App\Mail\AccountCreateMail;
-use Auth, DB, Mail, Session;
+use App\Services\UploadService;
+use Auth, DB, Mail, Session, Str, Validator;
 
 class ClinicianController extends Controller
 {
-    
+    protected $uploader;
+    public function __construct() {
+        $this->uploader = new UploadService();
+    }
+
     /**
      * Function to generate form Values.
      * @param $listing Laravel Array of objects from query.
@@ -49,13 +54,33 @@ class ClinicianController extends Controller
     }
     public function save(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required',
+            'status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $profile = Auth::user()->profile; $oldProfile = Auth::user()->profile;
+
+        if($request->hasFile('profile_photo')) {
+            $profile = $this->uploader->upload($request->file('profile_photo'), '/images/profile');
+        }
+        
         $name = $request->first_name . ' ' . $request->last_name;
         $type = 3;
+        $password = ($request->password) ? $request->password : Str::random(8);
 
         $user = new User();
         $user->name = $name;
+        $user->profile = $profile;
         $user->email =$request->email;
-        $user->password = bcrypt($request->password);
+        $user->password = bcrypt($password);
         $user->user_type = $type;
         $user->status = $request->status;
         $user->save();
@@ -101,6 +126,13 @@ class ClinicianController extends Controller
         if ($request->has('password') && $request->password) {
             $user->password = bcrypt($request->password);
         }
+
+        $profile = Auth::user()->profile; $oldProfile = Auth::user()->profile;
+
+        if($request->hasFile('profile_photo')) {
+            $profile = $this->uploader->upload($request->file('profile_photo'), '/images/profile');
+        }
+        $user->profile = $profile;
 
         $user->save();
 

@@ -19,11 +19,11 @@
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 {{auth()->user()->name}}
                                 <span class=" fa fa-angle-down"></span> 
-                                <img src="{{ url('public/admin/images/user.jpg') }}" alt="">
+                                <img src="{{ (Auth::user()->profile) ? url(Auth::user()->profile) : url('public/admin/images/user.jpg') }}" alt="">
                             </a>
 
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="{{ url('becoming-institute-crm/account') }}"> Profile</a></li>
+                                <li><a href="{{ route('profile.get') }}"> Profile</a></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf

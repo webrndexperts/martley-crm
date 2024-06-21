@@ -50,7 +50,13 @@
                                 Assign Assessments
                             </a>
                         </li>
-                        @endif
+                    @endif
+
+                    <li class="">
+                        <a href="{{route('sessions.index')}}">
+                        <img src="{{ url('public/new/img/Form.svg') }}"> Sessions
+                        </a>
+                    </li>
 
                     <div class="sub_section_menu">
                         <h2 class="nav">Users</h2>

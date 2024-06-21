@@ -18,7 +18,8 @@
                                     <tr>
                                         <td align="center" valign="top">
                                             <p style="margin-top: 50px;margin-bottom: 0;">
-                                                <img src="{{ $logo }}" alt="logo" style="border: 1px solid #bc9c23;"></p>
+                                                <img src="{{ url('public/new/img/logo.png') }}" alt="logo" style="border: 1px solid #bc9c23;" />
+                                            </p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -26,7 +27,7 @@
                                             text-align: center;
                                             padding: 30px 30px 0;
                                         ">
-                                            <h2>Hello!</h2>
+                                            <h3>Hello {{ ucfirst($data['first_name']) }} {{ ucfirst($data['last_name']) }},</h3>
                                             <p>We are pleased to inform you that your account has been successfully created on <b>{{ config('app.name') }}</b>. Below are your account details:</p>
                                         </td>
                                     </tr>
@@ -87,7 +88,7 @@
                                             text-align: center;
                                             padding: 30px 30px 40px;
                                         ">
-                                            <p style="text-align: left; color: red; font-size: 14px; margin-bottom: 0px;">
+                                            <p style="text-align: left; color: #bc9c23; font-size: 12px;">
                                                 <i>**Steps to Change Your Password:**</i>
                                             </p>
 
@@ -99,9 +100,7 @@
 
                                             <p style="text-align: left;">If you encounter any issues or have any questions, please do not hesitate to contact us at <a style="color: #bc9c23; text-decoration: none;" href="mailto:hello@becomingmethod.com">hello@becomingmethod.com</a>.
                                             </p>
-                                            <p style="text-align: left;">We are excited to have you on board and look forward to serving you.</p>
-
-                                            <a href="{{ $url }}" style="color: #bc9c23; text-decoration: none;">Visit our site</a>
+                                            <p style="text-align: left;">We are excited to have you on board and look forward to serving you. <a href="{{ $url }}" style="color: #bc9c23; text-decoration: none;">Visit our site</a></p>
                                         </td>
                                     </tr>
                                 </tbody>
