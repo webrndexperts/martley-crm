@@ -54,7 +54,7 @@
 
                     <li class="">
                         <a href="{{route('sessions.index')}}">
-                        <img src="{{ url('public/new/img/Form.svg') }}"> Sessions
+                        <img src="{{ url('public/new/img/sessions.svg') }}"> Sessions
                         </a>
                     </li>
 
@@ -75,7 +75,7 @@
                     @if(Auth::user()->user_type == '2' || Auth::user()->user_type == '3')
                         <li class="">
                             <a href="{{route('list-patient')}}">
-                                <img src="{{ url('public/new/img/sessions.svg') }}"> Patient
+                                <img src="{{ url('public/new/img/patient_setting.svg') }}"> Patient
                             </a>
                         </li>
                     @endif
