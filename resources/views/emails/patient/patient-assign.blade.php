@@ -23,7 +23,7 @@
                                     </tr>
                                     <tr>
                                         <td style="padding: 30px 30px 0;">
-                                            <h2>Dear {{ $data['patient']->first_name }} {{ $data['patient']->last_name }},</h2>
+                                            <b>Dear {{ $data['patient']->first_name }} {{ $data['patient']->last_name }},</b>
                                             <p>I hope this message finds you well.</p>
                                             <p>We would like to inform you that a new clinician has been assigned to oversee your <b>{{ config('app.name') }}</b>. Below are the details of your new clinician:</p>
                                         </td>

@@ -3,15 +3,14 @@
         <div class="form-group w-50-cust">
             <select name="form[0][type]" class="form-field select-field-type">
                 <option value="">-- Select Field Type --</option>
-                <option value="input">Input</option>
-                <!-- <option value="password">Password</option> -->
-                <option value="textarea">Textarea</option>
+                <option value="checkbox">Checkbox</option>
+                <option value="email">Email</option>
                 <option value="file">File</option>
+                <option value="input">Input</option>
+                <option value="mcq">Multiple Choice Questions</option>
                 <option value="number">Number</option>
                 <option value="tel">Telephone</option>
-                <option value="email">Email</option>
-                <option value="checkbox">Checkbox</option>
-                <option value="mcq">Multiple Choice Questions</option>
+                <option value="textarea">Textarea</option>
             </select>
         </div>
         
@@ -40,6 +39,6 @@
     </div>
 
     <span role="button" class="remove-field text-danger">
-    <i class="fa fa-close" style="font-size:20px"></i>
+        <i class="fa fa-close" style="font-size:20px"></i>
     </span>
 </div>

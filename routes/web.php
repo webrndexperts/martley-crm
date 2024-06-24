@@ -66,9 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::post('/update', [PatientController::class, 'updateAssignPatient'])->name('patient.assignment.update');
                 Route::post('/delete/{id}', [PatientController::class, 'deleteAssignPatient'])->name('patient.assignment.delete');
             });
-
         });
-    
         
         /**********************************************************************
          *                      Assessment routes
@@ -100,7 +98,6 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/edit-assigned-assessment/{id}', [CRMAssessmentController::class, 'editAssignedAssessment'])->name('edit-assigned-assessment');
             Route::post('/update-assigned-assessment/{id}', [CRMAssessmentController::class, 'updateAssignedAssessment'])->name('update-assigned-assessment');
             Route::delete('/delete-assigned-assessment/{id}', [CRMAssessmentController::class, 'destroyAssignedAssessment'])->name('destroy-assigned-assessment');
-
         });
 
         Route::group(['prefix' => 'patient'], function() {
@@ -120,7 +117,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['middleware' => 'patient'], function() {
-        Route::get('/list', [ClinicianController::class, 'PatientClinician'])->name('patient-clinician-list');
+        Route::get('/listing', [ClinicianController::class, 'PatientClinician'])->name('patient-clinician-list');
     });
 
     Route::group(['prefix' => 'clinician'], function() {

@@ -23,7 +23,7 @@
                                     </tr>
                                     <tr>
                                         <td style="padding: 30px 30px 0;">
-                                            <h2>Hello {{ ucfirst($data['user']['first_name']) }} {{ ucfirst($data['user']['last_name']) }},</h2>
+                                            <b>Hello {{ ucfirst($data['user']['first_name']) }} {{ ucfirst($data['user']['last_name']) }},</b>
                                             <p>We are pleased to inform you that your account has been successfully created on <b>{{ config('app.name') }}</b>. Below are your account details:</p>
                                         </td>
                                     </tr>
