@@ -6,7 +6,7 @@
 			<a class="analytic" href="{{ route('list-clinician') }}">
 				<div class="analytic-icon">
 					<span class="las la-eye">
-						<i class="fa fa-eye" style="font-size:20px"></i>
+						<img src="{{ url('public/new/img/teacher.svg') }}" alt="" />
 					</span>
 				</div>
 				<div class="analytic-info">
@@ -20,7 +20,7 @@
 			<a class="analytic" href="{{ route('list-patient') }}">
 				<div class="analytic-icon">
 					<span class="las la-clock">
-						<i class="fa fa-clock-o" style="font-size:20px"></i>
+						<img src="{{ url('public/new/img/patient_setting.svg') }}" alt="" />
 					</span>
 				</div>
 				<div class="analytic-info">
@@ -34,7 +34,7 @@
 			<a class="analytic" href="{{ route('forms.index') }}">
 				<div class="analytic-icon">
 					<span class="las la-users">
-						<i class="fa fa-user" style="font-size:20px"></i>
+						<img src="{{ url('public/new/img/Form.svg') }}" alt="" />
 					</span>
 				</div>
 				<div class="analytic-info">
@@ -48,7 +48,7 @@
 			<a class="analytic" href="{{ route('assessment-list') }}">
 				<div class="analytic-icon">
 					<span class="las la-heart">
-						<i class="fa fa-heart" style="font-size:20px;"></i>
+						<img src="{{ url('public/new/img/Assessment.svg') }}" alt="" />
 					</span>
 				</div>
 				<div class="analytic-info">

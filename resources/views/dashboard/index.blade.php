@@ -11,7 +11,7 @@
 
                         @include('dashboard.direct-actions')
 
-                        @include('dashboard.assesments')
+                       
                     </main>
                 </div>
             </div>
@@ -21,5 +21,10 @@
 @endsection
 
 @push('scripts')
-    
+    <script>
+        // jQuery('.datatable_clinic').DataTable();
+        // jQuery('.datatable_patient').DataTable();
+        // jQuery('.datatable_assesment').DataTable();
+        // jQuery('.datatable_form').DataTable();
+    </script>
 @endpush

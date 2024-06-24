@@ -64,14 +64,12 @@
                         <div class="tab-pane fade active in" id="personal-info">
                             <h3> </h3>
                             <div class="form-group">
-                                <label for="profile_photo"></label>
-
                                 <img src="{{ ($clinician->user && $clinician->user->profile) ? url($clinician->user->profile) : url('public/admin/images/user.jpg') }}" alt="" class="form-profile-pic">
 
                                 <div class="p-image">
-       <i class="fa fa-camera upload-button"></i>
-        <input class="file-upload" type="file" accept="image/*"/>
-     </div>
+                                   <i class="fa fa-camera upload-button"></i>
+                                    <input class="file-upload" type="file" accept="image/*" />
+                                </div>
                             </div>
 
                             <div class="date-end">
