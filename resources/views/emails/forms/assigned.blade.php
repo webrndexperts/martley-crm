@@ -23,7 +23,7 @@
                                     </tr>
                                     <tr>
                                         <td style="padding: 30px 30px 0;">
-                                            <h2>Dear {{ $data['patient']->first_name }} {{ $data['patient']->last_name }},</h2>
+                                            <b>Dear {{ $data['patient']->first_name }} {{ $data['patient']->last_name }},</b>
                                             <p>I hope this message finds you well.</p>
                                             <p>As part of <b>{{ config('app.name') }}</b>, we kindly ask you to complete the attached <b>{{ $data['form']->name }}</b> form. Your prompt attention to this matter will help us ensure we have the most accurate and up-to-date information to provide you with the best possible care.</p>
                                         </td>

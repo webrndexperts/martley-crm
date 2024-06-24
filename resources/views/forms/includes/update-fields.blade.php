@@ -5,15 +5,14 @@
                 <div class="form-group w-50-cust">
                     <select name="form[{{ $k }}][type]" class="form-field select-field-type">
                         <option value="">-- Select Field Type --</option>
-                        <option @if($field->type == 'input') selected @endif value="input">Input</option>
-                        <!-- <option @if($field->type == 'password') selected @endif value="password">Password</option> -->
-                        <option @if($field->type == 'textarea') selected @endif value="textarea">Textarea</option>
+                        <option @if($field->type == 'checkbox') selected @endif value="checkbox">Checkbox</option>
+                        <option @if($field->type == 'email') selected @endif value="email">Email</option>
                         <option @if($field->type == 'file') selected @endif value="file">File</option>
+                        <option @if($field->type == 'input') selected @endif value="input">Input</option>
+                        <option @if($field->type == 'mcq') selected @endif value="mcq">Multiple Choice Questions</option>
                         <option @if($field->type == 'number') selected @endif value="number">Number</option>
                         <option @if($field->type == 'tel') selected @endif value="tel">Telephone</option>
-                        <option @if($field->type == 'email') selected @endif value="email">Email</option>
-                        <option @if($field->type == 'checkbox') selected @endif value="checkbox">Checkbox</option>
-                        <option @if($field->type == 'mcq') selected @endif value="mcq">Multiple Choice Questions</option>
+                        <option @if($field->type == 'textarea') selected @endif value="textarea">Textarea</option>
                     </select>
                 </div>
                 
@@ -55,7 +54,7 @@
             </div>
 
             <span role="button" class="remove-field text-danger" data-removed="{{ $field->id }}">
-                <i class="fa fa-minus" aria-hidden="true"></i> Remove
+                <i class="fa fa-close" aria-hidden="true"></i>
             </span>
         </div>
     @endforeach

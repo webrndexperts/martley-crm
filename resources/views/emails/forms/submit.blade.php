@@ -23,7 +23,7 @@
                                     </tr>
                                     <tr>
                                         <td style="padding: 30px 30px 0;">
-                                            <h2>Hello,</h2>
+                                            <b>Hello,</b>
                                             <p>I hope this message finds you well.</p>
 
                                             @if($answers && count($answers) > 0)
