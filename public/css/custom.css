@@ -468,7 +468,7 @@ h2.role {
 }
 .section-head .section-head {
   font-size: 18px;
-  color: var(--main);
+  color: #000;
   font-weight: 600;
   margin-bottom: 1rem;
 }
@@ -597,9 +597,52 @@ h2.role {
     display: none;
   }
 }
-.red_box{
-    background-color: #ff0000;
+.red_box {
+    background-color: #ff0000 !important;
+    border-color: #ff0000 !important;
 }
 .green_box{
-    background-color: #008000;
+    background-color: #3fc1a5 !important;
+    border-color: #3fc1a5 !important;
+}
+.red_box:hover {
+    background: #df0909 !important;
+    border-color: #ff0000 !important;
+}
+.green_box:hover{
+   background-color: #04a783 !important;
+    border-color: #3fc1a5 !important;
+
+}
+table.dashboard {
+    width: 100%;
+}
+table.dashboard {
+    width: 100%;
+    margin: 35px 0;
+}
+table.dashboard th, td {
+    padding: 10px;
+}
+table.dashboard tr:nth-child(odd){
+    background: #fff;
+}
+img.form-profile-pic {
+    width: 67px;
+    border-radius: 50px;
+    border: 5px solid #fff;
+}
+.p-image {
+    position: absolute;
+    top: 160px;
+    left: 51px;
+}
+  .file-upload {
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+}
+.upload-button {
+    font-size: 1.2em;
+    color: #d6a334;
 }
