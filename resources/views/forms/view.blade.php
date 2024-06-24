@@ -27,7 +27,19 @@
                 </div>
 
                 <div class="x_content">
-            		
+            		@if($form->answers && count($form->answers) > 0)
+                        @foreach($form->answers as $k => $answer)
+                            <div class="answer-div">
+                                <label>{{ $answer->question->label }}</label>
+
+                                @if($answer->question->type == 'file')
+                                    <a class="file-type" href="{{ $answer->answer }}" target="_blank">View</a>
+                                @else
+                                    <span class="answer">{{ $answer->answer }}</span>
+                                @endif
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

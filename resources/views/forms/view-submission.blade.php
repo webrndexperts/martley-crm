@@ -35,12 +35,6 @@
 
                                 @if($answer->question->type == 'file')
                                     <a class="file-type" href="{{ $answer->answer }}" target="_blank">View</a>
-                                @elseif($answer->question->type == 'mcq')
-                                    <?php $options = json_decode($answer->question->options); ?>
-
-                                   
-
-                                    <span class="answer">{{ $answer->answer }}</span>
                                 @else
                                     <span class="answer">{{ $answer->answer }}</span>
                                 @endif

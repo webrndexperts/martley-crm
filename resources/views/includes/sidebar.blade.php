@@ -58,11 +58,13 @@
                         </a>
                     </li>
 
-                    <div class="sub_section_menu">
-                        <h2 class="nav">Users</h2>
-                    </div>
+                    @if(Auth::user()->user_type == '2' || Auth::user()->user_type == '3')
+                        <div class="sub_section_menu">
+                            <h2 class="nav">Users</h2>
+                        </div>
+                    @endif
 
-                    @if(Auth::user()->user_type == '2' || Auth::user()->user_type == '4')
+                    @if(Auth::user()->user_type == '2')
                         <li class="">
                             <a href="{{route('list-clinician')}}">
                                 <img src="{{ url('public/new/img/teacher.svg') }}"> Clinician

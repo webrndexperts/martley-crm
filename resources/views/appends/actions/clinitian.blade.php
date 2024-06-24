@@ -8,7 +8,7 @@
             <a
 	            onclick="return confirm('Are you sure, you want to deactivate {{ $row->first_name }} {{ $row->last_name  }}?')"
 	            href="{{ route('deactive-clinician', $row->user->id) }}"
-	            class="btn btn-info btn-sm"
+	            class="btn btn-info btn-sm red_box"
 	            title="Deactivate"
             >
                 <i class="fa fa-ban" aria-hidden="true"></i>
@@ -17,7 +17,7 @@
             <a
             	onclick="return confirm('Are you sure, you want to activate {{ $row->first_name }} {{ $row->last_name  }}?')"
 	            href="{{ route('active-clinician', $row->user->id) }}"
-	            class="btn btn-info btn-sm"
+	            class="btn btn-info btn-sm green_box"
 	            title="Activate"
             >
                 <i class="fa fa-check" aria-hidden="true"></i>

@@ -41,11 +41,21 @@ class Form extends Model
     }
 
     public function submited() {
-        return $this->hasOne(FormAnswer::class)->where('form_answers.user_id', Auth::user()->id);
+        $query = $this->hasOne(FormAnswer::class);
+
+        if(Auth::user()->user_type != '2') {
+            $query = $query->where('form_answers.user_id', Auth::user()->id);
+        }
+
+        return $query;
     }
 
     public function assignedForms()
     {
         return $this->hasMany(AssignedForm::class);
+    }
+
+    public function answers() {
+        return $this->hasMany(FormAnswer::class, 'form_id');
     }
 }

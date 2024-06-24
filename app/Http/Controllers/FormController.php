@@ -166,7 +166,7 @@ class FormController extends Controller
      */
     public function show(string $id)
     {
-        $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
+        $data['form'] = Form::where('id', base64_decode($id))->with(['fields', 'answers'])->first();
         return view('forms.view', $data);
     }
 
@@ -342,7 +342,7 @@ class FormController extends Controller
 
             $form = Form::where('id', $request->form_id)->first();
             $patient = Patient::where('user_id', Auth::user()->id)->first();
-            $clinician = ($patient && $patient->id) ? 
+            $assigned = ($patient && $patient->id) ? 
                 AssignedForm::where('patient_id', $patient->id)
                     ->where('form_id', $request->form_id)
                     ->first()
@@ -354,8 +354,10 @@ class FormController extends Controller
             // send email to admin
             $this->mailService->send($data, 'emails.forms.submit', $this->adminMail, "$form->name, details has been submitted.");
             // Send mail to clinitian
-            if($clinician && $clinician->id) {
-                if($clinician->user->email != $this->adminMail) {
+            if($assigned && $assigned->id) {
+                $clinician = Clinician::where('id', $assigned->id)->with('user')->first();
+
+                if($clinician && $clinician->user->email != $this->adminMail) {
                     $this->mailService->send($data, 'emails.forms.submit', $clinician->user->email, "$form->name, details has been submitted.");
                 }
             }
@@ -384,7 +386,7 @@ class FormController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
 
-        $forms = FormAnswer::where('form_id', $request->id);
+        $forms = FormAnswer::assigned()->where('form_id', $request->id);
 
         if(!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
