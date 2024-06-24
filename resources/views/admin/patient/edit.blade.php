@@ -38,7 +38,6 @@
                 @endif
 
                 <ul class="nav nav-tabs">
-
                     <li class="nav-item active">
                         <a class="nav-link" id="personal-info-tab" data-toggle="tab" href="#personal-info">Personal Information</a>
                     </li>
@@ -47,24 +46,28 @@
                         <a class="nav-link" id="contact-info-tab" data-toggle="tab" href="#contact-info">Contact Info</a>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" id="credential-tab" data-toggle="tab" href="#credential">Credentials</a>
+                    </li> -->
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="password-tab" data-toggle="tab" href="#password">Update Password</a>
                     </li>
                 </ul>
-
-
 
                 <form action="{{ route('update-patient',  $patient->id) }}" method="post">
                     @csrf
                     <div class="tab-content mt-3">
 
                         <!-- Tab 1: Personal Information -->
-
                         <div class="tab-pane fade active in" id="personal-info">
                             <h3> </h3>
 
                             <div class="form-group">
                                 <label for="profile_photo">Profile Photo:</label>
+
+                                <img src="{{ ($patient->user && $patient->user->profile) ? url($patient->user->profile) : url('public/admin/images/user.jpg') }}" alt="" class="form-profile-pic">
+
                                 <input type="file" name="profile_photo" class="form-control">
                             </div>
 
@@ -88,13 +91,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                <label for="gender">Gender:</label>
+                                    <label for="gender">Gender:</label>
                                     <select name="gender" class="form-control">
-                                        <option value="0">Select Gender:</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserGender::$MALE }}" {{ $patient->sex == 0 ? 'selected' : '' }}>Male</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserGender::$FEMALE }}" {{ $patient->sex == \App\Libraries\Enumerations\UserGender::$FEMALE ? 'selected' : '' }}>Female</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserGender::$OTHER }}" {{ $patient->sex == \App\Libraries\Enumerations\UserGender::$OTHER ? 'selected' : '' }}>Other</option>
-                                        <option value="{{ \App\Libraries\Enumerations\UserGender::$PREFER_NOT_TO_SAY }}" {{ $patient->sex == \App\Libraries\Enumerations\UserGender::$PREFER_NOT_TO_SAY ? 'selected' : '' }}>Prefer not to say</option>
+                                        <option value="">Select Gender:</option>
+                                        <option value="0" {{ $patient->sex == '0' ? 'selected' : '' }}>Male</option>
+                                        <option value="1" {{ $patient->sex == '1' ? 'selected' : '' }}>Female</option>
+                                        <option value="2" {{ $patient->sex == '2' ? 'selected' : '' }}>Other</option>
+                                        <option value="3" {{ $patient->sex == '3' ? 'selected' : '' }}>Prefer not to say</option>
                                     </select>
                                 </div>
                             </div>
@@ -107,20 +110,8 @@
                                         <option value="1" {{ $patient->user->status == 1 ? 'selected' : '' }}>Active</option>
                                         <option value="0" {{ $patient->user->status == 0 ? 'selected' : '' }}>Inactive</option>
                                     </select>
-
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="role">Role:</label>
-                                    <select name="user_type" class="form-control">
-                                        <option value="0">Select Role:</option>
-                                        <option value="{{ $patient->user->user_type }}" {{ $patient->user->user_type == 3 ? 'selected' : '' }}>Clinician</option>
-                                        <option value="{{ $patient->user->user_type }}" {{ $patient->user->user_type == 4 ? 'selected' : '' }}>Patient</option>
-                                    </select>
-                                </div>
-
                             </div>
-
                         </div>
 
                         <!-- Tab 2: Contact Info -->
@@ -146,18 +137,32 @@
 
                         <!-- Tab 3: Credentials -->
 
-                        <div class="tab-pane fade" id="credential">
+                        <!-- <div class="tab-pane fade" id="credential">
                             <h3> </h3>
 
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" name="password" class="form-control" />
+                                <input type="password" class="form-control" />
+                            </div>
+                        </div> -->
+
+                        <div class="tab-pane fade" id="password">
+                            <h3> </h3>
+
+                            <div class="form-group">
+                                <label for="password">New Password:</label>
+                                <input type="password" name="password" class="form-control" placeholder="Add New Password" value="" />
                             </div>
 
+                            <div class="form-group">
+                                <label for="password">Confirm Password:</label>
+                                <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" value="" />
+                            </div>
                         </div>
-
                     </div>
+
                     <button type="submit" class="btn btn-primary" title="Save">Save</button>
+                </form>
             </div>
         </div>
     </div>

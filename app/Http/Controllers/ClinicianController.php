@@ -93,7 +93,7 @@ class ClinicianController extends Controller
         $clinician->last_name = $request->last_name;
         $clinician->phone = $request->phone;
         $clinician->birthday = $request->birthday;
-        $clinician->sex = $request->sex;
+        $clinician->sex = $request->gender;
         $clinician->status = $request->status;
         $clinician->address = $request->address;
         $clinician->save();
@@ -103,9 +103,7 @@ class ClinicianController extends Controller
 
         Mail::to($user->email)->send(new AccountCreateMail($mailData));
 
-        session()->flash('success', 'Clinician has been created successfully.');
-
-        return redirect()->route('list-clinician');
+        return redirect()->route('list-clinician')->with('success', 'Clinician has been created successfully.');
     }
     public function edit($id)
     {
@@ -114,15 +112,20 @@ class ClinicianController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
+        $validateData = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
             'phone' => 'required',
             'birthday' => 'required',
             'gender' => 'required',
             'status' => 'required',
-        ]);
+        ];
+
+        if($request->password || $request->password_confirmation) {
+            $validateData['password'] = 'required|confirmed|min:6';
+        }
+
+        $validator = Validator::make($request->all(), $validateData);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -133,7 +136,7 @@ class ClinicianController extends Controller
         $clinician->first_name = $request->input('first_name');
         $clinician->last_name = $request->input('last_name');
         $clinician->birthday = $request->input('birthday');
-        $clinician->sex = $request->input('sex');  
+        $clinician->sex = $request->input('gender');  
         $clinician->status = $request->input('status'); 
         $clinician->phone = $request->input('phone');
         $clinician->address = $request->input('address');
@@ -152,12 +155,11 @@ class ClinicianController extends Controller
             $profile = $this->uploader->upload($request->file('profile_photo'), '/images/profile');
         }
         $user->profile = $profile;
+        $user->status = $request->status;
 
         $user->save();
 
-        Session::flash('Success Message', 'Clinician has been updated successfully.');
-
-        return redirect()->route('list-clinician', $id);
+        return redirect()->back()->with('success', 'Clinician has been updated successfully.');
     }
 
     public function activeClinician($id)
@@ -193,7 +195,7 @@ class ClinicianController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
 
-        $clinitians = Clinician::join('users as u', 'u.id', '=', 'clinicians.user_id');
+        $clinitians = Clinician::assigned()->join('users as u', 'u.id', '=', 'clinicians.user_id');
 
         if(!empty($request->input('search.value'))) {
             $search = $request->input('search.value');

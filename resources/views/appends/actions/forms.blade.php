@@ -2,17 +2,21 @@
 	@if(Auth::user()->user_type == 4)
 		@if(!$row->submited)
 			<a href="{{ route('forms.submit-get', base64_encode($row->id)) }}" class="btn btn-info btn-sm" title="Fill">
-				<i class="fa fa-file-word-o" aria-hidden="true"></i>
+				<i class="fa fa-file-word-o" aria-hidden="true"></i> Submit
+			</a>
+		@else 
+			<a href="{{ route('forms.show', base64_encode($row->id)) }}" class="btn btn-info  btn-sm" title="View">
+				<i class="fa fa-eye" aria-hidden="true"></i> View
 			</a>
 		@endif
 	@else	
 		@if(Auth::user()->user_type == 2 || Auth::user()->user_type == 3)
-			<a href="{{ route('forms.submit-list', base64_encode($row->id)) }}" class="btn btn-info btn-sm">
+			<a href="{{ route('forms.submit-list', base64_encode($row->id)) }}" class="btn btn-info btn-sm" title="Submitted">
 				<i class="fa fa-list-alt" aria-hidden="true"></i>
 			</a>
 		@endif
 
-		@if(Auth::user()->user_type == 2)
+		@if(Auth::user()->user_type == 2 && !$row->submited)
 			<a href="{{ route('forms.edit', base64_encode($row->id)) }}" class="btn btn-info btn-sm" title="Edit">
 				<i class="fa fa-pencil" aria-hidden="true"></i>
 			</a>

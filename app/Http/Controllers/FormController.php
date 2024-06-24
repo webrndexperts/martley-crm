@@ -166,7 +166,7 @@ class FormController extends Controller
      */
     public function show(string $id)
     {
-        $data['form'] = Form::where('id', base64_decode($id))->with('fields')->first();
+        $data['form'] = Form::where('id', base64_decode($id))->with(['fields', 'answers'])->first();
         return view('forms.view', $data);
     }
 
@@ -386,7 +386,7 @@ class FormController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
 
-        $forms = FormAnswer::where('form_id', $request->id);
+        $forms = FormAnswer::assigned()->where('form_id', $request->id);
 
         if(!empty($request->input('search.value'))) {
             $search = $request->input('search.value');

@@ -140,15 +140,20 @@ class PatientController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
+        $validateData = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
             'phone' => 'required',
             'birthday' => 'required',
             'gender' => 'required',
             'status' => 'required',
-        ]);
+        ];
+
+        if($request->password || $request->password_confirmation) {
+            $validateData['password'] = 'required|confirmed|min:6';
+        }
+
+        $validator = Validator::make($request->all(), $validateData);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -178,6 +183,7 @@ class PatientController extends Controller
             $profile = $this->uploader->upload($request->file('profile_photo'), '/images/profile');
         }
         $user->profile = $profile;
+        $user->status = $request->status;
 
         $user->save();
 

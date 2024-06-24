@@ -124,9 +124,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'clinician'], function() {
-            Route::get('/list', [ClinicianController::class, 'index'])->name('list-clinician');
-            Route::post('/list/table', [ClinicianController::class, 'generateTable'])->name('clinitian.datatable');
-        });
+        Route::get('/list', [ClinicianController::class, 'index'])->name('list-clinician');
+        Route::post('/list/table', [ClinicianController::class, 'generateTable'])->name('clinitian.datatable');
+    });
 
     Route::group(['prefix' => 'assessment'], function() {
         Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
