@@ -81,7 +81,7 @@
                     @if(Auth::user()->user_type == '2')
                         <li class="">
                             <a href="{{ route('patient.assignment.get') }}">
-                                <i class="fa fa-list-alt"></i> Assign Patient
+                            <img src="{{ url('public/new/img/Assign_p.svg') }}"> Assign Patient
                             </a>
                         </li>
                     @endif

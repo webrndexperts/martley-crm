@@ -49,6 +49,6 @@
     </div>
 
     <span role="button" class="remove-field text-danger">
-        <i class="fa fa-minus" aria-hidden="true"></i> Remove
+    <i class="fa fa-close" style="font-size:20px"></i>
     </span>
 </div>
