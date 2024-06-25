@@ -659,3 +659,6 @@ img.form-profile-pic {
 #sidebar-menu a {
   font-size: 13px ; 
 }
+.action_icon img {
+  filter: brightness(0) invert(1);
+}

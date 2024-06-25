@@ -1,4 +1,4 @@
-<div class="table-actions"> 
+<div class="table-actions "> 
 	@if(Auth::user()->user_type == 2 || Auth::user()->id == $row->user_id)
 		<a href="{{ route('sessions.edit', base64_encode($row->id)) }}" class="btn btn-info btn-sm" title="Edit">
 			<i class="fa fa-pencil" aria-hidden="true"></i>

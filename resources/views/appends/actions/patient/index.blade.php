@@ -1,4 +1,4 @@
-<div class="table-actions">
+<div class="table-actions action_icon">
 	@if(Auth::user()->user_type == 2)
 		<a href="{{ route('edit-patient', $row->id) }}" class="btn btn-info btn-sm">
 			<i class="fa fa-pencil" aria-hidden="true"></i>
