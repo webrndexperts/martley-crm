@@ -626,6 +626,8 @@ table.dashboard tr:nth-child(odd){
 }
 img.form-profile-pic {
     width: 67px;
+    height: 67px;
+    object-fit: cover;
     border-radius: 50px;
     border: 5px solid #fff;
 }
