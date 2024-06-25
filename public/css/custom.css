@@ -637,10 +637,14 @@ img.form-profile-pic {
     top: 160px;
     left: 51px;
 }
-  .file-upload {
+.file-upload {
     opacity: 0 !important;
     position: absolute;
-    top: 0;
+    top: -42px;
+    height: 57px;
+    left: -48px;
+    width: 75px;
+    cursor: pointer;
 }
 .upload-button {
     font-size: 1.2em;
