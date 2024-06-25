@@ -626,9 +626,12 @@ img.form-profile-pic {
     border: 5px solid #fff;
 }
 .p-image {
-    position: absolute;
-    top: 160px;
-    left: 51px;
+  position: absolute;
+  top: 44px;
+  left: 52px;
+}
+.form-group {
+  position: relative;
 }
 .file-upload {
     opacity: 0 !important;
