@@ -64,11 +64,12 @@
                             <h3> </h3>
 
                             <div class="form-group">
-                                <label for="profile_photo">Profile Photo:</label>
-
                                 <img src="{{ ($patient->user && $patient->user->profile) ? url($patient->user->profile) : url('public/admin/images/user.jpg') }}" alt="" class="form-profile-pic">
 
-                                <input type="file" name="profile_photo" class="form-control">
+                                <div class="p-image">
+                                   <i class="fa fa-camera upload-button"></i>
+                                    <input class="file-upload" type="file" accept="image/*" />
+                                </div>
                             </div>
 
                             <div class="date-end">

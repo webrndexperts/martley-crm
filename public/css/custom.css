@@ -650,3 +650,16 @@ img.form-profile-pic {
     font-size: 1.2em;
     color: #d6a334;
 }
+.direction-section.section-head .analytic {
+    align-items: center;
+}
+.direction-section.section-head .analytic-icon {
+    width: 20px;
+    height: 20px;
+}
+.half-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2.5rem;
+    margin-bottom: 3rem;
+}

@@ -1,51 +1,47 @@
-<!-- <div class="actions-direct">
-   @if(Auth::user()->user_type == 2)
-   	<div class="row">
-   		<h2>Quick Actions</h2>
-   
-              <div class="col-md-3">
-                  <div class="create_card ">
-                  <a href="{{ route('create-patient') }}" class="card">
-                      <p>
-                          <i class="fa fa-user-plus" aria-hidden="true"></i>
-                          <span>Create Patient</span>
-                      </p>
-                  </a>
-   </div>
-              </div>
-   
-              <div class="col-md-3">
-              <div class="create_card ">
-                  <a href="{{ route('create-clinician') }}" class="card">
-                      <p>
-                          <i class="fa fa-user-plus" aria-hidden="true"></i>
-                          <span>Create Clinician</span>
-                      </p>
-                  </a>
-              </div>
-   </div>
-   
-              <div class="col-md-3">
-              <div class="create_card ">
-                  <a href="{{ route('create-assessment') }}" class="card">
-                      <p>
-                          <i class="fa fa-user-plus" aria-hidden="true"></i>
-                          <span>Create Assesment</span>
-                      </p>
-                  </a>
-              </div>
-   </div>
-   
-              <div class="col-md-3">
-              <div class="create_card ">
-                  <a href="{{ route('forms.create') }}" class="card">
-                      <p>
-                          <i class="fa fa-user-plus" aria-hidden="true"></i>
-                          <span>Create Form</span>
-                      </p>
-                  </a>
-              </div>
-   </div>
-   	</div>
-   @endif
-   </div> -->
+@if(Auth::user()->user_type == 2)
+    <section class="section-head">
+        <h3 class="section-head">Quick Actions</h3>
+
+        <div class="analytics">
+            <a href="{{ route('create-patient') }}" class="analytic">
+                <div class="icon"><span class="las la-clock">
+                   <i class="fa fa-plus" style="font-size:12px"></i>
+                   </span>
+                </div>
+                <div class="analytic-info">
+                   <h4>Create Patinet</h4>
+                </div>
+            </a>
+
+            <a href="{{ route('create-clinician') }}" class="analytic">
+                <div class="icon"><span class="las la-clock">
+                   <i class="fa fa-plus" style="font-size:12px"></i>
+                   </span>
+                </div>
+                <div class="analytic-info">
+                   <h4>Create Clinician</h4>
+                </div>
+            </a>
+
+            <a href="{{ route('create-assessment') }}" class="analytic">
+                <div class="icon"><span class="las la-clock">
+                   <i class="fa fa-plus" style="font-size:12px"></i>
+                   </span>
+                </div>
+                <div class="analytic-info">
+                   <h4>Create Assesment</h4>
+                </div>
+            </a>
+
+            <a href="{{ route('forms.create') }}" class="analytic">
+                <div class="icon"><span class="las la-clock">
+                   <i class="fa fa-plus" style="font-size:12px"></i>
+                   </span>
+                </div>
+                <div class="analytic-info">
+                   <h4>Create Form</h4>
+                </div>
+            </a>
+        </div>
+    </section>
+@endif
