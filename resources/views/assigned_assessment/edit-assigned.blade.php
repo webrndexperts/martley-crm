@@ -16,7 +16,9 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Assign Assessment To Patient</h2>
-                    <a href="{{ route('assign-assessment-list') }}" class="btn btn-primary" style="float:right;" title="Back">Back</a>
+                    <a href="{{ route('assign-assessment-list') }}" class="btn btn-primary" style="float:right;" title="Back">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                    </a>
                     <div class="clearfix"></div>
                 </div>
 

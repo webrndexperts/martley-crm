@@ -14,7 +14,7 @@ use App\Models\AssignedForm;
 use App\Services\UploadService;
 use App\Services\MailService;
 use App\Mail\AssignFormMail;
-use View, Auth, Session, Mail;
+use View, Auth, Session, Mail, Validator;
 use Carbon\Carbon;
 
 class FormController extends Controller
@@ -128,6 +128,17 @@ class FormController extends Controller
      */
     public function store(Request $request)
     {
+        $valdiateData = [
+            'name' => 'required|string|max:255',
+            'submit' => 'required|string|max:255',
+        ];
+
+        $validator = Validator::make($request->all(), $valdiateData);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $type = 'error'; $message = 'Unable to add new form';
 
         try {
@@ -190,6 +201,17 @@ class FormController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $valdiateData = [
+            'name' => 'required|string|max:255',
+            'submit' => 'required|string|max:255',
+        ];
+
+        $validator = Validator::make($request->all(), $valdiateData);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
         $type = 'error'; $message = 'Something went wrong while updating form values.';
 
         try {

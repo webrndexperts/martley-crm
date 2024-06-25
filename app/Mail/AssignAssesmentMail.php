@@ -12,13 +12,17 @@ use Illuminate\Queue\SerializesModels;
 class AssignAssesmentMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $data;
+    public $subject;
+    public $attachments = [];
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($values)
     {
-        //
+        $this->data = $values;
+        $this->subject = "New assignment has been assigned.";
     }
 
     /**
@@ -27,7 +31,7 @@ class AssignAssesmentMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New assignment has been assigned.',
+            subject: $this->subject,
         );
     }
 
@@ -37,7 +41,10 @@ class AssignAssesmentMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.assigned-assessment',
+            with: [
+                'data' => $this->data
+            ]
         );
     }
 
@@ -48,6 +55,6 @@ class AssignAssesmentMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return $this->attachments;
     }
 }

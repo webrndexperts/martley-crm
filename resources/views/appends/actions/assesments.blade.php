@@ -16,11 +16,11 @@
 			<i class="fa fa-eye" aria-hidden="true"></i>
 		</a>
 
-		@if(Auth::user()->user_type == 2 || Auth::user()->id == $row->user_id)
-			<a href="{{ route('edit-assessment', $row->id) }}" class="btn btn-info btn-sm" title="Edit">
-				<i class="fa fa-pencil" aria-hidden="true"></i>
-			</a>
+		<a href="{{ route('edit-assessment', $row->id) }}" class="btn btn-info btn-sm" title="Edit">
+			<i class="fa fa-pencil" aria-hidden="true"></i>
+		</a>
 
+		@if(Auth::user()->user_type == 2)
 			<a
 				class="btn btn-info btn-sm table-form-btn"
 				title="Delete"

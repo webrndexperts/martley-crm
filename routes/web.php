@@ -72,12 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
          *                      Assessment routes
         *********************************************************************/
         Route::group(['prefix' => 'assessment'], function() {
-            // Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
             Route::get('/create', [CRMAssessmentController::class, 'create'])->name('create-assessment');
             Route::post('/save', [CRMAssessmentController::class, 'save'])->name('save.assessment');
-            Route::get('/edit/{assessment}', [CRMAssessmentController::class, 'edit'])->name('edit-assessment');
-            Route::post('/update/{id}', [CRMAssessmentController::class, 'update'])->name('update-assessment');
-            // Route::get('/show/{assessment}', [CRMAssessmentController::class, 'show'])->name('show-assessment');
             Route::delete('/delete/{assessment}', [CRMAssessmentController::class, 'destroy'])->name('destroy-assessment');
             Route::delete('/questions/{id}', [CRMAssessmentController::class, 'destroyQuestion'])->name('destroy-questions');
         });
@@ -87,10 +83,12 @@ Route::group(['middleware' => ['auth']], function () {
      *          Shared Assessment Routes (Admin and Clinician)
      *********************************************************************/ 
     Route::group(['middleware' => 'adminOrClinician'], function() {
-        Route::group(['prefix' => 'assessment'], function() {
-            // Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
-            Route::get('/show/{assessment}', [CRMAssessmentController::class, 'show'])->name('show-assessment');
 
+        Route::group(['prefix' => 'assessment'], function() {
+            Route::get('/edit/{assessment}', [CRMAssessmentController::class, 'edit'])->name('edit-assessment');
+            Route::post('/update/{id}', [CRMAssessmentController::class, 'update'])->name('update-assessment');
+
+            Route::get('/show/{assessment}', [CRMAssessmentController::class, 'show'])->name('show-assessment');
             // Assign assessment
             Route::get('/assigned-list', [CRMAssessmentController::class, 'AssignAssessmentList'])->name('assign-assessment-list');
             Route::get('/assign-assessment', [CRMAssessmentController::class, 'AssignAssessment'])->name('assign-assessment');

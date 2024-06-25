@@ -28,10 +28,10 @@
                 <div class="x_title">
                     <h2>Edit Assessment</h2>
 
-                    @if(auth()->user()->user_type == 3)
-                        <a href="{{route('assessments-list')}}" class="btn btn-primary" style="float:right;" title="Back">Back</a>
-                    @elseif(auth()->user()->user_type == 2)
-                        <a href="{{ route('assessment-list') }}" class="btn btn-primary" style="float:right;">Back</a>
+                    @if(auth()->user()->user_type == 2 || auth()->user()->user_type == 3)
+                        <a href="{{ route('assessment-list') }}" class="btn btn-primary" style="float:right;">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                        </a>
                     @endif
                 
 
@@ -45,50 +45,55 @@
                         
                         <div class="form-group">
                             <label for="title">Title</label>
-                            <input type="hidden" id="title" name="id" class="form-control"  value="{{$assessment->id}}" required>
-                            <input type="text" id="title" name="title" class="form-control"  value="{{$assessment->title}}" required>
+                            <input type="hidden" id="title" name="id" class="form-control"  value="{{ $assessment->id }}" required>
+                            <input type="text" id="title" name="title" @if(Auth::user()->user_type == '3') disabled @endif class="form-control"  value="{{ $assessment->title }}" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea id="description" name="description" class="form-control" required>{{$assessment->description}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="due_date">Due Date</label>
-                            <input type="date" id="due_date" name="due_date" class="form-control" value="{{$assessment->due_date}}" required>
+                            <textarea id="description" name="description" @if(Auth::user()->user_type == '3') disabled @endif class="form-control" required>{{$assessment->description}}</textarea>
                         </div>
 
-                        @if(!empty($questions) && count($questions) > 0)
-                            <div class="form-group" style="margin-top:20px;">
-                                <h3 class="text-center">Added Questions</h3>
+                        @if(Auth::user()->user_type == '3')
+                            <div class="form-group">
+                                <label for="due_date">Due Date</label>
+                                <input type="date" id="due_date" name="due_date" class="form-control" value="{{$assessment->due_date}}" required>
                             </div>
                         @endif
 
-                        @foreach($questions as $question)
-                            <div class="form-group">
-                                <label for="date_created">Question:</label><button class="btn btn-danger btn-sm delete-question mt-5" data-question-id="{{$question->id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                <input type="text" name="questions[{{$question->id}}][question]" value="{{$question->question}}" class="form-control" required>
-                                <input type="hidden" name="questions[{{$question->id}}][id]" value="{{$question->id}}" class="form-control" required>
-                                    @if($question->question_type == "radio")
-                                    <label for="date_created">Options:</label>
-                                    <?php
-                                        $answers = explode(',', $question['answer']);
-                                    ?>
-                                    @foreach($answers as $answer)
-                                        <input type="text" name="questions[{{$question->id}}][options][]" value="{{$answer}}" class="form-control" required>
-                                    @endforeach
-                                @endif
-                            </div>
-                        @endforeach
+                        @if(Auth::user()->user_type == '2')
+                            @if(!empty($questions) && count($questions) > 0)
+                                <div class="form-group" style="margin-top:20px;">
+                                    <h3 class="text-center">Added Questions</h3>
+                                </div>
+                            @endif
 
-                        <!-- Add Question -->
-                        <div id="questions-container"></div>
-                        <!-- End add question -->
-                        
-                        <button type="button" class="btn btn-primary mt-3" onclick="addQuestion('input')">Add Short Question</button>
-                        <button type="button" class="btn btn-primary mt-3" onclick="addQuestion('textarea')">Add Long Question</button>
-                        <button type="button" class="btn btn-primary mt-3" onclick="addQuestion('radio')">Add Multiple Choice Question</button>
+                            @foreach($questions as $question)
+                                <div class="form-group">
+                                    <label for="date_created">Question:</label><button class="btn btn-danger btn-sm delete-question mt-5" data-question-id="{{$question->id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    <input type="text" name="questions[{{$question->id}}][question]" value="{{$question->question}}" class="form-control" required>
+                                    <input type="hidden" name="questions[{{$question->id}}][id]" value="{{$question->id}}" class="form-control" required>
+                                        @if($question->question_type == "radio")
+                                        <label for="date_created">Options:</label>
+                                        <?php
+                                            $answers = explode(',', $question['answer']);
+                                        ?>
+                                        @foreach($answers as $answer)
+                                            <input type="text" name="questions[{{$question->id}}][options][]" value="{{$answer}}" class="form-control" required>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            @endforeach
 
-                        <button type="submit" class="btn btn-primary" style="display: block;">Submit</button>
+                            <!-- Add Question -->
+                            <div id="questions-container"></div>
+                            <!-- End add question -->
+                            
+                            <button type="button" class="btn btn-primary mt-3" onclick="addQuestion('input')">Add Short Question</button>
+                            <button type="button" class="btn btn-primary mt-3" onclick="addQuestion('textarea')">Add Long Question</button>
+                            <button type="button" class="btn btn-primary mt-3" onclick="addQuestion('radio')">Add Multiple Choice Question</button>
+                        @endif
+
+                        <button type="submit" class="btn btn-primary" style="display: block;">Update</button>
                     </form>
                 </div>
             </div>

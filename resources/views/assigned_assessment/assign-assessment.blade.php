@@ -16,20 +16,26 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Assign Assessment To Patient</h2>
-                    <a href="{{ route('assign-assessment-list') }}" class="btn btn-primary" style="float:right;" title="Back">Back</a>
+                    <a href="{{ route('assign-assessment-list') }}" class="btn btn-primary" style="float:right;" title="Back">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                    </a>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="x_content">
                     <form action="{{route('assigned-assessment')}}" method="post" enctype="multipart/form-data">
                         @csrf
+
+                        <?php
+                            $_id = (array_key_exists('id', $_GET)) ? base64_decode($_GET['id']) : '';
+                        ?>
                         
                         <div class="form-group">
                             <label for="patient_id">Patient:</label>
                             <select name="patient_id" id="patient_id" class="form-control select2" required>
                                 <option value="">-- Select Patient --</option>
                                 @foreach($patients as $patient)
-                                    <option value="{{ $patient->patient_id }}">{{ $patient->patient->first_name }} {{ $patient->patient->last_name }}</option>
+                                    <option @if($_id == $patient->patient_id) selected @endif value="{{ $patient->patient_id }}">{{ $patient->patient->first_name }} {{ $patient->patient->last_name }}</option>
                                 @endforeach
                             </select>
                         </div>

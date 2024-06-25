@@ -10,7 +10,7 @@ use App\Models\Patient;
 use App\Models\AssignedAssessment;
 use App\Models\CRMAssessmentQuestion;
 use App\Models\AssesmentAnswer;
-use Auth;
+use Auth, Validator;
 use Carbon\Carbon;
 
 
@@ -34,7 +34,7 @@ class CRMAssessmentController extends Controller
             $data[$key]['id'] = $row->id;
             $data[$key]['name'] = ucwords($row->title);
             $data[$key]['description'] = $row->description;
-            $data[$key]['date'] = Carbon::parse($row->due_date)->format('Y-m-d');
+            $data[$key]['date'] = ($row->due_date) ? Carbon::parse($row->due_date)->format('Y-m-d') : 'Not Added';
             $data[$key]['actions'] = view('appends.actions.assesments', [ "row" => $row ])->render();
         }
 
@@ -79,17 +79,25 @@ class CRMAssessmentController extends Controller
     {
         $id = Auth::user()->id;
 
-        $request->validate([
+        $valdiateData = [
             'title' => 'required|string|max:255',
-            'due_date' => 'required|date',
-            
-        ]);
+        ];
+
+        if(Auth::user()->user_type == '3') {
+            $valdiateData['due_date'] = 'required|date';
+        }
+
+        $validator = Validator::make($request->all(), $valdiateData);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         
         $assessment = new CRMAssessment();
         $assessment->user_id = $id;
         $assessment->title = $request->input('title');
         $assessment->description = $request->input('description');
-        $assessment->due_date = $request->input('due_date');
+        $assessment->due_date = (array_key_exists('due_date', $request->all())) ? $request->due_date : null;
         $assessment->save();
         
         $assessmentId = $assessment->id;        
@@ -107,7 +115,7 @@ class CRMAssessmentController extends Controller
 
             $question->save();
         }
-        return redirect()->route('assessment-list')->with('success', 'Assessment added successfully');
+        return redirect()->route('assessment-list')->with('success', 'Assessment has been added successfully');
     }
 
     public function edit(CRMAssessment $assessment)
@@ -130,43 +138,61 @@ class CRMAssessmentController extends Controller
         
     public function update(Request $request, $assessment)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'due_date' => 'required|date',
-        ]);
+        $valdiateData = array(); $change = array();
+
+        if(Auth::user()->user_type == '3') {
+            $valdiateData['due_date'] = 'required|date';
+        } else {
+            $valdiateData['title'] = 'required|string|max:255';
+        }
+
+        $validator = Validator::make($request->all(), $valdiateData);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
     
         $assessment = CRMAssessment::findOrFail($assessment);
+
+        if(Auth::user()->user_type == '2') {
+            $change = [
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+            ];
+        }
+
+        if(array_key_exists('due_date', $request->all())) {
+            $change['due_date'] = $request->due_date;
+        }
     
-        $assessment->update([
-            'title' => $request->input('title'),
-            'due_date' => $request->input('due_date'),
-            'description' => $request->input('description'),
-        ]);
-    
-        $questions = $request->questions ?? [];
-    
-        foreach ($questions as $key => $questionData) {
-            if (isset($questionData['id'])) {
-                // Update existing question
-                $question = CRMAssessmentQuestion::find($questionData['id']);
-                if ($question) {
-                    $question->update([
-                        'question' => $questionData['question'],
-                        'answer' => isset($questionData['options']) ? implode(',', $questionData['options']) : null,
-                    ]);
+        $assessment->update($change);
+
+        if(Auth::user()->user_type == '2') {
+            $questions = $request->questions ?? [];
+        
+            foreach ($questions as $key => $questionData) {
+                if (isset($questionData['id'])) {
+                    // Update existing question
+                    $question = CRMAssessmentQuestion::find($questionData['id']);
+                    if ($question) {
+                        $question->update([
+                            'question' => $questionData['question'],
+                            'answer' => isset($questionData['options']) ? implode(',', $questionData['options']) : null,
+                        ]);
+                    }
+                } else {
+                    // Create new question
+                    $question = new CRMAssessmentQuestion();
+                    $question->assessment_id = $assessment->id;
+                    $question->question = $questionData['question'];
+                    $question->question_type = $questionData['type'];
+                    $question->answer = isset($questionData['options']) && $questionData['type'] === 'radio' ? implode(',', $questionData['options']) : null;
+                    $question->save();
                 }
-            } else {
-                // Create new question
-                $question = new CRMAssessmentQuestion();
-                $question->assessment_id = $assessment->id;
-                $question->question = $questionData['question'];
-                $question->question_type = $questionData['type'];
-                $question->answer = isset($questionData['options']) && $questionData['type'] === 'radio' ? implode(',', $questionData['options']) : null;
-                $question->save();
             }
         }
     
-        return redirect()->route('assessment-list')->with('success', 'Assessment updated successfully');
+        return redirect()->route('assessment-list')->with('success', 'Assessment has been updated successfully');
     }
 
     

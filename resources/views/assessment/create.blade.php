@@ -21,7 +21,9 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Create Assessment</h2>
-                    <a href="{{route('assessment-list')}}" class="btn btn-primary" style="float:right;" title="Back">Back</a>
+                    <a href="{{route('assessment-list')}}" class="btn btn-primary" style="float:right;" title="Back">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                    </a>
                     <div class="clearfix"></div>
                 </div>
 
@@ -31,16 +33,19 @@
                         
                         <div class="form-group">
                             <label for="title">Title</label>
-                            <input type="text" id="title" name="title" class="form-control" required>
+                            <input type="text" id="title" value="{{ old('title') }}" name="title" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Description:</label>
-                            <textarea id="description" name="description" class="form-control" rows="3" placeholder="Enter description">{{old('description')}}</textarea>
+                            <textarea id="description" name="description" class="form-control" rows="3" placeholder="Enter description">{{ old('description') }}</textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="due_date">Due Date</label>
-                            <input type="date" id="due_date" name="due_date" class="form-control" required>
-                        </div>
+
+                        @if(Auth::user()->user_type == '3')
+                            <div class="form-group">
+                                <label for="due_date">Due Date</label>
+                                <input type="date" id="due_date" name="due_date" value="{{ old('due_date') }}"  class="form-control" required>
+                            </div>
+                        @endif
 
                             <!-- Add Question -->
 
@@ -53,7 +58,7 @@
                         <button type="button" class="btn btn-primary mt-3" onclick="addQuestion('radio')">Add Multiple Choice Question</button>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" style="display: block;" title="Submit">Submit</button>
+                            <button type="submit" class="btn btn-primary" style="display: block;" title="Submit">Save</button>
                         </div>
                     </form>
                 </div>
