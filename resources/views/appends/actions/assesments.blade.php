@@ -1,8 +1,12 @@
 <div class="table-actions"> 
 	@if(Auth::user()->user_type == 4)
 		@if(!$row->submited)
-			<a href="{{ route('assesments.answer.submit-get', base64_encode($row->id)) }}" class="btn btn-info btn-sm" title="Fill">
-				<i class="fa fa-file-word-o" aria-hidden="true"></i>
+			<a href="{{ route('assesments.answer.submit-get', base64_encode($row->id)) }}" class="btn btn-info btn-sm" title="Submit">
+				<i class="fa fa-file-word-o" aria-hidden="true"></i> Submit
+			</a>
+		@else 
+			<a href="{{ route('show-assessment', [base64_encode($row->submited->assesment_id), base64_encode($row->submited->user_id)]) }}" class="btn btn-info  btn-sm" title="View">
+				<i class="fa fa-eye" aria-hidden="true"></i> View
 			</a>
 		@endif
 	@else
@@ -11,10 +15,6 @@
 				<i class="fa fa-list-alt" aria-hidden="true"></i>
 			</a>
 		@endif
-
-		<a href="{{ route('show-assessment', $row->id) }}" class="btn btn-info btn-sm" title="View">
-			<i class="fa fa-eye" aria-hidden="true"></i>
-		</a>
 
 		<a href="{{ route('edit-assessment', $row->id) }}" class="btn btn-info btn-sm" title="Edit">
 			<i class="fa fa-pencil" aria-hidden="true"></i>

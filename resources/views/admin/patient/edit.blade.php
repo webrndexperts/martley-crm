@@ -169,3 +169,19 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        jQuery(document).on('change', '.file-upload', function() {
+            var file = this.files[0], imgPreview = document.querySelector('.form-profile-pic');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener('load', function() {
+                    imgPreview.setAttribute('src', this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+        })
+    </script>
+@endpush

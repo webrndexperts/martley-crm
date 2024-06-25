@@ -16,7 +16,7 @@ return new class extends Migration
             $table->Integer('assessment_id');
             $table->string('question');
             $table->string('question_type');
-            $table->string('answer');
+            $table->string('answer')->nullable();
             $table->timestamps();
         });
     }

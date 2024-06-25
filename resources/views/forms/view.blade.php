@@ -27,8 +27,8 @@
                 </div>
 
                 <div class="x_content">
-            		@if($form->answers && count($form->answers) > 0)
-                        @foreach($form->answers as $k => $answer)
+            		@if($form->answer && count($form->answer) > 0)
+                        @foreach($form->answer as $k => $answer)
                             <div class="answer-div">
                                 <label>{{ $answer->question->label }}</label>
 

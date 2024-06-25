@@ -36,7 +36,7 @@
                                 <img src="{{ (Auth::user()->profile) ? url(Auth::user()->profile) : url('public/admin/images/user.jpg') }}" class="profile-pic" alt="profile" />
 
                                 <label>Profile Pic</label>
-                                <input type="file" name="profile_pic" class="form-field" accept="image/*" />
+                                <input type="file" name="profile_pic" class="profile-pic-field form-field" accept="image/*" />
                             </div>
                         </div>
 
@@ -110,3 +110,19 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        jQuery(document).on('change', '.profile-pic-field', function() {
+            var file = this.files[0], imgPreview = document.querySelector('.profile-pic');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener('load', function() {
+                    imgPreview.setAttribute('src', this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+        })
+    </script>
+@endpush

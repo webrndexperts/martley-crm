@@ -58,4 +58,8 @@ class Form extends Model
     public function answers() {
         return $this->hasMany(FormAnswer::class, 'form_id');
     }
+
+    public function answer() {
+        return $this->hasMany(FormAnswer::class, 'form_id')->where('form_answers.user_id', Auth::user()->id);
+    }
 }

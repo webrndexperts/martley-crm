@@ -27,8 +27,15 @@ class FormController extends Controller
         $this->uploadService = new UploadService();
         $this->mailService = new MailService();
 
+        // $user = User::where('user_type', '2')->first();
+        // $this->adminMail = ($user && $user->id) ? $user->email : '';
+    }
+
+    protected function getAdmin() {
         $user = User::where('user_type', '2')->first();
         $this->adminMail = ($user && $user->id) ? $user->email : '';
+
+        return true;
     }
 
     /**
@@ -130,7 +137,7 @@ class FormController extends Controller
     {
         $valdiateData = [
             'name' => 'required|string|max:255',
-            'submit' => 'required|string|max:255',
+            'button' => 'required|string|max:255',
         ];
 
         $validator = Validator::make($request->all(), $valdiateData);
@@ -177,7 +184,7 @@ class FormController extends Controller
      */
     public function show(string $id)
     {
-        $data['form'] = Form::where('id', base64_decode($id))->with(['fields', 'answers'])->first();
+        $data['form'] = Form::where('id', base64_decode($id))->with(['fields', 'answer'])->first();
         return view('forms.view', $data);
     }
 
@@ -203,7 +210,7 @@ class FormController extends Controller
     {
         $valdiateData = [
             'name' => 'required|string|max:255',
-            'submit' => 'required|string|max:255',
+            'button' => 'required|string|max:255',
         ];
 
         $validator = Validator::make($request->all(), $valdiateData);
@@ -344,6 +351,8 @@ class FormController extends Controller
      * Function to submit all the form values from users end.
      */
     public function submitAnswers(Request $request) {
+        $this->getAdmin();
+
         if($request->answers && count($request->answers) > 0) {
             foreach($request->answers as $key => $value) {
                 $_values = array();
@@ -374,7 +383,10 @@ class FormController extends Controller
             $data['answers'] = FormAnswer::where('user_id', Auth::user()->id)->where('form_id', $request->form_id)->get();
 
             // send email to admin
-            $this->mailService->send($data, 'emails.forms.submit', $this->adminMail, "$form->name, details has been submitted.");
+            if($this->adminMail) {
+                $this->mailService->send($data, 'emails.forms.submit', $this->adminMail, "$form->name, details has been submitted.");
+            }
+
             // Send mail to clinitian
             if($assigned && $assigned->id) {
                 $clinician = Clinician::where('id', $assigned->id)->with('user')->first();
@@ -535,7 +547,9 @@ class FormController extends Controller
                 $mailValues['form'] = $form;
                 $mailValues['user'] = Auth::user();
 
-                Mail::to($value->user->email)->send(new AssignFormMail($mailValues));
+                if($value->user && $value->user->id) {
+                    Mail::to($value->user->email)->send(new AssignFormMail($mailValues));
+                }
             }
         }
         

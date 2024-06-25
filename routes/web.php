@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/edit/{assessment}', [CRMAssessmentController::class, 'edit'])->name('edit-assessment');
             Route::post('/update/{id}', [CRMAssessmentController::class, 'update'])->name('update-assessment');
 
-            Route::get('/show/{assessment}', [CRMAssessmentController::class, 'show'])->name('show-assessment');
+            
             // Assign assessment
             Route::get('/assigned-list', [CRMAssessmentController::class, 'AssignAssessmentList'])->name('assign-assessment-list');
             Route::get('/assign-assessment', [CRMAssessmentController::class, 'AssignAssessment'])->name('assign-assessment');
@@ -125,6 +125,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'assessment'], function() {
         Route::get('/list', [CRMAssessmentController::class, 'index'])->name('assessment-list');
+        Route::get('/show/{assessment}/{user}', [CRMAssessmentController::class, 'show'])->name('show-assessment');
         Route::post('/table/values', [CRMAssessmentController::class, 'generateTable'])->name('assesments.datatable');
         Route::prefix('submit')->group(function () {
             Route::get('/{id}', [CRMAssessmentController::class, 'checkFormSubmit'])->name('assesments.answer.submit-get');

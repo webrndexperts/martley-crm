@@ -77,11 +77,6 @@
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
                                             @endif
-                                            <!-- <a href="{{ route('show-assessment', $assessment->id) }}" title="View">
-                                                <button type="button" class="btn btn-info btn-sm">
-                                                    <i class="fa fa-eye" aria-hidden="true"></i> 
-                                                </button>
-                                            </a>  -->
 
                                             <!-- <a href="{{route('destroy-assigned-assessment', $assessment->id)}}" class="delete" title="Delete">
                                                 <button type="button" class="btn btn-danger btn-sm">

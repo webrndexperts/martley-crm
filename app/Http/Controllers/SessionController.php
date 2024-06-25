@@ -41,7 +41,7 @@ class SessionController extends Controller
                 : '';
 
             $meeting = CrmMeeting::where('session_id', $row->id)->first();
-            $file = ($row->file) ? url($row->file) : $row->link;
+            $file = ($row->file) ? url($row->file) : '';
 
             $data[$key]['DT_RowAttr'] = $_r;
             $data[$key]['id'] = $row->id;

@@ -316,13 +316,13 @@ class PatientController extends Controller
     }
 
     public function submitAssignPatient(Request $request) {
-        $clinitian = Clinician::where('id', $request->clinician_id)->first();
+        $clinitian = Clinician::where('id', $request->clinician_id)->with('user')->first();
         $patients = '';
 
         $mailValues['clinitian'] = $clinitian;
 
         foreach ($request->patient_id as $key => $value) {
-            $patient = Patient::where('id', $value)->first();
+            $patient = Patient::where('id', $value)->with('user')->first();
             $mailValues['patient'] = $patient;
             $name = ucfirst("$patient->first_name $patient->last_name");
 
@@ -335,13 +335,19 @@ class PatientController extends Controller
 
             if ($record->wasRecentlyCreated) {
                 $patients = ($patients) ? "$patients, $name" : $name;
-                Mail::to($patient->user->email)->send(new AssignedPatient($mailValues));
+
+                if($patient->user && $patient->user->id) {
+                    Mail::to($patient->user->email)->send(new AssignedPatient($mailValues));
+                }
             }
         }
 
         if($patients) {
             $mailValues['patientNames'] = $patients;
-            Mail::to($clinitian->user->email)->send(new AssignedClinitian($mailValues));
+
+            if($clinitian->user && $clinitian->user->id) {
+                Mail::to($clinitian->user->email)->send(new AssignedClinitian($mailValues));
+            }
         }
 
         return redirect()->route('patient.assignment.get')->with('success', 'Patients are assigned successfully.');
@@ -370,9 +376,9 @@ class PatientController extends Controller
 
     public function updateAssignPatient(Request $request) {
         $assigned = ClinicianPatient::findOrFail($request->id);
-        $clinitian = Clinician::where('id', $request->clinician_id)->first();
+        $clinitian = Clinician::where('id', $request->clinician_id)->with('user')->first();
 
-        $patient = Patient::where('id', $request->patient_id)->first();
+        $patient = Patient::where('id', $request->patient_id)->with('user')->first();
         $mailValues['patient'] = $patient;
         $mailValues['clinitian'] = $clinitian;
         $patientName = ucfirst("$patient->first_name $patient->last_name");
@@ -382,12 +388,17 @@ class PatientController extends Controller
 
         if($assigned->save()) {
             if ($request->old_patient != $request->patient_id) {
-                Mail::to($patient->user->email)->send(new AssignedPatient($mailValues));
+                if($patient->user && $patient->user->id) {
+                    Mail::to($patient->user->email)->send(new AssignedPatient($mailValues));
+                }
             }
 
             if($request->old_clinitian != $request->clinician_id) {
                 $mailValues['patientNames'] = $patientName;
-                Mail::to($clinitian->user->email)->send(new AssignedClinitian($mailValues));
+
+                if($clinitian->user && $clinitian->user->id) {
+                    Mail::to($clinitian->user->email)->send(new AssignedClinitian($mailValues));
+                }
             }
 
             return redirect()->back()->with('success', 'Record updated successfully.');

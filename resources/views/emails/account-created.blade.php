@@ -17,7 +17,7 @@
                                     <tr>
                                         <td align="center" valign="top">
                                             <p style="margin-top: 50px;margin-bottom: 0;">
-                                                <img src="{{ url('/public/new/img/logo.png') }}" alt="ScolioLife™" style="border: 1px solid #bc9c23;">
+                                                <img src="{{ url('/public/new/img/logo.png') }}" alt="" style="border: 1px solid #bc9c23;">
                                             </p>
                                         </td>
                                     </tr>

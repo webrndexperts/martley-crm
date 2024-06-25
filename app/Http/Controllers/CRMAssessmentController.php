@@ -195,14 +195,18 @@ class CRMAssessmentController extends Controller
         return redirect()->route('assessment-list')->with('success', 'Assessment has been updated successfully');
     }
 
-    
-    public function show($assessment)
-    {
-        $data = CRMAssessment::Where('id', $assessment)->first();
-        $questions = CRMAssessmentQuestion::where('assessment_id', $data->id)->get();
-        
-        return view('assessment.show', compact('data', 'questions'));
+    public function show(string $assessment, string $user) {
+        $data['assessment'] = CRMAssessment::where('id', base64_decode($assessment))->first();
+
+        $data['answers'] = AssesmentAnswer::where('assesment_id', base64_decode($assessment))
+            ->where('user_id', base64_decode($user))
+            ->with('question')
+            ->get();
+
+        return view('assessment.show', $data);
     }
+
+
     public function destroy($id)
     {
         $questions = CRMAssessmentQuestion::where('assessment_id' , $id);   
@@ -292,6 +296,15 @@ class CRMAssessmentController extends Controller
         $form->user_id = Auth::user()->id;
 
         $form->save();
+
+        if(Auth::user()->id) {
+            // Mail::to(Auth::user()->email)->send(new AssignFormMail($mailValues));
+        }
+
+        $patient = Patient::where('id', $request->patient_id)->with('user')->first();
+        if($patient->user && $patient->user->id) {
+            // Mail::to($patient->user->email)->send(new AssignFormMail($mailValues));
+        }
 
         return redirect()->route('assign-assessment-list')->with('success', 'Assessment has been assigned successfully.');
     }

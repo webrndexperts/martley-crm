@@ -55,7 +55,7 @@
                     </li>
                 </ul>
 
-                <form action="{{ route('update-clinician',  $clinician->id) }}" method="post">
+                <form action="{{ route('update-clinician',  $clinician->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="tab-content mt-3">
 
@@ -68,7 +68,7 @@
 
                                 <div class="p-image">
                                    <i class="fa fa-camera upload-button"></i>
-                                    <input class="file-upload" type="file" accept="image/*" />
+                                    <input class="file-upload" name="profile_photo" type="file" accept="image/*" />
                                 </div>
                             </div>
 
@@ -167,3 +167,19 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        jQuery(document).on('change', '.file-upload', function() {
+            var file = this.files[0], imgPreview = document.querySelector('.form-profile-pic');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener('load', function() {
+                    imgPreview.setAttribute('src', this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+        })
+    </script>
+@endpush

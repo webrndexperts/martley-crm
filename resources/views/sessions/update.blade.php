@@ -173,9 +173,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="file_upload">File Upload:</label>
-                                <div id="file_inputs">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="file_upload">File Upload:</label>
                                     <div class="file_input_container">
                                         <input type="file" name="upload_file" class="form-control-file" />
                                     </div>
