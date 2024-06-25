@@ -94,7 +94,7 @@ class PatientController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $profile = Auth::user()->profile; $oldProfile = Auth::user()->profile;
+        $profile = null;
 
         if($request->hasFile('profile_photo')) {
             $profile = $this->uploader->upload($request->file('profile_photo'), '/images/profile');
@@ -177,7 +177,7 @@ class PatientController extends Controller
             $user->password = bcrypt($request->password);
         }
 
-        $profile = Auth::user()->profile; $oldProfile = Auth::user()->profile;
+        $profile = $user->profile; $oldProfile = $user->profile;
 
         if($request->hasFile('profile_photo')) {
             $profile = $this->uploader->upload($request->file('profile_photo'), '/images/profile');

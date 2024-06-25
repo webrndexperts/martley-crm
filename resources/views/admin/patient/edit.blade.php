@@ -55,7 +55,7 @@
                     </li>
                 </ul>
 
-                <form action="{{ route('update-patient',  $patient->id) }}" method="post">
+                <form action="{{ route('update-patient',  $patient->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="tab-content mt-3">
 
@@ -68,7 +68,7 @@
 
                                 <div class="p-image">
                                    <i class="fa fa-camera upload-button"></i>
-                                    <input class="file-upload" type="file" accept="image/*" />
+                                    <input class="file-upload" name="profile_photo" type="file" accept="image/*" />
                                 </div>
                             </div>
 
