@@ -27,7 +27,7 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div class="x_content">
+                <div class="x_content tabel_content">
             		@if($answers && count($answers) > 0)
                         @foreach($answers as $k => $answer)
                             <div class="answer-div">
