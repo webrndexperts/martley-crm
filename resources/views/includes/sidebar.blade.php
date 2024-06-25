@@ -46,8 +46,8 @@
                     @if(Auth::user()->user_type == '3')
                         <li class="">
                             <a href="{{route('assign-assessment-list')}}">
-                                <i class="fa fa-list-alt"></i>
-                                Assign Assessments
+                            <img src="{{ url('public/new/img/Assign_pas.svg') }}">
+                                Assign Assessments 
                             </a>
                         </li>
                     @endif

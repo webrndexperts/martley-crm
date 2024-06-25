@@ -31,7 +31,7 @@
                     <form method="POST" action="{{ route('profile.save') }}" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="row">
+                        <div class="row ">
                             <div class="col-md-12 form-group profile-pic-main">
                                 <img src="{{ (Auth::user()->profile) ? url(Auth::user()->profile) : url('public/admin/images/user.jpg') }}" class="profile-pic" alt="profile" />
 
@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row profile_forms">
                             @if(Auth::user()->user_type == '2')
                                 <div class="col-md-12 form-group">
                                     <label>Name</label>
@@ -64,7 +64,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-6 form-group">
+                                <div class="col-md-6 form-group end_form">
                                     <label>Last Name</label>
                                     <input type="text" class="form-field @error('last_name') is-invalid @enderror" value="{{ $user->last_name }}" placeholder="Last Name" name="last_name" required />
 
@@ -93,7 +93,7 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 end_form">
                                 <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
 
                                 <input id="password-confirm" type="password" placeholder="Confirm Password" class="form-field" name="password_confirmation" autocomplete="new-password" />
