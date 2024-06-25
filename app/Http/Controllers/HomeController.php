@@ -21,8 +21,39 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    protected function getValues() {
+    protected function getDashboardValues() {
         $data = array();
+
+        $assesments = CRMAssessment::with('submited');
+        $forms = Form::with('submited');
+
+        if(Auth::user()->user_type == '2') {
+            $data['clinicians'] = Clinician::limit(5)->latest()->get();
+        }
+
+        if(Auth::user()->user_type == '2' || Auth::user()->user_type == '3') {
+            $patient = Patient::Query();
+
+            if(Auth::user()->user_type == '3') {
+                $clinic = Clinician::where('user_id', Auth::user()->id)->first();
+                $assigned = ClinicianPatient::where('clinician_id', $clinic->id)->pluck('patient_id')->toArray();
+                $patient = $patient->whereIn('id', $assigned);
+            } else {
+                $data['clinitianCount'] = Clinician::count();
+            }
+
+            $data['patientCount'] = $patient->count();
+            $data['patients'] = $patient->limit(5)->latest()->get();
+        } else {
+            $assesments = $assesments->assigned();
+            $forms = $forms->assigned();
+        }
+
+        $data['assesmentCount'] = $assesments->count();
+        $data['formCount'] = $forms->count();
+
+        $data['assesments'] = $assesments->limit(5)->latest()->get();
+        $data['forms'] = $forms->limit(5)->latest()->get();
 
         return $data;
     }
@@ -35,34 +66,8 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            $data = $this->getValues();
-
-            $assesments = CRMAssessment::with('submited');
-            $forms = Form::with('submited');
-
-            if(Auth::user()->user_type == '2' || Auth::user()->user_type == '3') {
-                $patient = Patient::Query();
-
-                if(Auth::user()->user_type == '3') {
-                    $clinic = Clinician::where('user_id', Auth::user()->id)->first();
-                    $assigned = ClinicianPatient::where('clinician_id', $clinic->id)->pluck('patient_id')->toArray();
-                    $patient = $patient->whereIn('id', $assigned);
-                } else {
-                    $data['clinitianCount'] = Clinician::count();
-                }
-
-                $data['patientCount'] = $patient->count();
-            } else {
-                $assesments = $assesments->assigned();
-                $forms = $forms->assigned();
-            }
-
-            $data['assesmentCount'] = $assesments->count();
-            $data['formCount'] = $forms->count();
-
-            $data['assesments'] = $assesments->limit(5)->latest()->get();
-            $data['forms'] = $forms->limit(5)->latest()->get();
-
+            $data = $this->getDashboardValues();
+            
             return view('dashboard.index', $data);
         } else {
             return view('auth.login');

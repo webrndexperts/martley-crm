@@ -122,13 +122,9 @@ class SessionController extends Controller
             $session->clinician_id = $clinitianId;
             $session->title = $request->title;
             $session->description = $request->description;
-            $session->comment = $request->comments;
             $session->start_date = $start_date;
             $session->end_date = $end_date;
             $session->file = $upload;
-            $session->link = ($request->link) ? $request->link : null;
-            $session->meeting_link = ($request->meeting_link) ? $request->meeting_link : null;
-
 
             if($session->save()) {
                 $meetings = CrmMeeting::createMeeting($request->title, Carbon::parse($start_date));
@@ -222,12 +218,9 @@ class SessionController extends Controller
             $session->clinician_id = $clinitianId;
             $session->title = $request->title;
             $session->description = $request->description;
-            $session->comment = $request->comments;
             $session->start_date = $start_date;
             $session->end_date = $end_date;
             $session->file = $upload;
-            $session->link = ($request->link) ? $request->link : null;
-            $session->meeting_link = ($request->meeting_link) ? $request->meeting_link : null;
 
             if($session->save()) {
                 $meeting = CrmMeeting::where('session_id', $session->id)->first();

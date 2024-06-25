@@ -58,7 +58,7 @@ class ClinicianController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required',
+            'phone' => 'required|regex:/^[0-9\-\+\(\) ]+$/',
             'birthday' => 'required',
             'gender' => 'required',
             'status' => 'required',
@@ -115,7 +115,7 @@ class ClinicianController extends Controller
         $validateData = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'phone' => 'required',
+            'phone' => 'required|regex:/^[0-9\-\+\(\) ]+$/',
             'birthday' => 'required',
             'gender' => 'required',
             'status' => 'required',

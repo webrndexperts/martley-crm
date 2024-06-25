@@ -22,7 +22,7 @@ class AssignFormMail extends Mailable
     public function __construct($values)
     {
         $this->data = $values;
-        $this->subject = "New Form has assigned.";
+        $this->subject = "New Form has been assigned.";
     }
 
     /**

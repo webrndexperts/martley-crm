@@ -21,7 +21,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    <script type="text/javascript">
         // jQuery('.datatable_clinic').DataTable();
         // jQuery('.datatable_patient').DataTable();
         // jQuery('.datatable_assesment').DataTable();

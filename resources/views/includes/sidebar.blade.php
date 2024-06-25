@@ -67,7 +67,7 @@
                     @if(Auth::user()->user_type == '2')
                         <li class="">
                             <a href="{{route('list-clinician')}}">
-                                <img src="{{ url('public/new/img/teacher.svg') }}"> Clinician
+                                <img src="{{ url('public/new/img/teacher.svg') }}"> Clinicians
                             </a>
                         </li>
                     @endif
@@ -75,7 +75,7 @@
                     @if(Auth::user()->user_type == '2' || Auth::user()->user_type == '3')
                         <li class="">
                             <a href="{{route('list-patient')}}">
-                                <img src="{{ url('public/new/img/patient_setting.svg') }}"> Patient
+                                <img src="{{ url('public/new/img/patient_setting.svg') }}"> My Patients
                             </a>
                         </li>
                     @endif

@@ -507,13 +507,13 @@ class FormController extends Controller
             ]);
 
             if ($record->wasRecentlyCreated) {
-                $patient = Patient::where('id', $patient)->first();
-                $mailValues['patient'] = $patient;
+                $value = Patient::where('id', $patient)->with('user')->first();
+                $mailValues['patient'] = $value;
 
                 $mailValues['form'] = $form;
                 $mailValues['user'] = Auth::user();
 
-                Mail::to($patient->user->email)->send(new AssignFormMail($mailValues));
+                Mail::to($value->user->email)->send(new AssignFormMail($mailValues));
             }
         }
         

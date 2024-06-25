@@ -23,5 +23,13 @@
                 <i class="fa fa-check" aria-hidden="true"></i>
             </a>
         @endif
+    @elseif(Auth::user()->user_type == 3)
+    	<a href="{{ route('assign-assessment', ['id' => base64_encode($row->id)]) }}" class="btn btn-info btn-sm" title="Assign Assessment">
+			<img src="{{ url('public/new/img/Assessment.svg') }}">
+		</a>
+
+		<a href="{{ route('assign-form', ['id' => base64_encode($row->id)]) }}" class="btn btn-info btn-sm" title="Assign Form">
+			<img src="{{ url('public/new/img/Form.svg') }}">
+		</a>
 	@endif
 </div>

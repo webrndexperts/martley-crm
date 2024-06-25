@@ -17,12 +17,9 @@ return new class extends Migration
             $table->bigInteger('clinician_id');
             $table->string('title')->nullable();
             $table->longText('description')->nullable();
-            $table->longText('comment')->nullable();
             $table->string('start_date')->nullable();
             $table->string('end_date')->nullable();
             $table->string('file')->nullable();
-            $table->string('link')->nullable();
-            $table->string('meeting_link')->nullable();
             $table->timestamps();
         });
     }

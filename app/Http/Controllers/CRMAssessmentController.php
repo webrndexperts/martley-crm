@@ -266,10 +266,8 @@ class CRMAssessmentController extends Controller
         $form->user_id = Auth::user()->id;
 
         $form->save();
-        
-        session()->flash('success', 'Form has been assigned successfully.');
 
-        return redirect()->route('assign-assessment-list')->with('success', 'Assessment Created successfully');
+        return redirect()->route('assign-assessment-list')->with('success', 'Assessment has been assigned successfully.');
     }
 
     public function editAssignedAssessment($id)

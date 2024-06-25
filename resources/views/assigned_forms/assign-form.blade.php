@@ -23,13 +23,17 @@
                 <div class="x_content">
                     <form action="{{route('assigned-form')}}" method="post" enctype="multipart/form-data">
                         @csrf
+
+                        <?php
+                            $_id = (array_key_exists('id', $_GET)) ? base64_decode($_GET['id']) : '';
+                        ?>
                         
                         <div class="form-group">
                             <label for="patient_id">Patient:</label>
                             <select name="patient_id[]" id="patient_id" class="form-control select2" multiple required>
                                 <option value="">-- Select Patient --</option>
                                 @foreach($patients as $patient)
-                                    <option value="{{ $patient->id }}">{{ $patient->first_name }} {{ $patient->last_name }}</option>
+                                    <option @if($_id == $patient->id) selected @endif value="{{ $patient->id }}">{{ $patient->first_name }} {{ $patient->last_name }}</option>
                                 @endforeach
                             </select>
                         </div>

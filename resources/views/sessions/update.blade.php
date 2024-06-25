@@ -67,13 +67,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="comments">Comments:</label>
-                                    <textarea id="comments" name="comments" class="form-control" rows="3" placeholder="Enter comments">{{ $session->comment }}</textarea>
-                                </div>
-                            </div>
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="session_start_date">Start Date</label>
@@ -185,14 +178,8 @@
                                 <div id="file_inputs">
                                     <div class="file_input_container">
                                         <input type="file" name="upload_file" class="form-control-file" />
-                                        <input type="text" name="link" value="{{ $session->link }}" class="form-control" placeholder="Link to file (optional)">
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="comments">Meeting Link:</label>
-                                <input name="meeting_link" class="form-control" value="{{ $session->meeting_link }}" placeholder="Enter meeting link (optional)" />
                             </div>
                         </div>
 
@@ -209,18 +196,6 @@
 @push('scripts')
     <script type="text/javascript">
         ClassicEditor.create( document.querySelector( '#description' ) ).then(editor => {
-            // Listen for the 'focus' event to adjust the height on focus
-            editor.ui.focusTracker.on('change:isFocused', (evt, propertyName, newValue, oldValue) => {
-                if (newValue) {
-                    // Set the height of the editable area when editor gains focus
-                    editor.ui.getEditableElement().style.height = '100px'; // Adjust the height as needed
-                }
-            });
-        }).catch( error => {
-            console.error( error );
-        });
-
-        ClassicEditor.create( document.querySelector( '#comments' ) ).then(editor => {
             // Listen for the 'focus' event to adjust the height on focus
             editor.ui.focusTracker.on('change:isFocused', (evt, propertyName, newValue, oldValue) => {
                 if (newValue) {
