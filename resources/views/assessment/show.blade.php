@@ -27,14 +27,14 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div class="x_content">
+                <div class="x_content tabel_content">
                     @if($answers && count($answers) > 0)
                         @foreach($answers as $k => $answer)
                             <div class="answer-div">
                                 <label>{{ $answer->question->question }}</label>
 
                                 @if($answer->question->question_type == 'file')
-                                    <a class="file-type" href="{{ $answer->answer }}" target="_blank">View</a>
+                                    <a class="answer file-type" href="{{ $answer->answer }}" target="_blank">View</a>
                                 @else
                                     <span class="answer">{{ $answer->answer }}</span>
                                 @endif

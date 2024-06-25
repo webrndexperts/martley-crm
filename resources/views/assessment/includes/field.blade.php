@@ -25,8 +25,10 @@
 @endif
 
 @if($question->question_type == 'radio')
-	<div class="form-group">
-		@if($question->question) <label>{{ $question->question }}</label> @endif
+	<div class="form-group ">
+	<label>{{ $question->question }}</label>
+	<div class="submit_all_fields">
+		@if($question->question)  @endif
 
 		@foreach($options as $mk => $mcq)
 			<span>
@@ -41,4 +43,5 @@
 			</span>
 		@endforeach
 	</div>
+</div>
 @endif
