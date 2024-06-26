@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>New Form Assigned</title>
+        <title>New assessment has been assigned</title>
     </head>
     <body>
         <div id="" dir="ltr" style="background-color:#f9f9f9;margin:0;padding:70px 0;width:100%;font-family:'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif">
@@ -23,15 +23,18 @@
                                     </tr>
                                     <tr>
                                         <td style="padding: 30px 30px 0;">
-                                            <b>Dear {{ $data['patient']->first_name }} {{ $data['patient']->last_name }},</b>
+                                            <b>Dear  {{ $data['patient']->first_name }} {{ $data['patient']->last_name }},</b>
                                             <p>I hope this message finds you well.</p>
-                                            <p>As part of <b>{{ config('app.name') }}</b>, we kindly ask you to complete the attached <a style="color: #bc9c23;" href="{{ route('forms.index') }}" target="_blank"><b>{{ $data['form']->name }}</b></a> form. Your prompt attention to this matter will help us ensure we have the most accurate and up-to-date information to provide you with the best possible care.</p>
+
+                                            <p>Your clinician, {{ Auth::user()->name }}, has assigned a new assessment <a style="color: #bc9c23;" href="{{ route('assessment-list') }}" target="_blank"><b>{{ $data['assessment']->title }}</b></a> for you to complete. This assessment is an important part of your ongoing care and will help us better understand and manage your health and its due date is till <b>{{ $data['assessment']->due_date }}</b>.</p>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td style="text-align: left; padding: 30px 30px 40px;">
-                                           <p style="text-align: left;line-height: 24px;">If you have any questions or need assistance with the form, please do not hesitate to contact us at <a style="color: #bc9c23; text-decoration: none;" href="mailto:hello@becomingmethod.com">hello@becomingmethod.com</a>. <a href="{{ url('/') }}" style="color: #bc9c23; text-decoration: none;">Visit our site</a></p>
+                                           <p style="text-align: left;line-height: 24px;">Please complete the assessment by the due date. If you have any questions or need assistance with the form, please do not hesitate to contact us at <a style="color: #bc9c23; text-decoration: none;" href="mailto:hello@becomingmethod.com">hello@becomingmethod.com</a>. <a href="{{ url('/') }}" style="color: #bc9c23; text-decoration: none;">Visit our site</a></p>
+
+                                           <p>Your cooperation is greatly appreciated.</p>
                                         </td>
                                     </tr>
                                 </tbody>

@@ -47,7 +47,7 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 @endsection
 
 @push('scripts')
@@ -84,7 +84,7 @@
 					{data: 'actions', orderable: false, searchable: false}
 				],
 				"language":{
-					"processing": '<div class="loader-image"></div>',
+					"processing": `<div class="loader-image"></div>`,
 				},
 				"dom": '<"top table-search-flds d-flex align-items-center justify-content-between"fl>rt<"bottom table-paginater"ip><"clear">'
 			});

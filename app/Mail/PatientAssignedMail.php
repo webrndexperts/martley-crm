@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AssignAssesmentMail extends Mailable
+class PatientAssignedMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data;
@@ -22,7 +22,7 @@ class AssignAssesmentMail extends Mailable
     public function __construct($values)
     {
         $this->data = $values;
-        $this->subject = "New assignment has been assigned.";
+        $this->subject = "New patient has been assigned.";
     }
 
     /**
@@ -41,9 +41,9 @@ class AssignAssesmentMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.assessment.index',
+            view: 'emails.assessment.patient',
             with: [
-                'data' => $this->data
+                'data' => $this->data,
             ]
         );
     }
