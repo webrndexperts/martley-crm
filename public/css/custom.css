@@ -107,13 +107,19 @@ input.form-control {
 .answer {
   margin-left: 5px;
   font-size: 16px;
+  display: block;
+  padding: 5px;
+}
+.answer_data {
+  width: 70%;
+  float: right;
+  border-left: 1px solid #ccc;
 }
 .answer-div label {
   font-size: 16px;
-  border-right: 1px solid #ccc;
-  width: 50%;
+  width: 30%;
   margin: 0;
-  padding: 5px;
+  padding-left: 10px;
 }
 .w-50-cust {
     width: 49%;
@@ -679,4 +685,9 @@ img.form-profile-pic {
 
 .tabel_content .answer-div {
   border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+}
+.add_field button:hover {
+  background-color: #286090;
 }

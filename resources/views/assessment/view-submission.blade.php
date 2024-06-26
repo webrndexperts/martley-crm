@@ -36,7 +36,9 @@
                                 @if($answer->question->question_type == 'file')
                                     <a class="file-type" href="{{ $answer->answer }}" target="_blank">View</a>
                                 @else
+                                <div class="answer_data">
                                     <span class="answer">{{ $answer->answer }}</span>
+</div>
                                 @endif
                             </div>
                         @endforeach
