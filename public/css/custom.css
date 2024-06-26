@@ -693,8 +693,8 @@ img.form-profile-pic {
 }
 #forms_table_processing {
   border: none;
-  background: none !important;
-  background-color: #286090;
+  background: none ;
+  box-shadow: none;
 }
 .loader-image {
     position: fixed;
