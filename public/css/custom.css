@@ -710,3 +710,6 @@ img.form-profile-pic {
     background-position: center;
     background-size: 100px;
 }
+.nav.title {
+  margin-left: 32%;
+}
