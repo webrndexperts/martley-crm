@@ -10,7 +10,9 @@ use App\Models\Patient;
 use App\Models\AssignedAssessment;
 use App\Models\CRMAssessmentQuestion;
 use App\Models\AssesmentAnswer;
-use Auth, Validator;
+use App\Mail\PatientAssignedMail;
+use App\Mail\ClinitianAssignedMail;
+use Auth, Validator, Mail;
 use Carbon\Carbon;
 
 
@@ -218,7 +220,7 @@ class CRMAssessmentController extends Controller
         $assessment = CRMAssessment::findOrFail($id);
         
         $assessment->delete();
-        return redirect()->route('assessment-list')->with('success', 'Assessment and related questions deleted successfully.');
+        return redirect()->route('assessment-list')->with('success', 'Assessment and related questions has been deleted successfully.');
     }
 
 
@@ -297,13 +299,16 @@ class CRMAssessmentController extends Controller
 
         $form->save();
 
+        $patient = Patient::where('id', $request->patient_id)->with('user')->first();
+        $mailData['patient'] = $patient;
+        $mailData['assessment'] = CRMAssessment::findOrFail($request->assessment_id);
+
         if(Auth::user()->id) {
-            // Mail::to(Auth::user()->email)->send(new AssignFormMail($mailValues));
+            Mail::to(Auth::user()->email)->send(new PatientAssignedMail($mailData));
         }
 
-        $patient = Patient::where('id', $request->patient_id)->with('user')->first();
         if($patient->user && $patient->user->id) {
-            // Mail::to($patient->user->email)->send(new AssignFormMail($mailValues));
+            Mail::to($patient->user->email)->send(new ClinitianAssignedMail($mailData));
         }
 
         return redirect()->route('assign-assessment-list')->with('success', 'Assessment has been assigned successfully.');
@@ -326,7 +331,7 @@ class CRMAssessmentController extends Controller
         $assessment->assessment_id = $request->input('assessment_id');
         $assessment->save();
 
-        return redirect()->route('assign-assessment-list')->with('success', 'Assigned Assessment Updated successfully');
+        return redirect()->route('assign-assessment-list')->with('success', 'Assigned Assessment has been updated successfully');
     }
 
     public function destroyAssignedAssessment($id)
@@ -335,7 +340,7 @@ class CRMAssessmentController extends Controller
 
         $assessment->delete();
 
-        return redirect()->route('assign-assessment-list')->with('success', 'Assessment Deleted successfully');
+        return redirect()->route('assign-assessment-list')->with('success', 'Assessment has been deleted successfully');
     }
 
 
@@ -425,7 +430,7 @@ class CRMAssessmentController extends Controller
                 ], $_values);
             }
 
-            return redirect()->route('assessment-list')->with('success', 'Thanks, your assesment details are submitted.');
+            return redirect()->route('assessment-list')->with('success', 'Thanks, your assesment details has been submitted.');
         }
 
         return redirect()->back()->with('error', 'Please fill values to complete submission');

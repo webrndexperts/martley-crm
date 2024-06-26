@@ -165,13 +165,15 @@ class ClinicianController extends Controller
     public function activeClinician($id)
     {
         User::where('id', $id)->update([ 'status' => '1' ]);
-        return redirect()->back()->with('success', 'Clinition Activated successfully.');
+        Clinician::where('user_id', $id)->update([ 'status' => '1' ]);
+        return redirect()->back()->with('success', 'Clinician activated successfully.');
     }
 
     public function deactiveClinician($id)
     {
         User::where('id', $id)->update([ 'status' => '0' ]);
-        return redirect()->back()->with('success', 'Clinition Deactivated successfully.');
+        Clinician::where('user_id', $id)->update([ 'status' => '0' ]);
+        return redirect()->back()->with('success', 'Clinician deactivated successfully.');
     }
 
     public function PatientClinician()
