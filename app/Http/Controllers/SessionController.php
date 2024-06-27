@@ -4,22 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\UploadService;
-
 use App\Models\CrmSession;
 use App\Models\Patient;
 use App\Models\Clinician;
 use App\Models\CrmMeeting;
-
-
+use App\Http\Controllers\PatientController;
 use View, Auth, Session, Mail, Validator;
 use Carbon\Carbon;
 
 class SessionController extends Controller
 {
     protected $uploader;
+    protected $patientController;
 
     public function __construct() {
         $this->uploader = new UploadService();
+        $this->patientController = new PatientController;
         $this->middleware('adminOrClinician')->except(['index', 'generateTable', 'generateTableValues']);
     }
 
@@ -39,6 +39,9 @@ class SessionController extends Controller
             $clinicName = ($row->clinician && $row->clinician->id) ?
                 ucwords($row->clinician->first_name).' '.ucwords($row->clinician->last_name)
                 : '';
+            $patientNamw = ($row->patient && $row->patient->id) ?
+                ucwords($row->patient->first_name).' '.ucwords($row->patient->last_name)
+                : '';
 
             $meeting = CrmMeeting::where('session_id', $row->id)->first();
             $file = ($row->file) ? url($row->file) : '';
@@ -46,6 +49,7 @@ class SessionController extends Controller
             $data[$key]['DT_RowAttr'] = $_r;
             $data[$key]['id'] = $row->id;
             $data[$key]['clinician'] = $clinicName;
+            $data[$key]['patient'] = $patientNamw;
             $data[$key]['session'] = $row->title;
             $data[$key]['start_date'] = Carbon::parse($row->start_date)->format('Y-m-d h:m:s A');
             $data[$key]['end_date'] = Carbon::parse($row->end_date)->format('Y-m-d h:m:s A');
@@ -71,6 +75,15 @@ class SessionController extends Controller
     public function create()
     {
         $data = array();
+        $data['patients'] = array();
+        $data['clinicName'] = "";
+
+        if(Auth::user()->user_type == '3') {
+            $clinician = Clinician::where('user_id', Auth::user()->id)->first();
+            $data['clinicName'] = "$clinician->first_name $clinician->last_name";
+            $data['patients'] = $this->patientController->getClinicPatient($clinician->id);
+        }
+
         if(Auth::user()->user_type == '2') {
             $data['clinicians'] = Clinician::all();
         }
@@ -83,6 +96,7 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         $validateData = [
+            'patient_id' => 'required',
             'title' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -120,7 +134,8 @@ class SessionController extends Controller
             $session = new CrmSession;
             $session->user_id = Auth::user()->id;
             $session->clinician_id = $clinitianId;
-            $session->title = $request->title;
+            $session->patient_id = $request->patient_id;
+            $session->title = $request->title_first.' - '.$request->title;
             $session->description = $request->description;
             $session->start_date = $start_date;
             $session->end_date = $end_date;
@@ -168,7 +183,18 @@ class SessionController extends Controller
     public function edit(string $id)
     {
         $data['clinicians'] = Clinician::all();
-        $data['session'] = CrmSession::where('id', base64_decode($id))->first();
+        $session = CrmSession::where('id', base64_decode($id))->first();
+        $data['session'] = $session;
+        $data['patients'] = array();
+        $data['clinicName'] = '';
+
+        if(Auth::user()->user_type == '3') {
+            $clinician = Clinician::where('user_id', Auth::user()->id)->first();
+            $data['clinicName'] = "$clinician->first_name $clinician->last_name";
+            $data['patients'] = $this->patientController->getClinicPatient($clinician->id);
+        } else {
+            $data['patients'] = $this->patientController->getClinicPatient($session->clinician_id);
+        }
 
         return view('sessions.update', $data);
     }
@@ -179,6 +205,7 @@ class SessionController extends Controller
     public function update(Request $request, string $id)
     {
         $validateData = [
+            'patient_id' => 'required',
             'title' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -216,7 +243,8 @@ class SessionController extends Controller
             }
 
             $session->clinician_id = $clinitianId;
-            $session->title = $request->title;
+            $session->patient_id = $request->patient_id;
+            $session->title = $request->title_first.' - '.$request->title;
             $session->description = $request->description;
             $session->start_date = $start_date;
             $session->end_date = $end_date;

@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::prefix('assign')->group(function() {
                 Route::get('/', [PatientController::class, 'assignPatient'])->name('patient.assignment.get');
                 Route::post('/table', [PatientController::class, 'assignPatientTable'])->name('patient.assignment.datatable');
-                Route::get('/patient/{id}', [PatientController::class, 'getAssignmentPatient'])->name('patient.assignment.patient');
+                // Route::get('/patient/{id}', [PatientController::class, 'getAssignmentPatient'])->name('patient.assignment.patient');
                 Route::get('/add', [PatientController::class, 'addAssignPatient'])->name('patient.assignment.add');
                 Route::post('/save', [PatientController::class, 'submitAssignPatient'])->name('patient.assignment.save');
                 Route::get('/edit/{id}', [PatientController::class, 'editAssignPatient'])->name('patient.assignment.edit');
@@ -101,6 +101,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['prefix' => 'patient'], function() {
             Route::get('/list', [PatientController::class, 'index'])->name('list-patient');
             Route::post('/list/table', [PatientController::class, 'generateTable'])->name('patient.datatable');
+
+            Route::prefix('assign')->group(function() {
+                Route::get('/patient/{id}', [PatientController::class, 'getAssignmentPatient'])->name('patient.assignment.patient');
+                Route::get('/clinic/patient/{id}', [PatientController::class, 'getClinicPatient'])->name('patient.assignment.clinic');
+            });
         });
 
         Route::group(['prefix' => 'form/assign'], function() {
@@ -134,6 +139,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/list/table', [CRMAssessmentController::class, 'listTable'])->name('assesments.submit-table');
             Route::get('/view/{id}/{user}', [CRMAssessmentController::class, 'viewSubmission'])->name('assesments.answer.submit-view');
         });
+
+        Route::prefix('patient')->group(function () {
+            Route::get('/{id}', [CRMAssessmentController::class, 'getPatientSubmittedView'])->name('assessment.patient.submitted');
+            Route::post('/table/${id}', [CRMAssessmentController::class, 'getPatientSubmittedData'])->name('assessment.patient.submit.list');
+        });
     });
     
 
@@ -152,6 +162,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/list/{id}', [FormController::class, 'listSubmissions'])->name('forms.submit-list');
             Route::post('/list/table', [FormController::class, 'listTable'])->name('forms.submit-table');
             Route::get('/view/{id}/{user}', [FormController::class, 'viewSubmission'])->name('forms.submit-view');
+        });
+
+        Route::prefix('patient')->group(function () {
+            Route::get('/{id}', [FormController::class, 'getPatientSubmittedView'])->name('forms.patient.submitted');
+            Route::post('/table/${id}', [FormController::class, 'getPatientSubmittedData'])->name('forms.patient.submit.list');
         });
     });
 

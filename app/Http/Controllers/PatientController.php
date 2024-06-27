@@ -305,6 +305,17 @@ class PatientController extends Controller
         return view('admin.patient.assign.add', $data);
     }
 
+    public function getClinicPatient($id) {
+        $assigned = ClinicianPatient::where('clinician_id', $id)->pluck('patient_id')->toArray();
+        $patients = array();
+
+        if($assigned && count($assigned) > 0) {
+            $patients = Patient::whereIn('id', $assigned)->get();
+        }
+
+        return $patients;
+    }
+
     public function getAssignmentPatient($id) {
         $assigned = ClinicianPatient::where('clinician_id', $id)->pluck('patient_id')->toArray();
 

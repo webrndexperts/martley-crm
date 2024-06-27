@@ -20,7 +20,7 @@
                 <div class="x_title">
                     <h2>View Answers Of - {{ $form->name }}</h2>
 
-                    <a href="{{ route('forms.submit-list', base64_encode($form->id)) }}" class="btn btn-primary" style="float:right;" title="Back">
+                    <a href="{{ url()->previous() }}" class="btn btn-primary" style="float:right;" title="Back">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
                     </a>
 
@@ -36,8 +36,8 @@
                                 @if($answer->question->type == 'file')
                                     <a class="answer file-type" href="{{ $answer->answer }}" target="_blank">View</a>
                                 @else
-                                <div class="answer_data">
-                                    <span class="answer">{{ $answer->answer }}</span>
+                                    <div class="answer_data">
+                                        <span class="answer">{{ $answer->answer }}</span>
                                   </div>
                                 @endif
                             </div>

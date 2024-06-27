@@ -446,4 +446,74 @@ class CRMAssessmentController extends Controller
 
         return view('assessment.view-submission', $data);
     }
+
+    public function getPatientSubmittedView($id) {
+        $data['patient'] = Patient::where('id', base64_decode($id))->with('user')->first();
+
+        return view('assessment.patient-assessment', $data);
+    }
+
+    protected function generateSubmitTableValues($listing) {
+        $data = array();
+
+        foreach ($listing as $key => $row) {
+            $_r = new \stdClass();
+            // $_r->style = ($row->trashed()) ? "background-color: #f5c1c1;" : "";
+
+            $data[$key]['DT_RowAttr'] = $_r;
+            $data[$key]['id'] = $row->id;
+            $data[$key]['name'] = $row->assessmentName;
+            $data[$key]['created_at'] = Carbon::parse($row->created_at)->format('Y-m-d');
+            $data[$key]['actions'] = view('appends.actions.assesment-submission', [ "row" => $row ])->render();
+        }
+
+        return $data;
+    }
+
+    public function getPatientSubmittedData(Request $request, $id) {
+        $columns = array(
+            0 => 'id',
+            1 => 'assessmentName',
+            2 => 'created_at'
+        );
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $forms = AssesmentAnswer::join('c_r_m_assessments as c', 'c.id', '=', 'assesment_answers.assesment_id')
+            ->select('assesment_answers.*', 'c.title as assessmentName')
+            ->where('assesment_answers.user_id', $id);
+
+        if(!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+
+            $forms = $forms->where(function($q) use($search) {
+                $q->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('assessmentName', 'LIKE', "%{$search}%")
+                    ->orWhere('created_at', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $counts = $forms->count();
+        $forms = $forms->orderBy($order, $dir);
+        if($limit >= 0) {
+            $forms = $forms->offset($start)->limit($limit);
+        }
+
+        $forms = $forms->groupBy('assesment_answers.user_id')->groupBy('assesment_answers.assesment_id');
+        $forms = $forms->with([ 'user' ])->get();
+
+        $values = $this->generateSubmitTableValues($forms);
+        $json_data = array(
+            "input" => $request->all(),
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($counts),
+            "recordsFiltered" => intval($counts),
+            "data" => $values
+        );
+
+        return json_encode($json_data);
+    }
 }

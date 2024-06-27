@@ -23,8 +23,9 @@ class CrmSession extends Model
         } else if(Auth::user()->user_type == '4') {
             $patient = Patient::where('user_id', Auth::user()->id)->first();
 
-            $clinitians = ClinicianPatient::where('patient_id', $patient->id)->pluck('clinician_id')->toArray();
-            $query = $query->whereIn('clinician_id', $clinitians);
+            // $clinitians = ClinicianPatient::where('patient_id', $patient->id)->pluck('clinician_id')->toArray();
+            // $query = $query->whereIn('clinician_id', $clinitians);
+            $query = $query->where('patient_id', $patient->id);
         }
 
         return $query;
@@ -36,6 +37,10 @@ class CrmSession extends Model
 
     public function clinician() {
         return $this->belongsTo(Clinician::class);
+    }
+
+    public function patient() {
+        return $this->belongsTo(Patient::class);
     }
 
     public function meeting() {

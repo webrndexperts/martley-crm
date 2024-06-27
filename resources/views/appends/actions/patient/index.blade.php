@@ -32,4 +32,12 @@
 			<img src="{{ url('public/new/img/Form.svg') }}">
 		</a>
 	@endif
+
+	<a href="{{ route('forms.patient.submitted', ['id' => base64_encode($row->id)]) }}" class="btn btn-info btn-sm" title="Submitted Forms">
+		<img src="{{ url('public/new/img/form-submission.svg') }}">
+	</a>
+
+	<a href="{{ route('assessment.patient.submitted', ['id' => base64_encode($row->id)]) }}" class="btn btn-info btn-sm" title="Submitted Assessments">
+		<img src="{{ url('public/new/img/view_s.svg') }}">
+	</a>
 </div>

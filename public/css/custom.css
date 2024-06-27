@@ -202,7 +202,7 @@ li.text-danger {
     height: 150px;
     object-fit: cover;
 }
-input.is-invalid {
+.is-invalid {
     border-color: #a94442 !important;
 }
 .table-form-btn button {
@@ -712,4 +712,35 @@ img.form-profile-pic {
 }
 .nav.title {
   margin-left: 32%;
+}
+.field-loader img {
+    height: 20px;
+    width: 20px;
+    margin-left: 4px;
+}
+.d-flex-s {
+    display: flex;
+}
+.session-title-field {
+    background: #e6e9ed;
+}
+.session-text-field, .session-title-field {
+    width: 50%;
+}
+.session-text-field input {
+    border-top-left-radius: unset !important;
+    border-bottom-left-radius: unset !important;
+    border-left: none !important;
+}
+.session-title-field {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    border: 1px solid #ccc;
+    border-right: none !important;
+}
+.table-actions {
+    display: flex;
 }

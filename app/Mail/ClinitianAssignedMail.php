@@ -22,7 +22,7 @@ class ClinitianAssignedMail extends Mailable
     public function __construct($values)
     {
         $this->data = $values;
-        $this->subject = "New clinician has been assigned.";
+        $this->subject = "New assessment has been assigned.";
     }
 
     /**

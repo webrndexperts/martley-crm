@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Submitted forms list')
 
 @section('content')
 	<div class="row">
@@ -19,13 +20,11 @@
 
 	    <div class="x_panel">
 	        <div class="x_title">
-	            <h2>Sessions and Meetings</h2>
+	            <h2>Submitted Assessments list of - {{ $patient->first_name }} {{ $patient->last_name }}</h2>
 
-	            @if(Auth::user()->user_type == '2' || Auth::user()->user_type == '3')
-		            <a href="{{ route('sessions.create') }}" class="pull-right btn btn-info btn-sm">
-		            	<i class="fa fa-plus" aria-hidden="true"></i> Create
-		            </a>
-	            @endif
+	            <a href="{{ route('list-patient') }}" class="btn btn-primary" style="float:right;" title="Back">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                </a>
 	            
 	            <div class="clearfix"></div>
 	        </div>
@@ -36,13 +35,8 @@
 						<thead>
 							<tr>
 								<th scope="col">Sr. No</th>
-								<th scope="col">Clinician</th>
-								<th scope="col">Patient</th>
-								<th scope="col">Session Title</th>
-								<th scope="col">Start Date/Time</th>
-								<th scope="col">End Date/Time</th>
-								<th scope="col">File Upload</th>
-								<th scope="col">Meeting Link</th>
+								<th scope="col">Assessment Name</th>
+								<th scope="col">Submission Date</th>
 								<th scope="col">Actions</th>
 							</tr>
 						</thead>
@@ -50,23 +44,14 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 @endsection
 
 @push('scripts')
     <script type="text/javascript">
-    	function createLink(data, text = "Open Link", noData = "No Meeting URL Available") {
-    		var value = noData;
-
-    		if(data) {
-    			value = `<a href="${data}" class="table-anchor" target="_blank" >${text}</a>`;
-    		}
-    		
-    		return value;
-    	}
-
         function generateDataTable() {
-        	var _url = "{{ route('sessions.datatable') }}";
+        	var id = "{{ $patient->user->id }}";
+        	var _url = "{{ route('assessment.patient.submit.list', ':patient_id') }}".replace(':patient_id', id);
         	let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         	$('#forms_table').DataTable({
@@ -90,34 +75,16 @@
 	                        return meta.row + meta.settings._iDisplayStart + 1;
 	                    }
 	                },
-					{data: 'clinician'},
-					{data: 'patient'},
-					{data: 'session'},
-					{data: 'start_date'},
-					{data: 'end_date'},
-	                {data: 'file',
-						render: function (data, type, row, meta) {
-	                        return createLink(data, 'View', "No File Uploaded");
-	                    }, orderable: false, searchable: false
-	                },
-					{data: 'meeting', orderable: false, searchable: false },
+					{data: 'name'},
+					{data: 'created_at'},
 					{data: 'actions', orderable: false, searchable: false}
 				],
 				"language":{
-					"processing": '<div class="loader-image"></div>',
+					"processing": `<div class="loader-image"></div>`,
 				},
 				"dom": '<"top table-search-flds d-flex align-items-center justify-content-between"fl>rt<"bottom table-paginater"ip><"clear">'
 			});
         }
-
-
-        function openZoomMeeting(meetingId, password) {
-	        var url = `https://success.zoom.us/wc/join/${meetingId}?from=join&pwd=${password}`;
-	        var win = window.open(url, '_blank', 'width=800,height=600');
-	        win.focus();
-	    }
-
-
 
         generateDataTable();
     </script>
