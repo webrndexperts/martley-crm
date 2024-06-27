@@ -672,7 +672,7 @@ img.form-profile-pic {
     margin-bottom: 3rem;
 }
 #sidebar-menu a {
-    font-size: 13px ; 
+    font-size: 12px ; 
 }
 .action_icon img {
     filter: brightness(0) invert(1);
@@ -743,4 +743,46 @@ img.form-profile-pic {
 }
 .table-actions {
     display: flex;
+}
+@media only screen and (max-width: 580px) {
+    .section-head .analytics {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .card-page {
+        margin: 0 10px;
+    }
+    .nav-sm .container.body .col-md-3.left_col {
+        width: 100%;
+    }
+    .navbar.nav_title img {
+        max-width: 160px;
+    }
+    .form-group {
+        width: 100%;
+    }
+    .main-fields-div {
+        width: 100%;
+    }
+    .d-flex-cust {
+        display: block;
+    }
+    .table-actions {
+        display: flex;
+    }
+    .x_content .col-md-12 {
+        width: 100%;
+    }
+    .tab-content.mt-3 {
+        margin: 0 10px;
+    }
+    .nav-tabs {
+        margin: 0 10px;
+    }
+    form button.btn.btn-primary {
+        margin: 0 10px !important;
+    }
+    .x_title {
+        margin: 0 10px 0;
+    }
 }
