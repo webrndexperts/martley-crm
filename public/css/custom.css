@@ -691,7 +691,7 @@ img.form-profile-pic {
 .add_field button:hover {
   background-color: #286090;
 }
-#forms_table_processing {
+.panel-default {
   border: none;
   background: none ;
   box-shadow: none;
