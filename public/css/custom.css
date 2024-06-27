@@ -689,7 +689,12 @@ img.form-profile-pic {
     align-items: center;
 }
 .add_field button:hover {
-    background-color: #286090;
+  background-color: #286090;
+}
+.panel-default {
+  border: none;
+  background: none ;
+  box-shadow: none;
 }
 .loader-image {
     position: fixed;
@@ -704,4 +709,7 @@ img.form-profile-pic {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100px;
+}
+.nav.title {
+  margin-left: 32%;
 }
